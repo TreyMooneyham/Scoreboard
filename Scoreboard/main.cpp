@@ -147,8 +147,8 @@ int main(int, char**)
         if (bCharSheetVisible)
             charSheet(&bCharSheetVisible);
 
-        if (show_demo_window)
-            ImGui::ShowDemoWindow(&show_demo_window);
+        //if (show_demo_window)
+            //ImGui::ShowDemoWindow(&show_demo_window);
 
         /*
         // 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
