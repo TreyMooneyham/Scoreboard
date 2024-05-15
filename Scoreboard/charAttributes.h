@@ -1,12 +1,5 @@
 #include "settings.h"
 
-struct playerCharacter {
-	std::string charName;
-	std::string playerName;
-	std::map<levels, int> levelInfo;
-	std::map<abilityScores, int> abilityScoreInfo;
-};
-
 // Levels
 enum class levels {
 	character,		// Character level
@@ -29,3 +22,19 @@ enum class proficiencies {
 	mastery,		// Bonus is 6 + level
 	legendary		// Bonus is 8 + level
 };
+
+struct playerCharacter {
+	std::string charName;
+	std::string playerName;
+	std::map<levels, int> levelInfo;
+	std::map<abilityScores, int> abilities;
+};
+
+// Functions
+void setPName(playerCharacter c, std::string name);
+std::string getPName(playerCharacter c);
+void setCName(playerCharacter c, std::string name);
+std::string getCName(playerCharacter c);
+void initScores(playerCharacter c);
+void setScore(playerCharacter c, abilityScores ability, int score);
+int getScore(playerCharacter c, abilityScores ability);
