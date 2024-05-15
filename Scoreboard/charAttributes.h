@@ -1,13 +1,10 @@
 #include "settings.h"
 
 struct playerCharacter {
-	
-};
-
-// General Character Info
-enum class charInfo {
-	characterName,
-	playerName
+	std::string charName;
+	std::string playerName;
+	std::map<levels, int> levelInfo;
+	std::map<abilityScores, int> abilityScoreInfo;
 };
 
 // Levels
@@ -31,38 +28,4 @@ enum class proficiencies {
 	expertise,		// Bonus is 4 + level
 	mastery,		// Bonus is 6 + level
 	legendary		// Bonus is 8 + level
-};
-
-// Saving Throws
-enum class savingThrows {
-	fortitude,	// Strength or Constitution
-	reflex,		// Dexterity or Intelligence
-	will		// Wisdom or Charisma
-};
-
-// Skills
-enum class Skills {
-	acrobatics, animalHandling, arcana,
-	athletics, crafting, deception,
-	history, initiative, insight,
-	intimidation, investigation,
-	medicine, nature, perception,
-	performance, persuasion, religion,
-	sleightOfHand, stealth, survival
-};
-
-// Defensive Attributes
-enum class defense {
-	armorClass,
-	damageThreshold,
-	damageResistance
-};
-
-// Movement
-enum class movementTypes {
-	climbing,
-	burrowing,
-	flying,
-	swimming,
-	walking
 };
