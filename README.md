@@ -3,6 +3,9 @@
 I haven't gotten these linked properly because I don't know how to do it without breaking things.
 Using Ocornut's ImGui version 1.90.2 because it's my favorite :)
 
+## JSON
+Using the JSON library by nlohmann because it looks nice.
+
 ## Character Sheet
 Objective here is to make something akin to D&DBeyond but for my TTRPG.
 
