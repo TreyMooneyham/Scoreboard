@@ -1,5 +1,7 @@
 #include "charSheet.h"
+#include "settings.h"
 #include "imgui/imgui.h"
+#include "imgui/imgui_internal.h"
 #include "imgui/backends/imgui_impl_win32.h"
 #include "imgui/backends/imgui_impl_dx12.h"
 #include <d3d12.h>
@@ -17,6 +19,8 @@
 
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib,"d3d12.lib")
+
+#define SCOREBOARDVER "Scoreboard v0.5.2a "
 
 struct FrameContext
 {
@@ -49,6 +53,7 @@ void CleanupDeviceD3D();
 void CreateRenderTarget();
 void CleanupRenderTarget();
 void WaitForLastSubmittedFrame();
+void ShowExampleMenuFile();
 FrameContext* WaitForNextFrameResources();
 LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -59,7 +64,12 @@ int main(int, char**)
     //ImGui_ImplWin32_EnableDpiAwareness();
     WNDCLASSEXW wc = { sizeof(wc), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(nullptr), nullptr, nullptr, nullptr, nullptr, L"ImGui Example", nullptr };
     ::RegisterClassExW(&wc);
-    HWND hwnd = ::CreateWindowW(wc.lpszClassName, L"Scoreboard v0.5.2 Alpha", WS_OVERLAPPEDWINDOW, 100, 100, 1600, 900, nullptr, nullptr, wc.hInstance, nullptr);
+    // Need to convert the char* array into an LPWSTR for the window title for some fucked reason
+    wchar_t wtext[20];
+    size_t outSize;
+    mbstowcs_s(&outSize, wtext, strlen(SCOREBOARDVER), SCOREBOARDVER, strlen(SCOREBOARDVER) - 1);
+    LPWSTR windowName = wtext;
+    HWND hwnd = ::CreateWindowW(wc.lpszClassName, windowName, WS_OVERLAPPEDWINDOW, 100, 100, 1600, 900, nullptr, nullptr, wc.hInstance, nullptr);
 
     // Initialize Direct3D
     if (!CreateDeviceD3D(hwnd))
@@ -115,6 +125,7 @@ int main(int, char**)
     // Booleans for rendering the windows
     bool bMenuBarVisible = true;
     bool bCharSheetVisible = false;
+    bool bSavingWindowVisible = false;
 
     // Main loop
     bool done = false;
@@ -140,15 +151,24 @@ int main(int, char**)
 
         // All our rendering functions will be here
         if (ImGui::BeginMainMenuBar()) {
+            if (ImGui::BeginMenu("File"))
+            {
+                ShowExampleMenuFile();
+                ImGui::EndMenu();
+            }
             ImGui::MenuItem("Character Sheet", NULL, &bCharSheetVisible);
 
             ImGui::EndMainMenuBar();
         }
+
         if (bCharSheetVisible)
             charSheet(&bCharSheetVisible);
 
-        //if (show_demo_window)
-            //ImGui::ShowDemoWindow(&show_demo_window);
+        //if (bSavingWindowVisible)
+            //ShowExampleMenuFile();
+
+        if (show_demo_window)
+            ImGui::ShowDemoWindow(&show_demo_window);
 
         /*
         // 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
@@ -242,6 +262,26 @@ int main(int, char**)
     return 0;
 }
 
+static void ShowExampleMenuFile()
+{
+    ImGui::MenuItem(SCOREBOARDVER, NULL, false, false);
+    if (ImGui::MenuItem("New")) { Settings::newCharacter(); }
+    if (ImGui::MenuItem("Open")) { Settings::loadCharacter(); }
+    if (ImGui::MenuItem("Save")) { Settings::saveCharacter(); }
+    if (ImGui::MenuItem("Save As..")) { Settings::saveAsCharacter(); }
+
+    ImGui::Separator();
+    
+    if (ImGui::BeginMenu("ImGui Style Settings"))
+    {
+        ImGui::ShowStyleEditor();
+        ImGui::EndMenu();
+    }
+
+    ImGui::Separator();
+
+    if (ImGui::MenuItem("Quit", "Alt+F4")) { SendMessage(GetForegroundWindow(), WM_CLOSE, NULL, NULL); }
+}
 
 bool CreateDeviceD3D(HWND hWnd)
 {
