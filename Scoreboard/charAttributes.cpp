@@ -44,3 +44,19 @@ void playerCharacter::setScore(abilityScores ability, int score) {
 int playerCharacter::getScore(abilityScores ability) {
 	return this->abilities[ability];
 }
+
+void playerCharacter::setSkillProficiency(skills skill, proficiencyLevels level) {
+	this->skillInfo[skill].profLevel = level;
+}
+
+proficiencyLevels playerCharacter::getSkillProficiency(skills skill) {
+	return this->skillInfo[skill].profLevel;
+}
+
+void playerCharacter::setSkillAbility(skills skill, abilityScores ability) {
+	this->skillInfo[skill].mainAbility = ability;
+}
+
+abilityScores playerCharacter::setSkillAbility(skills skill) {
+	return this->skillInfo[skill].mainAbility;
+}

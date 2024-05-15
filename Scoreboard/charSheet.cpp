@@ -1,5 +1,6 @@
 #include "charSheet.h"
 #include <iostream>
+
 void charSheet(bool* enable) {
 	ImGui::SetNextWindowSize(ImVec2(600, 800));
 	playerCharacter testChar;
