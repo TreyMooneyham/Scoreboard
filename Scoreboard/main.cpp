@@ -160,7 +160,7 @@ int main(int, char**)
 
             ImGui::EndMainMenuBar();
         }
-
+       
         if (bCharSheetVisible)
             charSheet(&bCharSheetVisible);
 

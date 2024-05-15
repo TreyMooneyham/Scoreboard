@@ -28,13 +28,14 @@ struct playerCharacter {
 	std::string playerName;
 	std::map<levels, int> levelInfo;
 	std::map<abilityScores, int> abilities;
+
+	void setPName(std::string name);
+	std::string getPName();
+	void setCName(std::string name);
+	std::string getCName();
+	void initScores();
+	void setScore(abilityScores ability, int score);
+	int getScore(abilityScores ability);
 };
 
 // Functions
-void setPName(playerCharacter c, std::string name);
-std::string getPName(playerCharacter c);
-void setCName(playerCharacter c, std::string name);
-std::string getCName(playerCharacter c);
-void initScores(playerCharacter c);
-void setScore(playerCharacter c, abilityScores ability, int score);
-int getScore(playerCharacter c, abilityScores ability);
