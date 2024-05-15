@@ -1,9 +1,6 @@
 #include <string>
 #include "charAttributes.h"
 
-// General Character Info
-std::string charName;
-int level;
+void setName(char* name[]) {
 
-// Ability Scores
-int strScore, dexScore, conScore, intScore, wisScore, chaScore;
+}
