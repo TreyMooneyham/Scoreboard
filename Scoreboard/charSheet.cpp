@@ -55,10 +55,11 @@ void charSheet(bool* enable) {
 			ImGui::BeginListBox("##SkillsList", ImVec2(-1, -1));
 			// Possibly expensive. 
 			// TODO: Look into the differences between auto &it vs auto it.
-			for (auto it : playerCharacter::skillInfo) {
+			for (auto &it : testChar.skillInfo) {
 				const bool selectedSkill = (int)it.first;
 				ImGui::PushID((int)it.first);
-				std::string skillName = it.first.getSkillName();
+				skill idk;
+				std::string skillName = idk.getSkillName(it.first);
 
 				if (ImGui::Selectable(skillName.c_str(), selectedSkill)) 
 					currentSkill = it.first;

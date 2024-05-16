@@ -56,6 +56,8 @@ struct playerCharacter {
 	void setScore(abilityScores ability, int score);
 	int getScore(abilityScores ability);
 	void setSkillProficiency(skills skill, proficiencyLevels level);
+
+	// Something is broken with intellisense here.
 	proficiencyLevels getSkillProficiency(skills skill);
 	void setSkillAbility(skills skill, abilityScores ability);
 	abilityScores getSkillAbility(skills skill);
