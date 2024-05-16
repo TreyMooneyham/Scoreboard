@@ -29,6 +29,7 @@ void charSheet(bool* enable) {
 
 	// Special things for ImGui to use
 	const char* proficiencyLevelsList[] = { "No Proficiency", "Proficiency", "Expertise", "Mastery", "Legendary" }; // List of proficiency levels
+	static char filterSkills[32];
 
 	ImGui::SetNextWindowSize(ImVec2(600, 800));
 	if (!ImGui::Begin("Character Sheet", enable), ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar) {
@@ -67,7 +68,6 @@ void charSheet(bool* enable) {
 		}
 		ImGui::EndChild();
 
-		static char filterSkills[32];
 		ImGui::Columns(3, "##SkillsColumn", false);
 		{
 			ImGui::SetColumnOffset(1, 200);
@@ -88,7 +88,7 @@ void charSheet(bool* enable) {
 					ImGui::EndCombo();
 				}
 
-				if (ImGui::Button("Apply Proficiency", ImVec2(-1, 22))) {
+				if (ImGui::Button("Apply Proficiency", ImVec2(-1, 0))) {
 					testChar.setSkillProficiency(currentSkill, currentProficiencyLevel);
 				}
 
