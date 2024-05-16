@@ -36,6 +36,8 @@ struct skill {
 public:
 	proficiencyLevels	profLevel;
 	abilityScores		mainAbility;
+
+	std::string getSkillName(skills skill);
 };
 
 // playerCharacter holds all the information for the currently loaded character
@@ -56,5 +58,5 @@ struct playerCharacter {
 	void setSkillProficiency(skills skill, proficiencyLevels level);
 	proficiencyLevels getSkillProficiency(skills skill);
 	void setSkillAbility(skills skill, abilityScores ability);
-	abilityScores setSkillAbility(skills skill);
+	abilityScores getSkillAbility(skills skill);
 };

@@ -57,6 +57,51 @@ void playerCharacter::setSkillAbility(skills skill, abilityScores ability) {
 	this->skillInfo[skill].mainAbility = ability;
 }
 
-abilityScores playerCharacter::setSkillAbility(skills skill) {
+abilityScores playerCharacter::getSkillAbility(skills skill) {
 	return this->skillInfo[skill].mainAbility;
+}
+
+std::string skill::getSkillName(skills skill) {
+	switch (skill) {
+	case skills::acrobatics:
+		return "Acrobatics";
+	case skills::animalHandling:
+		return "Animal Handling";
+	case skills::arcana:
+		return "Arcana";
+	case skills::athletics:
+		return "Athletics";
+	case skills::crafting:
+		return "Crafting";
+	case skills::deception:
+		return "Deception";
+	case skills::history:
+		return "History";
+	case skills::insight:
+		return "Inisght";
+	case skills::intimidation:
+		return "Intimidation";
+	case skills::investigation:
+		return "Investigation";
+	case skills::medicine:
+		return "Medicine";
+	case skills::nature:
+		return "Nature";
+	case skills::perception:
+		return "Perception";
+	case skills::performance:
+		return "Performance";
+	case skills::persuasion:
+		return "Persuasion";
+	case skills::religion:
+		return "Religion";
+	case skills:: sleightOfHand:
+		return "Sleight of Hand";
+	case skills::stealth:
+		return "Stealth";
+	case skills::survival:
+		return "Survival";
+	default:
+		return "Invalid";
+	}
 }

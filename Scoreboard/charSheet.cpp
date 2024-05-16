@@ -41,6 +41,32 @@ void charSheet(bool* enable) {
 			}
 		}
 		ImGui::EndChild();
+
+		static char filterSkills[19];
+		ImGui::Columns(3, "##SkillsColumn", false);
+		{
+			ImGui::SetColumnOffset(1, 200);
+			ImGui::PushItemWidth(-1);
+			ImGui::InputText("##FilterSkills", filterSkills, IM_ARRAYSIZE(filterSkills));
+			ImGui::PopItemWidth();
+
+			static skills currentSkill = skills::acrobatics;
+
+			ImGui::BeginListBox("##SkillsList", ImVec2(-1, -1));
+			// Possibly expensive. 
+			// TODO: Look into the differences between auto &it vs auto it.
+			for (auto it : playerCharacter::skillInfo) {
+				const bool selectedSkill = (int)it.first;
+				ImGui::PushID((int)it.first);
+				std::string skillName = it.first.getSkillName();
+
+				if (ImGui::Selectable(skillName.c_str(), selectedSkill)) 
+					currentSkill = it.first;
+				
+				ImGui::PopID();
+			}
+			ImGui::EndListBox();
+		}
 	}
 	ImGui::End();
 }
