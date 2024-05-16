@@ -21,6 +21,14 @@ std::string playerCharacter::getCName() {
 	return this->charName;
 }
 
+void playerCharacter::setLevel(levels section, int level) {
+	this->levelInfo[section] = level;
+}
+
+int playerCharacter::getLevel(levels section) {
+	return this->levelInfo[section];
+}
+
 // Initiatilizes every score to 7, as if creating a new character
 void playerCharacter::initScores() {
 	this->abilities[abilityScores::strength]		= 7;
@@ -148,18 +156,18 @@ std::string skill::getSkillName(skills skill) {
 	}
 }
 
-int playerCharacter::calcProfBonus(skills s) {
+int playerCharacter::calcSkillProfBonus(skills s) {
 	switch (this->getSkillProficiency(s)) {
 	case proficiencyLevels::noProficiency:
 		return 0;
 	case proficiencyLevels::proficiency:
-		return 2;
+		return 2 + this->getLevel(levels::character);
 	case proficiencyLevels::expertise:
-		return 4;
+		return 4 + this->getLevel(levels::character);
 	case proficiencyLevels::mastery:
-		return 6;
+		return 6 + this->getLevel(levels::character);
 	case proficiencyLevels::legendary:
-		return 8;
+		return 8 + this->getLevel(levels::character);
 	default:
 		return 0;
 	}

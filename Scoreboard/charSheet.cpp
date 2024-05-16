@@ -19,10 +19,16 @@ void charSheet(bool* enable) {
 	playerCharacter testChar;
 	skill			idk;
 	static skills	currentSkill = skills::acrobatics;
+	static proficiencyLevels currentProficiencyLevel = proficiencyLevels::noProficiency;
+
 	// Initiatlizers
 	testChar.initScores();
 	testChar.setScore(abilityScores::strength, 14);
 	testChar.initSkills();
+	testChar.setLevel(levels::character, 3);
+
+	// Special things for ImGui to use
+	const char* proficiencyLevelsList[] = { "No Proficiency", "Proficiency", "Expertise", "Mastery", "Legendary" }; // List of proficiency levels
 
 	ImGui::SetNextWindowSize(ImVec2(600, 800));
 	if (!ImGui::Begin("Character Sheet", enable), ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar) {
@@ -65,33 +71,57 @@ void charSheet(bool* enable) {
 		ImGui::Columns(3, "##SkillsColumn", false);
 		{
 			ImGui::SetColumnOffset(1, 200);
-			ImGui::BeginChild("##SkillsOutput", ImVec2(-1, 100), ImGuiChildFlags_Border);
+			ImGui::BeginChild("##SkillsOutput", ImVec2(-1, 150), ImGuiChildFlags_Border);
 			{
+				ImGui::PushItemWidth(-1);
+				std::string previewText = proficiencyLevelsList[(int)currentProficiencyLevel];
+				if (ImGui::BeginCombo("##ProfLevels", previewText.c_str())) {
+					for (int n = 0; n < IM_ARRAYSIZE(proficiencyLevelsList); n++) {
+						const bool selectedProf = (currentProficiencyLevel == (proficiencyLevels)n);
+
+						std::string profName = proficiencyLevelsList[n];
+						if (ImGui::Selectable(profName.c_str(), selectedProf)) {
+							currentProficiencyLevel = (proficiencyLevels)n;
+						}
+					}
+
+					ImGui::EndCombo();
+				}
+
+				if (ImGui::Button("Apply Proficiency", ImVec2(-1, 22))) {
+					testChar.setSkillProficiency(currentSkill, currentProficiencyLevel);
+				}
+
+				ImGui::PopItemWidth();
+
 				int skillScoreBonus = testChar.getMod(testChar.skillInfo[currentSkill].mainAbility);
-				int profBonus = testChar.calcProfBonus(currentSkill);
+				int profBonus = testChar.calcSkillProfBonus(currentSkill);
+				int totalBonus = skillScoreBonus + profBonus;
 				ImGui::Text("Ability Bonus: %i", skillScoreBonus);
 				ImGui::Text("Proficiency Bonus: %i", profBonus);
+				ImGui::Text("Total Bonus: %i", totalBonus);
 			}
 			ImGui::EndChild();
 			ImGui::PushItemWidth(-1);
 			ImGui::InputTextWithHint("##FilterSkills", "Filter Skills...", filterSkills, IM_ARRAYSIZE(filterSkills));
 			ImGui::PopItemWidth();
 
-			ImGui::BeginListBox("##SkillsList", ImVec2(-1, -2));
-			for (auto &it : testChar.skillInfo) {
-				if (!Contains(ToLower(filterSkills), ToLower(idk.getSkillName(it.first).c_str())))
-					continue;
+			if (ImGui::BeginListBox("##SkillsList", ImVec2(-1, -1))) {
+				for (auto& it : testChar.skillInfo) {
+					if (!Contains(ToLower(filterSkills), ToLower(idk.getSkillName(it.first).c_str())))
+						continue;
 
-				const bool selectedSkill = (int)it.first == (int)currentSkill;
-				ImGui::PushID((int)it.first);
-				std::string skillName = idk.getSkillName(it.first).c_str();
+					const bool selectedSkill = ((int)it.first == (int)currentSkill);
+					ImGui::PushID((int)it.first);
+					std::string skillName = idk.getSkillName(it.first).c_str();
 
-				if (ImGui::Selectable(skillName.c_str(), selectedSkill))
-					currentSkill = it.first;
+					if (ImGui::Selectable(skillName.c_str(), selectedSkill))
+						currentSkill = it.first;
 
-				ImGui::PopID();
+					ImGui::PopID();
+				}
+				ImGui::EndListBox();
 			}
-			ImGui::EndListBox();
 		}
 	}
 	ImGui::End();

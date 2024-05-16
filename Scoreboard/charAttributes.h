@@ -61,5 +61,7 @@ struct playerCharacter {
 	proficiencyLevels getSkillProficiency(skills skill);
 	void setSkillAbility(skills skill, abilityScores ability);
 	abilityScores getSkillAbility(skills skill);
-	int calcProfBonus(skills s);
+	int calcSkillProfBonus(skills s);
+	void setLevel(levels section, int level);
+	int getLevel(levels section);
 };
