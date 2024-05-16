@@ -4,6 +4,8 @@
 void charSheet(bool* enable) {
 	ImGui::SetNextWindowSize(ImVec2(600, 800));
 	playerCharacter testChar;
+	skill			idk;
+
 	testChar.initScores();
 	testChar.setScore(abilityScores::strength, 14);
 	if (!ImGui::Begin("Character Sheet", enable), ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar) {
@@ -42,7 +44,7 @@ void charSheet(bool* enable) {
 		}
 		ImGui::EndChild();
 
-		static char filterSkills[19];
+		static char filterSkills[32];
 		ImGui::Columns(3, "##SkillsColumn", false);
 		{
 			ImGui::SetColumnOffset(1, 200);
@@ -50,20 +52,20 @@ void charSheet(bool* enable) {
 			ImGui::InputText("##FilterSkills", filterSkills, IM_ARRAYSIZE(filterSkills));
 			ImGui::PopItemWidth();
 
-			static skills currentSkill = skills::acrobatics;
+			skills currentSkill = skills::acrobatics;
+			bool test;
 
 			ImGui::BeginListBox("##SkillsList", ImVec2(-1, -1));
-			// Possibly expensive. 
-			// TODO: Look into the differences between auto &it vs auto it.
 			for (auto &it : testChar.skillInfo) {
 				const bool selectedSkill = (int)it.first;
 				ImGui::PushID((int)it.first);
-				skill idk;
-				std::string skillName = idk.getSkillName(it.first);
+				std::string skillName = idk.getSkillName(it.first).c_str();
 
-				if (ImGui::Selectable(skillName.c_str(), selectedSkill)) 
+				ImGui::Selectable("Test", &test);
+
+				if (ImGui::Selectable(skillName.c_str(), &selectedSkill))
 					currentSkill = it.first;
-				
+
 				ImGui::PopID();
 			}
 			ImGui::EndListBox();

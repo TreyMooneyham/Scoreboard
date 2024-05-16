@@ -24,7 +24,7 @@ enum class proficiencyLevels {
 };
 
 // Skills
-enum class skills {
+enum class skills : int {
 	acrobatics, animalHandling, arcana, athletics,
 	crafting, deception, history, insight,
 	intimidation, investigation, medicine, nature,
@@ -56,8 +56,6 @@ struct playerCharacter {
 	void setScore(abilityScores ability, int score);
 	int getScore(abilityScores ability);
 	void setSkillProficiency(skills skill, proficiencyLevels level);
-
-	// Something is broken with intellisense here.
 	proficiencyLevels getSkillProficiency(skills skill);
 	void setSkillAbility(skills skill, abilityScores ability);
 	abilityScores getSkillAbility(skills skill);

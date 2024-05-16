@@ -40,27 +40,32 @@ void playerCharacter::setScore(abilityScores ability, int score) {
 	this->abilities[ability] = score;
 }
 
-// Gets a specific ability score
+// Gets a specified ability score
 int playerCharacter::getScore(abilityScores ability) {
 	return this->abilities[ability];
 }
 
+// Sets a skill's proficiency level
 void playerCharacter::setSkillProficiency(skills skill, proficiencyLevels level) {
 	this->skillInfo[skill].profLevel = level;
 }
 
+// Gets a skill's proficiency level
 proficiencyLevels playerCharacter::getSkillProficiency(skills skill) {
 	return this->skillInfo[skill].profLevel;
 }
 
+// Sets a skill's ability
 void playerCharacter::setSkillAbility(skills skill, abilityScores ability) {
 	this->skillInfo[skill].mainAbility = ability;
 }
 
+// Gets a skill's ability
 abilityScores playerCharacter::getSkillAbility(skills skill) {
 	return this->skillInfo[skill].mainAbility;
 }
 
+// Function to get a skill name based on it's enumerated value.
 std::string skill::getSkillName(skills skill) {
 	switch (skill) {
 	case skills::acrobatics:
