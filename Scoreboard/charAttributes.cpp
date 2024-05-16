@@ -45,6 +45,43 @@ int playerCharacter::getScore(abilityScores ability) {
 	return this->abilities[ability];
 }
 
+// Gets a specified ability score's modifier
+int playerCharacter::getMod(abilityScores ability) {
+	return (this->getScore(ability) - 10) / 2;
+}
+
+// This initializes every single skill with their respective ability score and no proficiency.
+// It's fucked.
+void playerCharacter::initSkills() {
+	this->skillInfo[skills::athletics].mainAbility =		abilityScores::strength;
+	this->skillInfo[skills::intimidation].mainAbility =		abilityScores::strength;
+
+	this->skillInfo[skills::acrobatics].mainAbility =		abilityScores::dexterity;
+	this->skillInfo[skills::sleightOfHand].mainAbility =	abilityScores::dexterity;
+	this->skillInfo[skills::stealth].mainAbility =			abilityScores::dexterity;
+
+	this->skillInfo[skills::arcana].mainAbility =			abilityScores::intelligence;
+	this->skillInfo[skills::crafting].mainAbility =			abilityScores::intelligence;
+	this->skillInfo[skills::history].mainAbility =			abilityScores::intelligence;
+	this->skillInfo[skills::investigation].mainAbility =	abilityScores::intelligence;
+	this->skillInfo[skills::medicine].mainAbility =			abilityScores::intelligence;
+	this->skillInfo[skills::religion].mainAbility =			abilityScores::intelligence;
+
+	this->skillInfo[skills::animalHandling].mainAbility =	abilityScores::wisdom;
+	this->skillInfo[skills::insight].mainAbility =			abilityScores::wisdom;
+	this->skillInfo[skills::nature].mainAbility =			abilityScores::wisdom;
+	this->skillInfo[skills::perception].mainAbility =		abilityScores::wisdom;
+	this->skillInfo[skills::survival].mainAbility =			abilityScores::wisdom;
+
+	this->skillInfo[skills::deception].mainAbility =		abilityScores::charisma;
+	this->skillInfo[skills::performance].mainAbility =		abilityScores::charisma;
+	this->skillInfo[skills::persuasion].mainAbility =		abilityScores::charisma;
+
+	for (auto& it : skillInfo) {
+		this->skillInfo[it.first].profLevel = proficiencyLevels::noProficiency;
+	}
+}
+
 // Sets a skill's proficiency level
 void playerCharacter::setSkillProficiency(skills skill, proficiencyLevels level) {
 	this->skillInfo[skill].profLevel = level;
@@ -108,5 +145,22 @@ std::string skill::getSkillName(skills skill) {
 		return "Survival";
 	default:
 		return "Invalid";
+	}
+}
+
+int playerCharacter::calcProfBonus(skills s) {
+	switch (this->getSkillProficiency(s)) {
+	case proficiencyLevels::noProficiency:
+		return 0;
+	case proficiencyLevels::proficiency:
+		return 2;
+	case proficiencyLevels::expertise:
+		return 4;
+	case proficiencyLevels::mastery:
+		return 6;
+	case proficiencyLevels::legendary:
+		return 8;
+	default:
+		return 0;
 	}
 }

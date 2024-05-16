@@ -24,7 +24,7 @@ enum class proficiencyLevels {
 };
 
 // Skills
-enum class skills : int {
+enum class skills {
 	acrobatics, animalHandling, arcana, athletics,
 	crafting, deception, history, insight,
 	intimidation, investigation, medicine, nature,
@@ -55,8 +55,11 @@ struct playerCharacter {
 	void initScores();
 	void setScore(abilityScores ability, int score);
 	int getScore(abilityScores ability);
+	int getMod(abilityScores ability);
+	void initSkills();
 	void setSkillProficiency(skills skill, proficiencyLevels level);
 	proficiencyLevels getSkillProficiency(skills skill);
 	void setSkillAbility(skills skill, abilityScores ability);
 	abilityScores getSkillAbility(skills skill);
+	int calcProfBonus(skills s);
 };

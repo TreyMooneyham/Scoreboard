@@ -1,13 +1,30 @@
 #include "charSheet.h"
 #include <iostream>
 
+bool Contains(const std::string& word, const std::string& sentence) {
+	if (word == "" || sentence == "")
+		return true;
+
+	return sentence.find(word) != std::string::npos;
+}
+
+std::string ToLower(std::string str) {
+	std::transform(str.begin(), str.end(), str.begin(), (int (*)(int))std::tolower);
+
+	return str;
+}
+
 void charSheet(bool* enable) {
-	ImGui::SetNextWindowSize(ImVec2(600, 800));
+	// Important character stuff
 	playerCharacter testChar;
 	skill			idk;
-
+	static skills	currentSkill = skills::acrobatics;
+	// Initiatlizers
 	testChar.initScores();
 	testChar.setScore(abilityScores::strength, 14);
+	testChar.initSkills();
+
+	ImGui::SetNextWindowSize(ImVec2(600, 800));
 	if (!ImGui::Begin("Character Sheet", enable), ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar) {
 		ImGui::BeginChild("##AbilityScores", ImVec2(-1, 60), ImGuiChildFlags_Border); 
 		{
@@ -48,22 +65,28 @@ void charSheet(bool* enable) {
 		ImGui::Columns(3, "##SkillsColumn", false);
 		{
 			ImGui::SetColumnOffset(1, 200);
+			ImGui::BeginChild("##SkillsOutput", ImVec2(-1, 100), ImGuiChildFlags_Border);
+			{
+				int skillScoreBonus = testChar.getMod(testChar.skillInfo[currentSkill].mainAbility);
+				int profBonus = testChar.calcProfBonus(currentSkill);
+				ImGui::Text("Ability Bonus: %i", skillScoreBonus);
+				ImGui::Text("Proficiency Bonus: %i", profBonus);
+			}
+			ImGui::EndChild();
 			ImGui::PushItemWidth(-1);
-			ImGui::InputText("##FilterSkills", filterSkills, IM_ARRAYSIZE(filterSkills));
+			ImGui::InputTextWithHint("##FilterSkills", "Filter Skills...", filterSkills, IM_ARRAYSIZE(filterSkills));
 			ImGui::PopItemWidth();
 
-			skills currentSkill = skills::acrobatics;
-			bool test;
-
-			ImGui::BeginListBox("##SkillsList", ImVec2(-1, -1));
+			ImGui::BeginListBox("##SkillsList", ImVec2(-1, -2));
 			for (auto &it : testChar.skillInfo) {
-				const bool selectedSkill = (int)it.first;
+				if (!Contains(ToLower(filterSkills), ToLower(idk.getSkillName(it.first).c_str())))
+					continue;
+
+				const bool selectedSkill = (int)it.first == (int)currentSkill;
 				ImGui::PushID((int)it.first);
 				std::string skillName = idk.getSkillName(it.first).c_str();
 
-				ImGui::Selectable("Test", &test);
-
-				if (ImGui::Selectable(skillName.c_str(), &selectedSkill))
+				if (ImGui::Selectable(skillName.c_str(), selectedSkill))
 					currentSkill = it.first;
 
 				ImGui::PopID();
