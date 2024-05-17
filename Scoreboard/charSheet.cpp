@@ -23,6 +23,7 @@ static proficiencyLevels currentProficiencyLevel = proficiencyLevels::noProficie
 
 // Special things for ImGui to use
 const char* proficiencyLevelsList[] = { "No Proficiency", "Proficiency", "Expertise", "Mastery", "Legendary" }; // List of proficiency levels
+const char* mainAbilityList[] = { "Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma" }; // List of ability scores
 static char filterSkills[32];
 
 void charSheet(bool* enable) {
@@ -69,8 +70,8 @@ void charSheet(bool* enable) {
 			ImGui::BeginChild("##SkillsOutput", ImVec2(-1, 150), ImGuiChildFlags_Border);
 			{
 				ImGui::PushItemWidth(-1);
-				std::string previewText = proficiencyLevelsList[(int)currentProficiencyLevel];
-				if (ImGui::BeginCombo("##ProfLevels", previewText.c_str())) {
+				std::string profText = proficiencyLevelsList[(int)currentProficiencyLevel];
+				if (ImGui::BeginCombo("##ProfLevels", profText.c_str())) {
 					for (int n = 0; n < IM_ARRAYSIZE(proficiencyLevelsList); n++) {
 						const bool selectedProf = (currentProficiencyLevel == (proficiencyLevels)n);
 
@@ -85,6 +86,20 @@ void charSheet(bool* enable) {
 
 				if (ImGui::Button("Apply Proficiency", ImVec2(-1, 0))) {
 					globalChar.setSkillProficiency(currentSkill, currentProficiencyLevel);
+				}
+
+				std::string mainAbilityText = mainAbilityList[(int)globalChar.skillInfo[currentSkill].mainAbility];
+				if (ImGui::BeginCombo("##mainAbility", mainAbilityText.c_str())) {
+					for (int n = 0; n < IM_ARRAYSIZE(mainAbilityList); n++) {
+						const bool selectedAbility = (globalChar.skillInfo[currentSkill].mainAbility == (abilityScores)n);
+
+						std::string mainAbilityName = mainAbilityList[n];
+						if (ImGui::Selectable(mainAbilityName.c_str(), selectedAbility)) {
+							globalChar.skillInfo[currentSkill].mainAbility = (abilityScores)n;
+						}
+					}
+
+					ImGui::EndCombo();
 				}
 
 				ImGui::PopItemWidth();
