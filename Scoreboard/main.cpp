@@ -133,6 +133,13 @@ int main(int, char**)
     globalChar.setCName("Test Character");
     globalChar.setLevel(levels::character, 3);
 
+    globalChar.setScore(abilityScores::strength, 20);
+    globalChar.setScore(abilityScores::dexterity, 18);
+    globalChar.setScore(abilityScores::constitution, 16);
+    globalChar.setScore(abilityScores::intelligence, 14);
+    globalChar.setScore(abilityScores::wisdom, 12);
+    //globalChar.setScore(abilityScores::charisma, 10); // CHA is already 10
+
     // Main loop
     bool done = false;
     while (!done)
