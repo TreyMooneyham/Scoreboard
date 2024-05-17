@@ -127,6 +127,12 @@ int main(int, char**)
     bool bCharSheetVisible = false;
     bool bSavingWindowVisible = false;
 
+    // Initialize the character
+    globalChar.initScores();
+    globalChar.initSkills();
+    globalChar.setCName("Test Character");
+    globalChar.setLevel(levels::character, 3);
+
     // Main loop
     bool done = false;
     while (!done)

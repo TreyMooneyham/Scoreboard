@@ -15,7 +15,7 @@ enum class abilityScores {
 };
 
 // Proficiencies
-enum class proficiencies {
+enum class proficiencyLevels {
 	noProficiency,	// No bonus
 	proficiency,	// Bonus is 2 + level
 	expertise,		// Bonus is 4 + level
@@ -23,11 +23,30 @@ enum class proficiencies {
 	legendary		// Bonus is 8 + level
 };
 
+// Skills
+enum class skills {
+	acrobatics, animalHandling, arcana, athletics,
+	crafting, deception, history, insight,
+	intimidation, investigation, medicine, nature,
+	perception, performance, persuasion, religion,
+	sleightOfHand, stealth, survival
+};
+
+struct skill {
+public:
+	proficiencyLevels	profLevel;
+	abilityScores		mainAbility;
+
+	std::string getSkillName(skills skill);
+};
+
+// playerCharacter holds all the information for the currently loaded character
 struct playerCharacter {
 	std::string charName;
 	std::string playerName;
 	std::map<levels, int> levelInfo;
 	std::map<abilityScores, int> abilities;
+	std::map<skills, skill> skillInfo;
 
 	void setPName(std::string name);
 	std::string getPName();
@@ -36,6 +55,13 @@ struct playerCharacter {
 	void initScores();
 	void setScore(abilityScores ability, int score);
 	int getScore(abilityScores ability);
+	int getMod(abilityScores ability);
+	void initSkills();
+	void setSkillProficiency(skills skill, proficiencyLevels level);
+	proficiencyLevels getSkillProficiency(skills skill);
+	void setSkillAbility(skills skill, abilityScores ability);
+	abilityScores getSkillAbility(skills skill);
+	int calcSkillProfBonus(skills s);
+	void setLevel(levels section, int level);
+	int getLevel(levels section);
 };
-
-// Functions
