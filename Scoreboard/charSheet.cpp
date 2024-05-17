@@ -67,7 +67,7 @@ void charSheet(bool* enable) {
 		ImGui::Columns(3, "##SkillsColumn", false);
 		{
 			ImGui::SetColumnOffset(1, 200);
-			ImGui::BeginChild("##SkillsOutput", ImVec2(-1, 150), ImGuiChildFlags_Border);
+			ImGui::BeginChild("##SkillsOutput", ImVec2(-1, 157), ImGuiChildFlags_Border);
 			{
 				ImGui::PushItemWidth(-1);
 				std::string profText = proficiencyLevelsList[(int)currentProficiencyLevel];
@@ -104,11 +104,17 @@ void charSheet(bool* enable) {
 
 				ImGui::PopItemWidth();
 
+				ImGui::Separator();
+
 				int skillScoreBonus = globalChar.getMod(globalChar.skillInfo[currentSkill].mainAbility);
 				int profBonus = globalChar.calcSkillProfBonus(currentSkill);
 				int totalBonus = skillScoreBonus + profBonus;
 				ImGui::Text("Ability Bonus: %i", skillScoreBonus);
 				ImGui::Text("Proficiency Bonus: %i", profBonus);
+				ImGui::Text("Misc. Bonus: WIP");	// TODO: Create the math for this...
+
+				ImGui::Separator();
+
 				ImGui::Text("Total Bonus: %i", totalBonus);
 			}
 			ImGui::EndChild();
