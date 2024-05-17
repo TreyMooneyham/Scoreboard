@@ -130,7 +130,7 @@ int main(int, char**)
     // Initialize the character
     globalChar.initScores();
     globalChar.initSkills();
-    globalChar.setCName("Test Character");
+    globalChar.setName("Test Character", -1);
     globalChar.setLevel(levels::character, 3);
 
     globalChar.setScore(abilityScores::strength, 20);
