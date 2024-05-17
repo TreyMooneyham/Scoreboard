@@ -1,5 +1,6 @@
 #include <string>
 #include "charAttributes.h"
+#include <stdio.h>
 
 // Sets the player name for a given character
 void playerCharacter::setPName(std::string name) {
@@ -61,6 +62,7 @@ int playerCharacter::getMod(abilityScores ability) {
 // This initializes every single skill with their respective ability score and no proficiency.
 // It's fucked.
 void playerCharacter::initSkills() {
+	printf("initSkills() called");
 	this->skillInfo[skills::athletics].mainAbility =		abilityScores::strength;
 	this->skillInfo[skills::intimidation].mainAbility =		abilityScores::strength;
 
@@ -88,6 +90,7 @@ void playerCharacter::initSkills() {
 	for (auto& it : skillInfo) {
 		this->skillInfo[it.first].profLevel = proficiencyLevels::noProficiency;
 	}
+	printf("initSkills() finished");
 }
 
 // Sets a skill's proficiency level
