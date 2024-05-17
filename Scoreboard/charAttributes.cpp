@@ -30,14 +30,14 @@ int playerCharacter::getLevel(levels section) {
 	return this->levelInfo[section];
 }
 
-// Initiatilizes every score to 7, as if creating a new character
+// Initiatilizes every score to 10
 void playerCharacter::initScores() {
-	this->abilities[abilityScores::strength]		= 7;
-	this->abilities[abilityScores::dexterity]		= 7;
-	this->abilities[abilityScores::constitution]	= 7;
-	this->abilities[abilityScores::intelligence]	= 7;
-	this->abilities[abilityScores::wisdom]			= 7;
-	this->abilities[abilityScores::charisma]		= 7;
+	this->abilities[abilityScores::strength]		= 10;
+	this->abilities[abilityScores::dexterity]		= 10;
+	this->abilities[abilityScores::constitution]	= 10;
+	this->abilities[abilityScores::intelligence]	= 10;
+	this->abilities[abilityScores::wisdom]			= 10;
+	this->abilities[abilityScores::charisma]		= 10;
 }
 
 // Sets a specific score to a specific value
