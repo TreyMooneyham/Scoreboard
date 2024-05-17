@@ -3,23 +3,37 @@
 #include <stdio.h>
 
 // Sets the player name for a given character
-void playerCharacter::setPName(std::string name) {
-	this->playerName = name;
+// -1 for both, 0 for player name, and 1 for character name
+void playerCharacter::setName(std::string name, int type) {
+	switch (type) {
+	case -1:
+		this->nameInfo.charName = name;
+		this->nameInfo.playerName = name;
+		break;
+	case 0:
+		this->nameInfo.playerName = name;
+		break;
+	case 1:
+		this->nameInfo.charName = name;
+		break;
+	default:
+		this->nameInfo.charName = "Invalid";
+		this->nameInfo.playerName = "Invalid";
+		break;
+	}
 }
 
 // Gets the player name for a given character
-std::string playerCharacter::getPName() {
-	return this->playerName;
-}
-
-// Sets the character name for a given character
-void playerCharacter::setCName(std::string name) {
-	this->charName = name;
-}
-
-// Gets the character name for a given character
-std::string playerCharacter::getCName() {
-	return this->charName;
+// 0 for player name, and 1 for character name
+std::string playerCharacter::getName(int type) {
+	switch (type) {
+	case 0:
+		return this->nameInfo.playerName;
+	case 1:
+		return this->nameInfo.charName;
+	default:
+		return "Invalid";
+	}
 }
 
 void playerCharacter::setLevel(levels section, int level) {

@@ -1,5 +1,12 @@
 #include "settings.h"
 
+// Names
+struct names {
+public:
+	std::string charName;
+	std::string playerName;
+};
+
 // Levels
 enum class levels {
 	character,		// Character level
@@ -40,28 +47,36 @@ public:
 	std::string getSkillName(skills skill);
 };
 
+// Hit points
+struct hitPoints {
+public:
+	int rolledHP;
+	int tempHP;
+};
+
 // playerCharacter holds all the information for the currently loaded character
 struct playerCharacter {
-	std::string charName;
-	std::string playerName;
-	std::map<levels, int> levelInfo;
-	std::map<abilityScores, int> abilities;
-	std::map<skills, skill> skillInfo;
+	names							nameInfo;
+	std::map<levels, int>			levelInfo;
+	std::map<abilityScores, int>	abilities;
+	std::map<skills, skill>			skillInfo;
+	hitPoints						hpInfo;
 
-	void setPName(std::string name);
-	std::string getPName();
-	void setCName(std::string name);
-	std::string getCName();
-	void initScores();
-	void setScore(abilityScores ability, int score);
-	int getScore(abilityScores ability);
-	int getMod(abilityScores ability);
-	void initSkills();
-	void setSkillProficiency(skills skill, proficiencyLevels level);
-	proficiencyLevels getSkillProficiency(skills skill);
-	void setSkillAbility(skills skill, abilityScores ability);
-	abilityScores getSkillAbility(skills skill);
-	int calcSkillProfBonus(skills s);
-	void setLevel(levels section, int level);
-	int getLevel(levels section);
+	void				setName(std::string name, int type);
+	std::string			getName(int type);
+
+	void				setLevel(levels section, int level);
+	int					getLevel(levels section);
+
+	void				initScores();
+	void				setScore(abilityScores ability, int score);
+	int					getScore(abilityScores ability);
+	int					getMod(abilityScores ability);
+
+	void				initSkills();
+	void				setSkillProficiency(skills skill, proficiencyLevels level);
+	proficiencyLevels	getSkillProficiency(skills skill);
+	void				setSkillAbility(skills skill, abilityScores ability);
+	abilityScores		getSkillAbility(skills skill);
+	int					calcSkillProfBonus(skills s);
 };
