@@ -27,46 +27,40 @@ const char* mainAbilityList[] = { "Strength", "Dexterity", "Constitution", "Inte
 static char filterSkills[32];
 
 void charSheet(bool* enable) {
-	ImGui::SetNextWindowSize(ImVec2(600, 800));
-	if (!ImGui::Begin("Character Sheet", enable), ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar) {
-		ImGui::BeginChild("##AbilityScores", ImVec2(-1, 60), ImGuiChildFlags_Border); 
-		{
-			ImGui::Columns(6, "##AbilityScoreColumns", false);
-			{
-				ImGui::Text("Strength");
-				ImGui::Text("%d", globalChar.getScore(abilityScores::strength));
-			}
-			ImGui::NextColumn();
-			{
-				ImGui::Text("Dexterity");
-				ImGui::Text("%d", globalChar.getScore(abilityScores::dexterity));
-			}
-			ImGui::NextColumn();
-			{
-				ImGui::Text("Constitution");
-				ImGui::Text("%d", globalChar.getScore(abilityScores::constitution));
-			}
-			ImGui::NextColumn();
-			{
-				ImGui::Text("Intelligence");
-				ImGui::Text("%d", globalChar.getScore(abilityScores::intelligence));
-			}
-			ImGui::NextColumn();
-			{
-				ImGui::Text("Wisdom");
-				ImGui::Text("%d", globalChar.getScore(abilityScores::wisdom));
-			}
-			ImGui::NextColumn();
-			{
-				ImGui::Text("Charisma");
-				ImGui::Text("%d", globalChar.getScore(abilityScores::charisma));
-			}
-		}
-		ImGui::EndChild();
-
+	ImGui::SetNextWindowSize(ImVec2(800, 800));
+	if (ImGui::Begin("Character Sheet", enable, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar)) {
 		ImGui::Columns(3, "##SkillsColumn", false);
 		{
 			ImGui::SetColumnOffset(1, 200);
+
+			ImGui::BeginChild("##AbilityScores", ImVec2(-1, 170), ImGuiChildFlags_Border);
+			{
+				ImGui::Text("Strength:       %i, (%i)", globalChar.getScore(abilityScores::strength), globalChar.getMod(abilityScores::strength));
+				ImGui::Text("Dexterity:      %i, (%i)", globalChar.getScore(abilityScores::dexterity), globalChar.getMod(abilityScores::dexterity));
+				ImGui::Text("Constitution:   %i, (%i)", globalChar.getScore(abilityScores::constitution), globalChar.getMod(abilityScores::constitution));
+				ImGui::Text("Intelligence:   %i, (%i)", globalChar.getScore(abilityScores::intelligence), globalChar.getMod(abilityScores::intelligence));
+				ImGui::Text("Wisdom:         %i, (%i)", globalChar.getScore(abilityScores::wisdom), globalChar.getMod(abilityScores::wisdom));
+				ImGui::Text("Charisma:       %i, (%i)", globalChar.getScore(abilityScores::charisma), globalChar.getMod(abilityScores::charisma));
+
+				ImGui::Separator();
+
+				if (globalChar.getScore(abilityScores::strength) > globalChar.getScore(abilityScores::constitution))
+					ImGui::Text("Fortitude Save:      %i", globalChar.getMod(abilityScores::strength));
+				else
+					ImGui::Text("Fortitude Save:      %i", globalChar.getMod(abilityScores::constitution));
+
+				if (globalChar.getScore(abilityScores::dexterity) > globalChar.getScore(abilityScores::intelligence))
+					ImGui::Text("Reflex Save:         %i", globalChar.getMod(abilityScores::dexterity));
+				else
+					ImGui::Text("Reflex Save:         %i", globalChar.getMod(abilityScores::intelligence));
+
+				if (globalChar.getScore(abilityScores::wisdom) > globalChar.getScore(abilityScores::charisma))
+					ImGui::Text("Will Save:           %i", globalChar.getMod(abilityScores::wisdom));
+				else
+					ImGui::Text("Will Save:           %i", globalChar.getMod(abilityScores::charisma));
+			}
+			ImGui::EndChild();
+
 			ImGui::BeginChild("##SkillsOutput", ImVec2(-1, 157), ImGuiChildFlags_Border);
 			{
 				ImGui::PushItemWidth(-1);
