@@ -36,10 +36,12 @@ std::string playerCharacter::getName(int type) {
 	}
 }
 
+// Sets the level for a particular section
 void playerCharacter::setLevel(levels section, int level) {
 	this->levelInfo[section] = level;
 }
 
+// Gets the level for a specific section
 int playerCharacter::getLevel(levels section) {
 	return this->levelInfo[section];
 }
@@ -173,6 +175,7 @@ std::string skill::getSkillName(skills skill) {
 	}
 }
 
+// Calculates the proficiency bonus for a skill
 int playerCharacter::calcSkillProfBonus(skills s) {
 	switch (this->getSkillProficiency(s)) {
 	case proficiencyLevels::noProficiency:
@@ -188,4 +191,24 @@ int playerCharacter::calcSkillProfBonus(skills s) {
 	default:
 		return 0;
 	}
+}
+
+// Sets the rolled hit points of the character
+void playerCharacter::setRolledHP(int hitPoints) {
+	this->hpInfo.rolledHP = hitPoints;
+}
+
+// Sets the temporary hit points of the character
+void playerCharacter::setTempHP(int hitPoints) {
+	this->hpInfo.tempHP = hitPoints;
+}
+
+// Gets the rolled hit points of the character
+int playerCharacter::getRolledHP() {
+	return hpInfo.rolledHP;
+}
+
+// Gets the temporary hit points of the character
+int playerCharacter::getTempHP() {
+	return hpInfo.tempHP;
 }

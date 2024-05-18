@@ -56,12 +56,14 @@ public:
 
 // playerCharacter holds all the information for the currently loaded character
 struct playerCharacter {
+	// Data Types
 	names							nameInfo;
 	std::map<levels, int>			levelInfo;
 	std::map<abilityScores, int>	abilities;
 	std::map<skills, skill>			skillInfo;
 	hitPoints						hpInfo;
 
+	// Setters and getters
 	void				setName(std::string name, int type);
 	std::string			getName(int type);
 
@@ -79,4 +81,9 @@ struct playerCharacter {
 	void				setSkillAbility(skills skill, abilityScores ability);
 	abilityScores		getSkillAbility(skills skill);
 	int					calcSkillProfBonus(skills s);
+
+	void				setRolledHP(int hitPoints);
+	void				setTempHP(int hitPoints);
+	int					getRolledHP();
+	int					getTempHP();
 };
