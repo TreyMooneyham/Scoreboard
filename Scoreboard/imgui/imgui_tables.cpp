@@ -1315,7 +1315,7 @@ void    ImGui::EndTable()
 
     // This assert would be very useful to catch a common error... unfortunately it would probably trigger in some
     // cases, and for consistency user may sometimes output empty tables (and still benefit from e.g. outer border)
-    //IM_ASSERT(table->IsLayoutLocked && "Table unused: never called TableNextRow(), is that the intent?");
+    // IM_ASSERT(table->IsLayoutLocked && "Table unused: never called TableNextRow(), is that the intent?");
 
     // If the user never got to call TableNextRow() or TableNextColumn(), we call layout ourselves to ensure all our
     // code paths are consistent (instead of just hoping that TableBegin/TableEnd will work), get borders drawn, etc.
