@@ -1,5 +1,6 @@
 #include "charSheet.h"
 #include "settings.h"
+#include "hpWindow.h"
 #include "imgui/imgui.h"
 #include "imgui/imgui_internal.h"
 #include "imgui/backends/imgui_impl_win32.h"
@@ -126,6 +127,7 @@ int main(int, char**)
     bool bMenuBarVisible = true;
     bool bCharSheetVisible = false;
     bool bSavingWindowVisible = false;
+    bool bhpWindowVisible = false;
 
     // Initialize the character
     globalChar.initScores();
@@ -164,18 +166,21 @@ int main(int, char**)
 
         // All our rendering functions will be here
         if (ImGui::BeginMainMenuBar()) {
-            if (ImGui::BeginMenu("File"))
-            {
+            if (ImGui::BeginMenu("File")) {
                 ShowExampleMenuFile();
                 ImGui::EndMenu();
             }
             ImGui::MenuItem("Character Sheet", NULL, &bCharSheetVisible);
+            ImGui::MenuItem("Hit Point Management", NULL, &bhpWindowVisible);
 
             ImGui::EndMainMenuBar();
         }
        
         if (bCharSheetVisible)
             charSheet(&bCharSheetVisible);
+
+        if (bhpWindowVisible)
+            hpWindow(&bhpWindowVisible);
 
         //if (bSavingWindowVisible)
             //ShowExampleMenuFile();

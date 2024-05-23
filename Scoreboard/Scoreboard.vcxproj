@@ -129,6 +129,7 @@
   <ItemGroup>
     <ClCompile Include="charAttributes.cpp" />
     <ClCompile Include="charSheet.cpp" />
+    <ClCompile Include="hpWindow.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="imgui\backends\imgui_impl_dx12.cpp" />
     <ClCompile Include="imgui\backends\imgui_impl_win32.cpp" />
@@ -142,6 +143,7 @@
   <ItemGroup>
     <ClInclude Include="charAttributes.h" />
     <ClInclude Include="charSheet.h" />
+    <ClInclude Include="hpWindow.h" />
     <ClInclude Include="imgui\backends\imgui_impl_dx12.h" />
     <ClInclude Include="imgui\backends\imgui_impl_win32.h" />
     <ClInclude Include="imgui\imconfig.h" />

@@ -112,6 +112,10 @@ void charSheet(bool* enable) {
 				{
 					
 				}
+				ImGui::TableNextColumn();
+				{
+
+				}
 				ImGui::EndTable();
 			}
 			ImGui::EndChild();
