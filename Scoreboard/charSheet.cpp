@@ -14,6 +14,22 @@ std::string toLower(std::string str) {
 	return str;
 }
 
+std::string modFormat(std::string str, int bonus) {
+	str += ":";
+
+	int diff = 21 - str.length();
+	if (bonus > 9)
+		diff--;
+
+	for (int i = 0; i < diff; i++) {
+		str += " ";
+	}
+
+	(bonus < 0) ? str += std::to_string(bonus) : str += "+" + std::to_string(bonus);
+
+	return str;
+}
+
 // Here's the global character variable
 extern playerCharacter globalChar = playerCharacter();
 
@@ -27,6 +43,20 @@ const char* mainAbilityList[] = { "Strength", "Dexterity", "Constitution", "Inte
 static char filterSkills[32];
 
 void charSheet(bool* enable) {
+	// Common variables for the global character
+	int strScore = globalChar.getScore(abilityScores::strength);
+	int strMod = globalChar.getMod(abilityScores::strength);
+	int conScore = globalChar.getScore(abilityScores::constitution);
+	int conMod = globalChar.getMod(abilityScores::constitution);
+	int dexScore = globalChar.getScore(abilityScores::dexterity);
+	int dexMod = globalChar.getMod(abilityScores::dexterity);
+	int intScore = globalChar.getScore(abilityScores::intelligence);
+	int intMod = globalChar.getMod(abilityScores::intelligence);
+	int wisScore = globalChar.getScore(abilityScores::wisdom);
+	int wisMod = globalChar.getMod(abilityScores::wisdom);
+	int chaScore = globalChar.getScore(abilityScores::charisma);
+	int chaMod = globalChar.getMod(abilityScores::charisma);
+
 	ImGui::SetNextWindowSize(ImVec2(800, 800));
 	if (ImGui::Begin("Character Sheet", enable, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar)) {
 		if (ImGui::BeginTable("##CharacterSheetTable", 4)) {
@@ -34,35 +64,46 @@ void charSheet(bool* enable) {
 
 			if (ImGui::BeginChild("CharInfoChild", ImVec2(-1, 60), ImGuiChildFlags_Border)) {
 
-				ImGui::Text("Fuck");
+				ImGui::Text("CharInfoChild");
 
 				ImGui::EndChild();
 			}
 
 			if (ImGui::BeginChild("##AbilityScores", ImVec2(190, 170), ImGuiChildFlags_Border)) {
-				ImGui::Text("Strength:       %i, (%i)", globalChar.getScore(abilityScores::strength), globalChar.getMod(abilityScores::strength));
-				ImGui::Text("Dexterity:      %i, (%i)", globalChar.getScore(abilityScores::dexterity), globalChar.getMod(abilityScores::dexterity));
-				ImGui::Text("Constitution:   %i, (%i)", globalChar.getScore(abilityScores::constitution), globalChar.getMod(abilityScores::constitution));
-				ImGui::Text("Intelligence:   %i, (%i)", globalChar.getScore(abilityScores::intelligence), globalChar.getMod(abilityScores::intelligence));
-				ImGui::Text("Wisdom:         %i, (%i)", globalChar.getScore(abilityScores::wisdom), globalChar.getMod(abilityScores::wisdom));
-				ImGui::Text("Charisma:       %i, (%i)", globalChar.getScore(abilityScores::charisma), globalChar.getMod(abilityScores::charisma));
+				for (int i = 0; i < IM_ARRAYSIZE(mainAbilityList); i++) {
+					std::string formattedAbility = mainAbilityList[i];
+
+					ImGui::Text(modFormat(formattedAbility, globalChar.getMod((abilityScores)i)).c_str());
+				}
 
 				ImGui::Separator();
 
-				if (globalChar.getScore(abilityScores::strength) > globalChar.getScore(abilityScores::constitution))
-					ImGui::Text("Fortitude Save:      %i", globalChar.getMod(abilityScores::strength));
-				else
-					ImGui::Text("Fortitude Save:      %i", globalChar.getMod(abilityScores::constitution));
+				if (strMod >= conMod) {
+					ImGui::Text("Fortitude Save:     "); ImGui::SameLine(); 
+					(strMod >= 0) ? ImGui::Text("+%i", strMod) : ImGui::Text("%i", strMod);
+				}
+				else {
+					ImGui::Text("Fortitude Save:     "); ImGui::SameLine();
+					(conMod >= 0) ? ImGui::Text("+%i", conMod) : ImGui::Text("%i", conMod);
+				}
 
-				if (globalChar.getScore(abilityScores::dexterity) > globalChar.getScore(abilityScores::intelligence))
-					ImGui::Text("Reflex Save:         %i", globalChar.getMod(abilityScores::dexterity));
-				else
-					ImGui::Text("Reflex Save:         %i", globalChar.getMod(abilityScores::intelligence));
+				if (dexMod >= intMod) {
+					ImGui::Text("Reflex Save:        "); ImGui::SameLine();
+					(dexMod >= 0) ? ImGui::Text("+%i", dexMod) : ImGui::Text("%i", dexMod);
+				}
+				else {
+					ImGui::Text("Reflex Save:        "); ImGui::SameLine();
+					(intMod >= 0) ? ImGui::Text("+%i", intMod) : ImGui::Text("%i", intMod);
+				}
 
-				if (globalChar.getScore(abilityScores::wisdom) > globalChar.getScore(abilityScores::charisma))
-					ImGui::Text("Will Save:           %i", globalChar.getMod(abilityScores::wisdom));
-				else
-					ImGui::Text("Will Save:           %i", globalChar.getMod(abilityScores::charisma));
+				if (wisMod >= chaMod) {
+					ImGui::Text("Will Save:          "); ImGui::SameLine();
+					(wisMod >= 0) ? ImGui::Text("+%i", wisMod) : ImGui::Text("%i", wisMod);
+				}
+				else {
+					ImGui::Text("Will Save:          "); ImGui::SameLine();
+					(chaMod >= 0) ? ImGui::Text("+%i", chaMod) : ImGui::Text("%i", chaMod);
+				}
 
 				ImGui::EndChild();
 			}
@@ -90,13 +131,18 @@ void charSheet(bool* enable) {
 				int skillScoreBonus = globalChar.getMod(globalChar.skillInfo[currentSkill].mainAbility);
 				int profBonus = globalChar.calcSkillProfBonus(currentSkill);
 				int totalBonus = skillScoreBonus + profBonus;
-				ImGui::Text("Ability Bonus: %i", skillScoreBonus);
-				ImGui::Text("Proficiency Bonus: %i", profBonus);
-				ImGui::Text("Misc. Bonus: WIP");	// TODO: Create the math for this...
+
+				ImGui::Text("Ability Bonus:      "); ImGui::SameLine(); 
+				(skillScoreBonus >= 0) ? ImGui::Text("+%i", skillScoreBonus) : ImGui::Text("%i", skillScoreBonus);
+				ImGui::Text("Proficiency Bonus:  "); ImGui::SameLine(); 
+				(profBonus >= 0) ? ImGui::Text("+%i", profBonus) : ImGui::Text("%i", profBonus);
+				ImGui::Text("Misc. Bonus:        "); ImGui::SameLine(); 
+				(0 >= 0) ? ImGui::Text("+%i", 0) : ImGui::Text("%i", 0); // TODO: Create the math for this... 
 
 				ImGui::Separator();
 
-				ImGui::Text("Total Bonus: %i", totalBonus);
+				ImGui::Text("Total Bonus:        "); ImGui::SameLine(); (totalBonus >= 0) ? ImGui::Text("+%i", totalBonus) : ImGui::Text("%i", totalBonus);
+				ImGui::Text("Passive DC:          %i", totalBonus + 10);
 
 				ImGui::Separator();
 
