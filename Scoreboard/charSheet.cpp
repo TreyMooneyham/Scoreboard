@@ -30,6 +30,15 @@ std::string modFormat(std::string str, int bonus) {
 	return str;
 }
 
+std::string modFormat(const char* charray, int bonus) {
+	std::string str;
+	str += charray;
+
+	str = modFormat(str, bonus);
+
+	return str;
+}
+
 // Here's the global character variable
 extern playerCharacter globalChar = playerCharacter();
 
@@ -40,6 +49,7 @@ static proficiencyLevels currentProficiencyLevel = proficiencyLevels::noProficie
 // Special things for ImGui to use
 const char* proficiencyLevelsList[] = { "No Proficiency", "Proficiency", "Expertise", "Mastery", "Legendary" }; // List of proficiency levels
 const char* mainAbilityList[] = { "Strength", "Dexterity", "Constitution", "Intelligence", "Wisdom", "Charisma" }; // List of ability scores
+const char* savesList[] = { "Fortitude", "Reflex", "Will" }; // List of saving throws
 static char filterSkills[32];
 
 void charSheet(bool* enable) {
@@ -57,6 +67,11 @@ void charSheet(bool* enable) {
 	int chaScore = globalChar.getScore(abilityScores::charisma);
 	int chaMod = globalChar.getMod(abilityScores::charisma);
 
+	int skillScoreBonus = globalChar.getMod(globalChar.skillInfo[currentSkill].mainAbility);
+	int profBonus = globalChar.calcSkillProfBonus(currentSkill);
+	int totalBonus = skillScoreBonus + profBonus;
+
+	// Actual menu starts here
 	ImGui::SetNextWindowSize(ImVec2(800, 800));
 	if (ImGui::Begin("Character Sheet", enable, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar)) {
 		if (ImGui::BeginTable("##CharacterSheetTable", 4)) {
@@ -78,33 +93,21 @@ void charSheet(bool* enable) {
 
 				ImGui::Separator();
 
-				if (strMod >= conMod) {
-					ImGui::Text("Fortitude Save:     "); ImGui::SameLine(); 
-					(strMod >= 0) ? ImGui::Text("+%i", strMod) : ImGui::Text("%i", strMod);
-				}
-				else {
-					ImGui::Text("Fortitude Save:     "); ImGui::SameLine();
-					(conMod >= 0) ? ImGui::Text("+%i", conMod) : ImGui::Text("%i", conMod);
-				}
+				for (int i = 0; i < IM_ARRAYSIZE(savesList); i++) {
+					std::string formattedSave = savesList[i];
 
-				if (dexMod >= intMod) {
-					ImGui::Text("Reflex Save:        "); ImGui::SameLine();
-					(dexMod >= 0) ? ImGui::Text("+%i", dexMod) : ImGui::Text("%i", dexMod);
+					switch (i) {
+					case 0:
+						(strMod >= conMod) ? ImGui::Text(modFormat(formattedSave, strMod).c_str()) : ImGui::Text(modFormat(formattedSave, conMod).c_str());
+						break;
+					case 1:
+						(dexMod >= intMod) ? ImGui::Text(modFormat(formattedSave, dexMod).c_str()) : ImGui::Text(modFormat(formattedSave, intMod).c_str());
+						break;
+					case 2:
+						(wisMod >= chaMod) ? ImGui::Text(modFormat(formattedSave, wisMod).c_str()) : ImGui::Text(modFormat(formattedSave, chaMod).c_str());
+						break;
+					}
 				}
-				else {
-					ImGui::Text("Reflex Save:        "); ImGui::SameLine();
-					(intMod >= 0) ? ImGui::Text("+%i", intMod) : ImGui::Text("%i", intMod);
-				}
-
-				if (wisMod >= chaMod) {
-					ImGui::Text("Will Save:          "); ImGui::SameLine();
-					(wisMod >= 0) ? ImGui::Text("+%i", wisMod) : ImGui::Text("%i", wisMod);
-				}
-				else {
-					ImGui::Text("Will Save:          "); ImGui::SameLine();
-					(chaMod >= 0) ? ImGui::Text("+%i", chaMod) : ImGui::Text("%i", chaMod);
-				}
-
 				ImGui::EndChild();
 			}
 
@@ -128,21 +131,14 @@ void charSheet(bool* enable) {
 				//	globalChar.setSkillProficiency(currentSkill, currentProficiencyLevel);
 				//}
 
-				int skillScoreBonus = globalChar.getMod(globalChar.skillInfo[currentSkill].mainAbility);
-				int profBonus = globalChar.calcSkillProfBonus(currentSkill);
-				int totalBonus = skillScoreBonus + profBonus;
-
-				ImGui::Text("Ability Bonus:      "); ImGui::SameLine(); 
-				(skillScoreBonus >= 0) ? ImGui::Text("+%i", skillScoreBonus) : ImGui::Text("%i", skillScoreBonus);
-				ImGui::Text("Proficiency Bonus:  "); ImGui::SameLine(); 
-				(profBonus >= 0) ? ImGui::Text("+%i", profBonus) : ImGui::Text("%i", profBonus);
-				ImGui::Text("Misc. Bonus:        "); ImGui::SameLine(); 
-				(0 >= 0) ? ImGui::Text("+%i", 0) : ImGui::Text("%i", 0); // TODO: Create the math for this... 
+				ImGui::Text(modFormat("Ability Bonus", skillScoreBonus).c_str());
+				ImGui::Text(modFormat("Proficiency Bonus", profBonus).c_str());
+				ImGui::Text(modFormat("Misc. Bonus", 0).c_str()); // TODO: Create the logic for this
 
 				ImGui::Separator();
 
-				ImGui::Text("Total Bonus:        "); ImGui::SameLine(); (totalBonus >= 0) ? ImGui::Text("+%i", totalBonus) : ImGui::Text("%i", totalBonus);
-				ImGui::Text("Passive DC:          %i", totalBonus + 10);
+				ImGui::Text(modFormat("Total Bonus", totalBonus).c_str());
+				ImGui::Text("Passive DC:          %i", totalBonus + 10); // Not really worth it to create a function to format this one.
 
 				ImGui::Separator();
 
