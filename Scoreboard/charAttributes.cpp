@@ -212,7 +212,6 @@ void playerCharacter::setHP(int type, int hp) {
 		break;
 	default:
 		return;
-		break;
 	}
 }
 
@@ -222,19 +221,14 @@ int playerCharacter::getHP(int type) {
 	switch (type) {
 	case 0:
 		return this->hpInfo.rolledHP;
-		break;
 	case 1:
 		return this->hpInfo.tempHP;
-		break;
 	case 2:
 		return this->hpInfo.currentHP;
-		break;
 	case 3:
 		return this->hpInfo.maxHP;
-		break;
 	default:
 		return -1;
-		break;
 	}
 }
 
