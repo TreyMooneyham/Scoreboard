@@ -1,5 +1,3 @@
-#include "charSheet.h"
-#include "settings.h"
 #include "hpWindow.h"
 #include "imgui/imgui.h"
 #include "imgui/imgui_internal.h"
@@ -132,6 +130,7 @@ int main(int, char**)
     // Initialize the character
     globalChar.initScores();
     globalChar.initSkills();
+    globalChar.initHitPoints();
     globalChar.setName("Test Character", -1);
     globalChar.setLevel(levels::character, 3);
 

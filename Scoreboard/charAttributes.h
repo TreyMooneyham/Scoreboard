@@ -86,4 +86,5 @@ struct playerCharacter {
 	void				setTempHP(int hitPoints);
 	int					getRolledHP();
 	int					getTempHP();
+	void				initHitPoints();
 };

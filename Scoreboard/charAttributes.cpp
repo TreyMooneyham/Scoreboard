@@ -1,6 +1,6 @@
 #include <string>
-#include "charAttributes.h"
 #include <stdio.h>
+#include "charAttributes.h"
 
 // Sets the player name for a given character
 // -1 for both, 0 for player name, and 1 for character name
@@ -209,4 +209,10 @@ int playerCharacter::getRolledHP() {
 // Gets the temporary hit points of the character
 int playerCharacter::getTempHP() {
 	return hpInfo.tempHP;
+}
+
+// Initiatlize the hit points for the character
+void playerCharacter::initHitPoints() {
+	this->hpInfo.rolledHP = 1;
+	this->hpInfo.tempHP = 0;
 }
