@@ -7,7 +7,7 @@ void hpWindow(bool* enable) {
 		ImGui::InputInt("Rolled HP", &globalChar.hpInfo.rolledHP);
 		ImGui::PopItemWidth();
 
-		int hpTotal = globalChar.getRolledHP() + (globalChar.getLevel(levels::character) * globalChar.getMod(abilityScores::constitution));
+		int hpTotal = globalChar.getHP(0) + (globalChar.getLevel(levels::character) * globalChar.getMod(abilityScores::constitution));
 		ImGui::Text("Max Hit Points: %i", hpTotal);
 
 		ImGui::End();

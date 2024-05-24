@@ -52,6 +52,8 @@ struct hitPoints {
 public:
 	int rolledHP;
 	int tempHP;
+	int maxHP;	// This might get fucked with, but it needs to be stored, so here it shall be.
+	int currentHP;
 };
 
 // playerCharacter holds all the information for the currently loaded character
@@ -82,9 +84,7 @@ struct playerCharacter {
 	abilityScores		getSkillAbility(skills skill);
 	int					calcSkillProfBonus(skills s);
 
-	void				setRolledHP(int hitPoints);
-	void				setTempHP(int hitPoints);
-	int					getRolledHP();
-	int					getTempHP();
+	void				setHP(int hp, int type);
+	int					getHP(int type);
 	void				initHitPoints();
 };

@@ -191,28 +191,57 @@ int playerCharacter::calcSkillProfBonus(skills s) {
 	}
 }
 
-// Sets the rolled hit points of the character
-void playerCharacter::setRolledHP(int hitPoints) {
-	this->hpInfo.rolledHP = hitPoints;
+// Function to set the player's hit points
+// -1 for all, 0 for rolled, 1 for temp, and 2 for current
+// This doesn't set maxHP because that should never be set under normal use
+void playerCharacter::setHP(int type, int hp) {
+	switch (type) {
+	case -1:
+		this->hpInfo.rolledHP = hp;
+		this->hpInfo.tempHP = hp;
+		this->hpInfo.currentHP = hp;
+		break;
+	case 0:
+		this->hpInfo.rolledHP = hp;
+		break;
+	case 1:
+		this->hpInfo.tempHP = hp;
+		break;
+	case 2:
+		this->hpInfo.currentHP = hp;
+		break;
+	default:
+		return;
+		break;
+	}
 }
 
-// Sets the temporary hit points of the character
-void playerCharacter::setTempHP(int hitPoints) {
-	this->hpInfo.tempHP = hitPoints;
-}
-
-// Gets the rolled hit points of the character
-int playerCharacter::getRolledHP() {
-	return hpInfo.rolledHP;
-}
-
-// Gets the temporary hit points of the character
-int playerCharacter::getTempHP() {
-	return hpInfo.tempHP;
+// Function to set the player's hit points
+// 0 for rolled, 1 for temp, and 2 for current, and 3 for max
+int playerCharacter::getHP(int type) {
+	switch (type) {
+	case 0:
+		return this->hpInfo.rolledHP;
+		break;
+	case 1:
+		return this->hpInfo.tempHP;
+		break;
+	case 2:
+		return this->hpInfo.currentHP;
+		break;
+	case 3:
+		return this->hpInfo.maxHP;
+		break;
+	default:
+		return -1;
+		break;
+	}
 }
 
 // Initiatlize the hit points for the character
 void playerCharacter::initHitPoints() {
-	this->hpInfo.rolledHP = 1;
+	this->hpInfo.rolledHP = 0;
 	this->hpInfo.tempHP = 0;
+	this->hpInfo.maxHP = 0;
+	this->hpInfo.currentHP = 0;
 }
