@@ -52,7 +52,6 @@ struct hitPoints {
 public:
 	int rolledHP;
 	int tempHP;
-	int maxHP;	// This might get fucked with, but it needs to be stored, so here it shall be.
 	int currentHP;
 };
 

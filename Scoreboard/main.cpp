@@ -128,11 +128,11 @@ int main(int, char**)
     bool bhpWindowVisible = false;
 
     // Initialize the character
-    globalChar.initScores();
-    globalChar.initSkills();
-    globalChar.initHitPoints();
     globalChar.setName("Test Character", -1);
     globalChar.setLevel(levels::character, 3);
+    globalChar.setLevel(levels::rogue, 2);
+    globalChar.setLevel(levels::spellcaster, 1);
+    globalChar.setLevel(levels::warrior, 1);
 
     globalChar.setScore(abilityScores::strength, 30);
     globalChar.setScore(abilityScores::dexterity, 18);
@@ -140,6 +140,9 @@ int main(int, char**)
     globalChar.setScore(abilityScores::intelligence, 14);
     globalChar.setScore(abilityScores::wisdom, 12);
     globalChar.setScore(abilityScores::charisma, 8);
+
+    globalChar.initHitPoints();
+    globalChar.initSkills();
 
     // Main loop
     bool done = false;

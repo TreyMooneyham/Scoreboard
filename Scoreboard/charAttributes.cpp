@@ -193,7 +193,6 @@ int playerCharacter::calcSkillProfBonus(skills s) {
 
 // Function to set the player's hit points
 // -1 for all, 0 for rolled, 1 for temp, and 2 for current
-// This doesn't set maxHP because that should never be set under normal use
 void playerCharacter::setHP(int type, int hp) {
 	switch (type) {
 	case -1:
@@ -216,7 +215,7 @@ void playerCharacter::setHP(int type, int hp) {
 }
 
 // Function to set the player's hit points
-// 0 for rolled, 1 for temp, and 2 for current, and 3 for max
+// 0 for rolled, 1 for temp, and 2 for current
 int playerCharacter::getHP(int type) {
 	switch (type) {
 	case 0:
@@ -225,8 +224,6 @@ int playerCharacter::getHP(int type) {
 		return this->hpInfo.tempHP;
 	case 2:
 		return this->hpInfo.currentHP;
-	case 3:
-		return this->hpInfo.maxHP;
 	default:
 		return -1;
 	}
@@ -234,8 +231,7 @@ int playerCharacter::getHP(int type) {
 
 // Initiatlize the hit points for the character
 void playerCharacter::initHitPoints() {
-	this->hpInfo.rolledHP = 0;
+	this->hpInfo.rolledHP = ((this->getLevel(levels::rogue) * 2 + this->getLevel(levels::spellcaster) * 2 + this->getLevel(levels::warrior) * 2) + (this->getLevel(levels::rogue) * 8 + this->getLevel(levels::spellcaster) * 6 + this->getLevel(levels::warrior) * 10)) / 2;
 	this->hpInfo.tempHP = 0;
-	this->hpInfo.maxHP = 0;
-	this->hpInfo.currentHP = 0;
+	this->hpInfo.currentHP = this->getHP(0) + (this->getLevel(levels::character) * this->getMod(abilityScores::constitution));
 }

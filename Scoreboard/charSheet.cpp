@@ -74,11 +74,13 @@ void charSheet(bool* enable) {
 	int profBonus = globalChar.calcSkillProfBonus(currentSkill);
 	int totalBonus = skillScoreBonus + profBonus;
 
+	int maxHP = globalChar.getHP(0) + (globalChar.getLevel(levels::character) * globalChar.getMod(abilityScores::constitution));
+
 	// Actual menu starts here
 	ImGui::SetNextWindowSize(ImVec2(800, 800));
 	if (ImGui::Begin("Character Sheet", enable, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar)) {
 		if (ImGui::BeginChild("CharInfoChild", ImVec2(-1, 56), ImGuiChildFlags_Border)) {
-			if (ImGui::BeginTable("CharInfoTable", 4, ImGuiTableFlags_BordersInnerV)) {
+			if (ImGui::BeginTable("CharInfoTable", 4)) {
 				ImGui::TableNextColumn();
 				{
 					ImGui::Text("Player:"); ImGui::SameLine();
@@ -110,7 +112,13 @@ void charSheet(bool* enable) {
 				}
 				ImGui::TableNextColumn();
 				{
-					
+					ImGui::Text("Test:"); ImGui::SameLine();
+					ImGui::Text("PLACEHOLDER");
+
+					ImGui::PushItemWidth(-1);
+					std::string formatHPString = std::to_string(globalChar.hpInfo.currentHP) + "/" + std::to_string(maxHP) + " Hit Points";
+					ImGui::SliderInt("##CurrentHPCharSheet", &globalChar.hpInfo.currentHP, 0, maxHP, formatHPString.c_str());
+					ImGui::PopItemWidth();
 				}
 				ImGui::TableNextColumn();
 				{
