@@ -84,19 +84,14 @@ struct playerCharacter {
 	abilityScores		getSkillAbility(skills skill);
 	int					calcSkillProfBonus(skills s);
 
-	void setPName(std::string name);
-	std::string getPName();
-	void setCName(std::string name);
-	std::string getCName();
-	void initScores();
-	void setScore(abilityScores ability, int score);
-	int getScore(abilityScores ability);
-
+	void				setHP(int hp, int type);
+	int					getHP(int type);
+	void				initHitPoints();
 
 	nlohmann::json toJson() const {
 		nlohmann::json jsonObj;
-		jsonObj["charName"] = charName;
-		jsonObj["playerName"] = playerName;
+		jsonObj["charName"] = nameInfo.charName;
+		jsonObj["playerName"] = nameInfo.playerName;
 
 		nlohmann::json levelInfoJson;
 		levelInfoJson["character"] = levelInfo.at(levels::character);
@@ -114,10 +109,4 @@ struct playerCharacter {
 		return jsonObj;
 	}
 
-};
-
-// Functions
-	void				setHP(int hp, int type);
-	int					getHP(int type);
-	void				initHitPoints();
 };
