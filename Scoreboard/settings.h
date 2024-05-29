@@ -1,5 +1,5 @@
 //#include "nlohmann/json.hpp"
-#include "charAttributes.h"
+#include "hpWindow.h"
 
 namespace Settings {
 	void newCharacter();
