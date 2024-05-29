@@ -1,6 +1,5 @@
 //#include "settings.h"
 #include "nlohmann/json.hpp"
-#include "settings.h"
 
 // Names
 struct names {
