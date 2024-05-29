@@ -281,7 +281,7 @@ int main(int, char**)
 
 static void ShowExampleMenuFile()
 {
-    std::string filename = "testFile";
+    std::string filename = "testFile.json";
     ImGui::MenuItem(SCOREBOARDVER, NULL, false, false);
     if (ImGui::MenuItem("New")) { Settings::newCharacter(); }
     if (ImGui::MenuItem("Open")) { Settings::loadCharacter(); }
