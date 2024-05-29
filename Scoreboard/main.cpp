@@ -184,9 +184,6 @@ int main(int, char**)
         if (bhpWindowVisible)
             hpWindow(&bhpWindowVisible);
 
-        //if (bSavingWindowVisible)
-            //ShowExampleMenuFile();
-
         if (show_demo_window)
             ImGui::ShowDemoWindow(&show_demo_window);
 

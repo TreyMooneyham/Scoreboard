@@ -108,5 +108,4 @@ struct playerCharacter {
 
 		return jsonObj;
 	}
-
 };
