@@ -284,10 +284,12 @@ int main(int, char**)
 
 static void ShowExampleMenuFile()
 {
+    playerCharacter testPC;
+    std::string filename = "testFile";
     ImGui::MenuItem(SCOREBOARDVER, NULL, false, false);
     if (ImGui::MenuItem("New")) { Settings::newCharacter(); }
     if (ImGui::MenuItem("Open")) { Settings::loadCharacter(); }
-    if (ImGui::MenuItem("Save")) { Settings::saveCharacter(); }
+    if (ImGui::MenuItem("Save")) { Settings::saveCharacter(testPC, filename); }
     if (ImGui::MenuItem("Save As..")) { Settings::saveAsCharacter(); }
 
     ImGui::Separator();
