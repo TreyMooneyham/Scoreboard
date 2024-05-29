@@ -1,4 +1,5 @@
 #include "hpWindow.h"
+#include "settings.h"
 #include "imgui/imgui.h"
 #include "imgui/imgui_internal.h"
 #include "imgui/backends/imgui_impl_win32.h"

@@ -2,6 +2,7 @@
 //#include "charAttributes.h"
 #include <fstream>
 #include <iostream>
+
 namespace Settings {
 	void newCharacter() {
 
