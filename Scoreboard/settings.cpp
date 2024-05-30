@@ -4,8 +4,13 @@
 #include <iostream>
 
 namespace Settings {
-	void newCharacter() {
+	void newCharacter(playerCharacter& pc) {
+        pc.setName("New Character", -1);
+        pc.setLevel(levels::character, 1);
 
+        pc.initScores();
+        pc.initHitPoints();
+        pc.initSkills();
 	}
 
 	void saveCharacter(playerCharacter pc) {
