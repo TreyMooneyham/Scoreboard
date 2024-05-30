@@ -153,6 +153,7 @@ int main(int, char**)
 
     globalChar.initHitPoints();
     globalChar.initSkills();
+    globalChar.initResist();
 
     // Main loop
     bool done = false;
@@ -183,6 +184,7 @@ int main(int, char**)
                 ImGui::EndMenu();
             }
             ImGui::MenuItem("Character Sheet", NULL, &bCharSheetVisible);
+            ImGui::MenuItem("Damage Calculator", NULL, &bDamageWindowVisible);
             ImGui::MenuItem("Hit Point Management", NULL, &bhpWindowVisible);
 
             ImGui::EndMainMenuBar();

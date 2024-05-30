@@ -235,6 +235,34 @@ void playerCharacter::initHitPoints() {
 	this->hpInfo.currentHP = this->getHP(0) + (this->getLevel(levels::character) * this->getMod(abilityScores::constitution));
 }
 
+void playerCharacter::setDT(resistanceTypes type, int t) {
+	this->resistInfo[type].dt = t;
+}
+
+void playerCharacter::setDR(resistanceTypes type, float r) {
+	this->resistInfo[type].dr = r;
+}
+
+void playerCharacter::setDTR(resistanceTypes type, int t, float r) {
+	this->resistInfo[type].dt = t;
+	this->resistInfo[type].dr = r;
+}
+
+void playerCharacter::initResist() {
+	for (int i = 0; i < 14; i++) {
+		this->resistInfo[(resistanceTypes)i].dt = 0;
+		this->resistInfo[(resistanceTypes)i].dr = 0.0f;
+	}
+}
+
+int playerCharacter::getDT(resistanceTypes type) {
+	return this->resistInfo[type].dt;
+}
+
+float playerCharacter::getDR(resistanceTypes type) {
+	return this->resistInfo[type].dr;
+}
+
 nlohmann::json playerCharacter::toJson() const {
 	// Create the big json
 	nlohmann::json jsonObj;

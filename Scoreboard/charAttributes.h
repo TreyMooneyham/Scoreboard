@@ -61,14 +61,31 @@ public:
 	int currentHP;
 };
 
+// Resistances
+enum class resistanceTypes {
+	mechanical,
+	bludgeoning, force, piercing, slashing,
+	nonMechanical,
+	acid, bio, cold, electricity, energy, heat, thunder, psychic
+};
+
+// Resistance struct
+struct resistance {
+	// dt is damage threshold, and dr is damage resistance
+	resistanceTypes type;
+	int dt;
+	float dr;
+};
+
 // playerCharacter holds all the information for the currently loaded character
 struct playerCharacter {
 	// Data Types
-	names							nameInfo;
-	std::map<levels, int>			levelInfo;
-	std::map<abilityScores, int>	abilities;
-	std::map<skills, skill>			skillInfo;
-	hitPoints						hpInfo;
+	names									nameInfo;
+	std::map<levels, int>					levelInfo;
+	std::map<abilityScores, int>			abilities;
+	std::map<skills, skill>					skillInfo;
+	hitPoints								hpInfo;
+	std::map<resistanceTypes, resistance>	resistInfo;
 
 	// Setters and getters
 	void				setName(std::string name, int type);
@@ -92,6 +109,13 @@ struct playerCharacter {
 	void				setHP(int hp, int type);
 	int					getHP(int type);
 	void				initHitPoints();
+
+	void				setDT(resistanceTypes type, int t);
+	void				setDR(resistanceTypes type, float r);
+	void				setDTR(resistanceTypes type, int t, float r);
+	int					getDT(resistanceTypes type);
+	float				getDR(resistanceTypes type);
+	void				initResist();
 
 	nlohmann::json		toJson() const;
 };
