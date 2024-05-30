@@ -1,3 +1,4 @@
+// Includes
 #include "hpWindow.h"
 
 void hpWindow(bool* enable) {

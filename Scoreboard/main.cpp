@@ -1,11 +1,20 @@
-#include "settings.h"
+// Includes
+#pragma once
+#include <d3d12.h>
+#include <dxgi1_4.h>
+#include <tchar.h>
+
 #include "imgui/imgui.h"
 #include "imgui/imgui_internal.h"
 #include "imgui/backends/imgui_impl_win32.h"
 #include "imgui/backends/imgui_impl_dx12.h"
-#include <d3d12.h>
-#include <dxgi1_4.h>
-#include <tchar.h>
+
+#include "charSheet.h"
+#include "hpWindow.h"
+#include "damageCalcWindow.h"
+
+#include "charAttributes.h"
+#include "settings.h"
 
 #ifdef _DEBUG
 #define DX12_ENABLE_DEBUG_LAYER
@@ -126,6 +135,7 @@ int main(int, char**)
     bool bCharSheetVisible = false;
     bool bSavingWindowVisible = false;
     bool bhpWindowVisible = false;
+    bool bDamageWindowVisible = false;
 
     // Initialize the character
     globalChar.setName("Test Character", -1);
@@ -183,6 +193,9 @@ int main(int, char**)
 
         if (bhpWindowVisible)
             hpWindow(&bhpWindowVisible);
+
+        if (bDamageWindowVisible)
+            damageCalcWindow(&bDamageWindowVisible);
 
         if (show_demo_window)
             ImGui::ShowDemoWindow(&show_demo_window);

@@ -1,7 +1,5 @@
+// Includes
 #include "settings.h"
-//#include "charAttributes.h"
-#include <fstream>
-#include <iostream>
 
 namespace Settings {
 	void newCharacter(playerCharacter& pc) {

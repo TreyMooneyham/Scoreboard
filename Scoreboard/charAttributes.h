@@ -1,4 +1,9 @@
-//#include "settings.h"
+// Includes
+#pragma once
+#include <string>
+#include <stdio.h>
+#include <map>
+
 #include "nlohmann/json.hpp"
 
 // Names

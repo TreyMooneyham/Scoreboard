@@ -5,4 +5,4 @@
 #include "charAttributes.h"
 #include "charSheet.h"
 
-void hpWindow(bool* enable);
+void damageCalcWindow(bool* enable);

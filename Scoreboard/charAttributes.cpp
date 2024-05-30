@@ -1,5 +1,4 @@
-#include <string>
-#include <stdio.h>
+// Includes
 #include "charAttributes.h"
 
 // Sets the player name for a given character

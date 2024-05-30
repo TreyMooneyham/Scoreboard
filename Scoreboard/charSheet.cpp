@@ -1,5 +1,5 @@
+// Includes
 #include "charSheet.h"
-#include <iostream>
 
 bool contains(const std::string& word, const std::string& sentence) {
 	if (word == "" || sentence == "")
