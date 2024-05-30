@@ -80,7 +80,7 @@ void damageCalcWindow(bool* enable) {
 
 			if (ImGui::BeginChild("DamageCalculatorChild", ImVec2(-1, -1), ImGuiChildFlags_Border)) {
 				ImGui::Text("Damage:");
-				ImGui::PushItemWidth((ImGui::GetWindowWidth()-24)/2);
+				ImGui::PushItemWidth((ImGui::GetWindowWidth()-23)/2);
 				ImGui::InputInt("##DamageAmount", &damageAmt, 1, 5);
 				if (damageAmt < 0)
 					damageAmt = 0;
