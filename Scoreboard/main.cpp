@@ -28,7 +28,7 @@
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib,"d3d12.lib")
 
-#define SCOREBOARDVER "Scoreboard v0.5.2a "
+#define SCOREBOARDVER "Scoreboard v0.5.5a"
 
 struct FrameContext
 {
@@ -70,7 +70,7 @@ int main(int, char**)
 {
     // Create application window
     //ImGui_ImplWin32_EnableDpiAwareness();
-    WNDCLASSEXW wc = { sizeof(wc), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(nullptr), nullptr, nullptr, nullptr, nullptr, L"ImGui Example", nullptr };
+    WNDCLASSEXW wc = { sizeof(wc), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(nullptr), nullptr, nullptr, nullptr, nullptr, L"Scoreboard Character Sheet Manager", nullptr };
     ::RegisterClassExW(&wc);
     // Need to convert the char* array into an LPWSTR for the window title for some fucked reason
     wchar_t wtext[20];
@@ -126,7 +126,7 @@ int main(int, char**)
     //IM_ASSERT(font != nullptr);
 
     // Our state
-    bool show_demo_window = true;
+    bool show_demo_window = false;
     bool show_another_window = false;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
