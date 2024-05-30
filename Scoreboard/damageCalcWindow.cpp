@@ -8,24 +8,35 @@ const char* damageTypesList[] = { "Mechanical",
                                   "Acid", "Bio", "Cold", "Electricity", "Energy", "Heat", "Thunder", "Psychic" };
 resistanceTypes currentResistance = resistanceTypes::mechanical;
 resistanceTypes currentDamage = resistanceTypes::mechanical;
+resistanceTypes currentDamage2 = resistanceTypes::mechanical;
 int currentDT = 0;
 int intDR = 0;
 float currentDR = 0.0f;
-int damageAmt = 0;
+int damageAmt = 0, damageAmt2 = 0;
 
 int damageCalc(resistanceTypes damageType, int damage) {
 	int resultDT, resultDR;
+	
+	// Checks if the damage type is mechanical or not. Because mechanical damage is special.
+	if (damageType == resistanceTypes::bludgeoning ||
+		damageType == resistanceTypes::force ||
+		damageType == resistanceTypes::piercing ||
+		damageType == resistanceTypes::slashing) {
 
-	resultDT = damage - globalChar.resistInfo[damageType].dt;
-	resultDR = damage - (damage * globalChar.resistInfo[damageType].dr);
+	}
 
-	if (resultDT < 0)
-		resultDT = 0;
+	//int resultDT, resultDR;
 
-	if (resultDT < resultDR)
-		return resultDT;
+	//resultDT = damage - globalChar.resistInfo[damageType].dt;
+	//resultDR = damage - (damage * globalChar.resistInfo[damageType].dr);
 
-	return resultDR;
+	//if (resultDT < 0)
+	//	resultDT = 0;
+
+	//if (resultDT < resultDR)
+	//	return resultDT;
+
+	//return resultDR;
 }
 
 void damageCalcWindow(bool* enable) {
@@ -80,7 +91,7 @@ void damageCalcWindow(bool* enable) {
 
 			if (ImGui::BeginChild("DamageCalculatorChild", ImVec2(-1, -1), ImGuiChildFlags_Border)) {
 				ImGui::Text("Damage:");
-				ImGui::PushItemWidth((ImGui::GetWindowWidth()-23)/2);
+				ImGui::PushItemWidth((ImGui::GetWindowWidth()-24.5)/2);
 				ImGui::InputInt("##DamageAmount", &damageAmt, 1, 5);
 				if (damageAmt < 0)
 					damageAmt = 0;
@@ -104,6 +115,34 @@ void damageCalcWindow(bool* enable) {
 				ImGui::Separator();
 
 				ImGui::Text("Result: %i", damageCalc(currentDamage, damageAmt));
+
+				ImGui::Separator();
+
+				ImGui::Text("Damage:");
+				ImGui::PushItemWidth((ImGui::GetWindowWidth() - 24.5) / 2);
+				ImGui::InputInt("##DamageAmount2", &damageAmt2, 1, 5);
+				if (damageAmt2 < 0)
+					damageAmt2 = 0;
+				ImGui::SameLine();
+				std::string damageText2 = damageTypesList[(int)currentDamage2];
+				if (ImGui::BeginCombo("##DamageType2", damageText2.c_str())) {
+					for (auto& it : globalChar.resistInfo) {
+						const bool selectedDamage = ((int)it.first == (int)currentDamage2);
+
+						std::string selectedDamageText = damageTypesList[(int)it.first];
+						ImGui::PushID((int)it.first);
+						if (ImGui::Selectable(selectedDamageText.c_str(), selectedDamage))
+							currentDamage2 = it.first;
+
+						ImGui::PopID();
+					}
+					ImGui::EndCombo();
+				}
+				ImGui::PopItemWidth();
+
+				ImGui::Separator();
+
+				ImGui::Text("Result: %i", damageCalc(currentDamage2, damageAmt2));
 
 				ImGui::EndChild();
 			}
