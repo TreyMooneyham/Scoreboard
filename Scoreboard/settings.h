@@ -2,8 +2,8 @@
 #include "hpWindow.h"
 
 namespace Settings {
-	void newCharacter();
-	void saveCharacter(playerCharacter pc, std::string filename);
-	void saveAsCharacter();
-	void loadCharacter();
+	void newCharacter(playerCharacter& pc);
+	void saveCharacter(playerCharacter pc);
+	void saveAsCharacter(playerCharacter pc);
+	void loadCharacter(playerCharacter& pc);
 }

@@ -88,24 +88,5 @@ struct playerCharacter {
 	int					getHP(int type);
 	void				initHitPoints();
 
-	nlohmann::json toJson() const {
-		nlohmann::json jsonObj;
-		jsonObj["charName"] = nameInfo.charName;
-		jsonObj["playerName"] = nameInfo.playerName;
-
-		nlohmann::json levelInfoJson;
-		levelInfoJson["character"] = levelInfo.at(levels::character);
-		jsonObj["levelInfo"] = levelInfoJson;
-
-		nlohmann::json abilitiesJson;
-		abilitiesJson["strength"] = abilities.at(abilityScores::strength);
-		abilitiesJson["dexterity"] = abilities.at(abilityScores::dexterity);
-		abilitiesJson["constitution"] = abilities.at(abilityScores::constitution);
-		abilitiesJson["intelligence"] = abilities.at(abilityScores::intelligence);
-		abilitiesJson["wisdom"] = abilities.at(abilityScores::wisdom);
-		abilitiesJson["charisma"] = abilities.at(abilityScores::charisma);
-		jsonObj["abilities"] = abilitiesJson;
-
-		return jsonObj;
-	}
+	nlohmann::json		toJson() const;
 };
