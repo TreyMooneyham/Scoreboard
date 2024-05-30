@@ -235,3 +235,92 @@ void playerCharacter::initHitPoints() {
 	this->hpInfo.tempHP = 0;
 	this->hpInfo.currentHP = this->getHP(0) + (this->getLevel(levels::character) * this->getMod(abilityScores::constitution));
 }
+
+nlohmann::json playerCharacter::toJson() const {
+	nlohmann::json jsonObj;
+	jsonObj["charName"] = nameInfo.charName;
+	jsonObj["playerName"] = nameInfo.playerName;
+
+	nlohmann::json levelInfoJson;
+	levelInfoJson["character"] = levelInfo.at(levels::character);
+	jsonObj["levelInfo"] = levelInfoJson;
+
+	nlohmann::json abilitiesJson;
+	abilitiesJson["strength"] = abilities.at(abilityScores::strength);
+	abilitiesJson["dexterity"] = abilities.at(abilityScores::dexterity);
+	abilitiesJson["constitution"] = abilities.at(abilityScores::constitution);
+	abilitiesJson["intelligence"] = abilities.at(abilityScores::intelligence);
+	abilitiesJson["wisdom"] = abilities.at(abilityScores::wisdom);
+	abilitiesJson["charisma"] = abilities.at(abilityScores::charisma);
+	jsonObj["abilities"] = abilitiesJson;
+
+	nlohmann::json skillsJson;
+	skillsJson["acrobatics"]["profLevel"] = skillInfo.at(skills::acrobatics).profLevel;
+	skillsJson["acrobatics"]["mainAbility"] = skillInfo.at(skills::acrobatics).mainAbility;
+
+	skillsJson["animalHandling"]["profLevel"] = skillInfo.at(skills::animalHandling).profLevel;
+	skillsJson["animalHandling"]["mainAbility"] = skillInfo.at(skills::animalHandling).mainAbility;
+
+	skillsJson["arcana"]["profLevel"] = skillInfo.at(skills::arcana).profLevel;
+	skillsJson["arcana"]["mainAbility"] = skillInfo.at(skills::arcana).mainAbility;
+
+	skillsJson["athletics"]["profLevel"] = skillInfo.at(skills::athletics).profLevel;
+	skillsJson["athletics"]["mainAbility"] = skillInfo.at(skills::athletics).mainAbility;
+
+	skillsJson["crafting"]["profLevel"] = skillInfo.at(skills::crafting).profLevel;
+	skillsJson["crafting"]["mainAbility"] = skillInfo.at(skills::crafting).mainAbility;
+
+	skillsJson["deception"]["profLevel"] = skillInfo.at(skills::deception).profLevel;
+	skillsJson["deception"]["mainAbility"] = skillInfo.at(skills::deception).mainAbility;
+
+	skillsJson["history"]["profLevel"] = skillInfo.at(skills::history).profLevel;
+	skillsJson["history"]["mainAbility"] = skillInfo.at(skills::history).mainAbility;
+
+	skillsJson["insight"]["profLevel"] = skillInfo.at(skills::insight).profLevel;
+	skillsJson["insight"]["mainAbility"] = skillInfo.at(skills::insight).mainAbility;
+
+	skillsJson["intimidation"]["profLevel"] = skillInfo.at(skills::intimidation).profLevel;
+	skillsJson["intimidation"]["mainAbility"] = skillInfo.at(skills::intimidation).mainAbility;
+
+	skillsJson["investigation"]["profLevel"] = skillInfo.at(skills::investigation).profLevel;
+	skillsJson["investigation"]["mainAbility"] = skillInfo.at(skills::investigation).mainAbility;
+
+	skillsJson["medicine"]["profLevel"] = skillInfo.at(skills::medicine).profLevel;
+	skillsJson["medicine"]["mainAbility"] = skillInfo.at(skills::medicine).mainAbility;
+
+	skillsJson["nature"]["profLevel"] = skillInfo.at(skills::nature).profLevel;
+	skillsJson["nature"]["mainAbility"] = skillInfo.at(skills::nature).mainAbility;
+
+	skillsJson["perception"]["profLevel"] = skillInfo.at(skills::perception).profLevel;
+	skillsJson["perception"]["mainAbility"] = skillInfo.at(skills::perception).mainAbility;
+
+	skillsJson["performance"]["profLevel"] = skillInfo.at(skills::performance).profLevel;
+	skillsJson["performance"]["mainAbility"] = skillInfo.at(skills::performance).mainAbility;
+
+	skillsJson["persuasion"]["profLevel"] = skillInfo.at(skills::persuasion).profLevel;
+	skillsJson["persuasion"]["mainAbility"] = skillInfo.at(skills::persuasion).mainAbility;
+
+	skillsJson["religion"]["profLevel"] = skillInfo.at(skills::religion).profLevel;
+	skillsJson["religion"]["mainAbility"] = skillInfo.at(skills::religion).mainAbility;
+
+	skillsJson["sleightOfHand"]["profLevel"] = skillInfo.at(skills::sleightOfHand).profLevel;
+	skillsJson["sleightOfHand"]["mainAbility"] = skillInfo.at(skills::sleightOfHand).mainAbility;
+
+	skillsJson["stealth"]["profLevel"] = skillInfo.at(skills::stealth).profLevel;
+	skillsJson["stealth"]["mainAbility"] = skillInfo.at(skills::stealth).mainAbility;
+
+	skillsJson["survival"]["profLevel"] = skillInfo.at(skills::survival).profLevel;
+	skillsJson["survival"]["mainAbility"] = skillInfo.at(skills::survival).mainAbility;
+
+	jsonObj["skills"] = skillsJson;
+
+	nlohmann::json hpJson;
+	hpJson["rolledHP"] = hpInfo.rolledHP;
+	hpJson["tempHP"] = hpInfo.tempHP;
+	hpJson["currentHP"] = hpInfo.currentHP;
+	jsonObj["hp"] = hpJson;
+
+
+
+	return jsonObj;
+}

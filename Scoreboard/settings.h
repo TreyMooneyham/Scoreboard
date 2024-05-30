@@ -3,7 +3,7 @@
 
 namespace Settings {
 	void newCharacter();
-	void saveCharacter(playerCharacter pc, std::string filename);
-	void saveAsCharacter();
+	void saveCharacter(playerCharacter pc);
+	void saveAsCharacter(playerCharacter pc);
 	void loadCharacter();
 }
