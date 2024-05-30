@@ -3,7 +3,6 @@
 
 // Names
 struct names {
-public:
 	std::string charName;
 	std::string playerName;
 };
@@ -41,7 +40,6 @@ enum class skills {
 };
 
 struct skill {
-public:
 	proficiencyLevels	profLevel;
 	abilityScores		mainAbility;
 
@@ -50,10 +48,35 @@ public:
 
 // Hit points
 struct hitPoints {
-public:
 	int rolledHP;
 	int tempHP;
 	int currentHP;
+};
+
+/*
+All feats:
+Name, minimum level, hit die, description
+Most feats:
+Minimum in a score, special actions/benefits
+Some feats:
+Prerequisite feat, Restricted feat (This feat cannot be taken if that feat is taken and vice versa)
+You can comfortably ignore special actions/benefits for now
+*/
+struct feat {
+	// Reqired
+	std::string				name;
+	int						id;
+	int						minLevel;
+	int						hitDie;
+	std::string				description;
+
+	// Most feats
+	int						minScore;
+	//Special shit
+
+	// Some feats
+	std::map<feat, bool>	prerequisiteFeats;
+	std::map<feat, bool>	RestrictedFeats;
 };
 
 // playerCharacter holds all the information for the currently loaded character
@@ -64,6 +87,7 @@ struct playerCharacter {
 	std::map<abilityScores, int>	abilities;
 	std::map<skills, skill>			skillInfo;
 	hitPoints						hpInfo;
+	std::map<feat, bool>			feats;
 
 	// Setters and getters
 	void				setName(std::string name, int type);
