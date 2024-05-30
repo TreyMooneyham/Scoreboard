@@ -16,27 +16,35 @@ int damageAmt = 0, damageAmt2 = 0;
 
 int damageCalc(resistanceTypes damageType, int damage) {
 	int resultDT, resultDR;
+	int resultDTMech, resultDRMech;
 	
 	// Checks if the damage type is mechanical or not. Because mechanical damage is special.
 	if (damageType == resistanceTypes::bludgeoning ||
 		damageType == resistanceTypes::force ||
 		damageType == resistanceTypes::piercing ||
 		damageType == resistanceTypes::slashing) {
+		resultDT = damage - globalChar.resistInfo[damageType].dt;
+		resultDR = damage - (damage * globalChar.resistInfo[damageType].dr);
+		resultDTMech = damage - globalChar.resistInfo[resistanceTypes::mechanical].dt;
+		resultDRMech = damage - (damage * globalChar.resistInfo[resistanceTypes::mechanical].dr);
 
+		if (resultDT > resultDTMech)
+			resultDT = resultDTMech;
+
+		if (resultDR > resultDRMech)
+			resultDR = resultDRMech;
+	} else {
+		resultDT = damage - globalChar.resistInfo[damageType].dt;
+		resultDR = damage - (damage * globalChar.resistInfo[damageType].dr);
 	}
 
-	//int resultDT, resultDR;
+	if (resultDT < 0)
+		resultDT = 0;
 
-	//resultDT = damage - globalChar.resistInfo[damageType].dt;
-	//resultDR = damage - (damage * globalChar.resistInfo[damageType].dr);
+	if (resultDT < resultDR)
+		return resultDT;
 
-	//if (resultDT < 0)
-	//	resultDT = 0;
-
-	//if (resultDT < resultDR)
-	//	return resultDT;
-
-	//return resultDR;
+	return resultDR;
 }
 
 void damageCalcWindow(bool* enable) {
