@@ -1,22 +1,22 @@
 {
     "abilities": {
-        "charisma": 8,
+        "charisma": 20,
         "constitution": 16,
         "dexterity": 18,
         "intelligence": 14,
         "strength": 30,
         "wisdom": 12
     },
-    "charName": "Test Character",
+    "charName": "AHHHHHH Character",
     "hp": {
         "currentHP": 29,
-        "rolledHP": 20,
+        "rolledHP": 10,
         "tempHP": 0
     },
     "levelInfo": {
-        "character": 3
+        "character": 4
     },
-    "playerName": "Test Character",
+    "playerName": "AHHHH Character",
     "skills": {
         "acrobatics": {
             "mainAbility": 1,

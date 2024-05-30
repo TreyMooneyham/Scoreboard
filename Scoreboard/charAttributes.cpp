@@ -237,14 +237,19 @@ void playerCharacter::initHitPoints() {
 }
 
 nlohmann::json playerCharacter::toJson() const {
+	// Create the big json
 	nlohmann::json jsonObj;
+
+	// Put the char and player names into it
 	jsonObj["charName"] = nameInfo.charName;
 	jsonObj["playerName"] = nameInfo.playerName;
 
+	// Put the relevant level information in
 	nlohmann::json levelInfoJson;
 	levelInfoJson["character"] = levelInfo.at(levels::character);
 	jsonObj["levelInfo"] = levelInfoJson;
 
+	// Put the relevant ability information in
 	nlohmann::json abilitiesJson;
 	abilitiesJson["strength"] = abilities.at(abilityScores::strength);
 	abilitiesJson["dexterity"] = abilities.at(abilityScores::dexterity);
@@ -254,6 +259,7 @@ nlohmann::json playerCharacter::toJson() const {
 	abilitiesJson["charisma"] = abilities.at(abilityScores::charisma);
 	jsonObj["abilities"] = abilitiesJson;
 
+	// Put the relevant skills information in
 	nlohmann::json skillsJson;
 	skillsJson["acrobatics"]["profLevel"] = skillInfo.at(skills::acrobatics).profLevel;
 	skillsJson["acrobatics"]["mainAbility"] = skillInfo.at(skills::acrobatics).mainAbility;
@@ -314,6 +320,7 @@ nlohmann::json playerCharacter::toJson() const {
 
 	jsonObj["skills"] = skillsJson;
 
+	// Put the relevant hp information in
 	nlohmann::json hpJson;
 	hpJson["rolledHP"] = hpInfo.rolledHP;
 	hpJson["tempHP"] = hpInfo.tempHP;

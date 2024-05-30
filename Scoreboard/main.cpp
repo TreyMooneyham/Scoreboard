@@ -283,7 +283,7 @@ static void ShowExampleMenuFile()
 {
     ImGui::MenuItem(SCOREBOARDVER, NULL, false, false);
     if (ImGui::MenuItem("New")) { Settings::newCharacter(); }
-    if (ImGui::MenuItem("Open")) { Settings::loadCharacter(); }
+    if (ImGui::MenuItem("Open")) { Settings::loadCharacter(globalChar); }
     if (ImGui::MenuItem("Save")) { Settings::saveCharacter(globalChar); }
     if (ImGui::MenuItem("Save As..")) { Settings::saveAsCharacter(globalChar); }
 

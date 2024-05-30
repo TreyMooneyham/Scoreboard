@@ -5,5 +5,5 @@ namespace Settings {
 	void newCharacter();
 	void saveCharacter(playerCharacter pc);
 	void saveAsCharacter(playerCharacter pc);
-	void loadCharacter();
+	void loadCharacter(playerCharacter& pc);
 }
