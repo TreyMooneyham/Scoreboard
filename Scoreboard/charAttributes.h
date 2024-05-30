@@ -116,6 +116,7 @@ struct playerCharacter {
 	int					getDT(resistanceTypes type);
 	float				getDR(resistanceTypes type);
 	void				initResist();
+	bool				isMech(resistanceTypes type);
 
 	nlohmann::json		toJson() const;
 };

@@ -15,27 +15,23 @@ float currentDR = 0.0f;
 int damageAmt = 0, damageAmt2 = 0;
 
 int damageCalc(resistanceTypes damageType, int damage) {
-	int resultDT, resultDR;
-	int resultDTMech, resultDRMech;
-	
-	// Checks if the damage type is mechanical or not. Because mechanical damage is special.
-	if (damageType == resistanceTypes::bludgeoning ||
-		damageType == resistanceTypes::force ||
-		damageType == resistanceTypes::piercing ||
-		damageType == resistanceTypes::slashing) {
-		resultDT = damage - globalChar.resistInfo[damageType].dt;
-		resultDR = damage - (damage * globalChar.resistInfo[damageType].dr);
-		resultDTMech = damage - globalChar.resistInfo[resistanceTypes::mechanical].dt;
-		resultDRMech = damage - (damage * globalChar.resistInfo[resistanceTypes::mechanical].dr);
+	int resultDT = damage - globalChar.resistInfo[damageType].dt;
+	int resultDR = damage - (damage * globalChar.resistInfo[damageType].dr);
+	int resultDTMech = damage - globalChar.resistInfo[resistanceTypes::mechanical].dt;
+	int resultDRMech = damage - (damage * globalChar.resistInfo[resistanceTypes::mechanical].dr);
+	int resultDTNonMech = damage - globalChar.resistInfo[resistanceTypes::nonMechanical].dt;
+	int resultDRNonMech = damage - (damage * globalChar.resistInfo[resistanceTypes::nonMechanical].dr);
 
+	if (globalChar.isMech(damageType)) {
 		if (resultDT > resultDTMech)
 			resultDT = resultDTMech;
-
 		if (resultDR > resultDRMech)
 			resultDR = resultDRMech;
 	} else {
-		resultDT = damage - globalChar.resistInfo[damageType].dt;
-		resultDR = damage - (damage * globalChar.resistInfo[damageType].dr);
+		if (resultDT > resultDTNonMech)
+			resultDT = resultDTNonMech;
+		if (resultDR > resultDRNonMech)
+			resultDR = resultDRNonMech;
 	}
 
 	if (resultDT < 0)

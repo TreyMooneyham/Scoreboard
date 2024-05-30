@@ -263,6 +263,14 @@ float playerCharacter::getDR(resistanceTypes type) {
 	return this->resistInfo[type].dr;
 }
 
+bool playerCharacter::isMech(resistanceTypes type) {
+	for (int i = 0; i < 5; i++) {
+		if ((int)type == i)
+			return true;
+	}
+	return false;
+}
+
 nlohmann::json playerCharacter::toJson() const {
 	// Create the big json
 	nlohmann::json jsonObj;
