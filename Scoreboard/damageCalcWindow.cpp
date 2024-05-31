@@ -15,12 +15,12 @@ float currentDR = 0.0f;
 int damageAmt = 0, damageAmt2 = 0;
 
 int damageCalc(resistanceTypes damageType, int damage) {
-	int resultDT = damage - globalChar.resistInfo[damageType].dt;
-	int resultDR = damage - (damage * globalChar.resistInfo[damageType].dr);
-	int resultDTMech = damage - globalChar.resistInfo[resistanceTypes::mechanical].dt;
-	int resultDRMech = damage - (damage * globalChar.resistInfo[resistanceTypes::mechanical].dr);
-	int resultDTNonMech = damage - globalChar.resistInfo[resistanceTypes::nonMechanical].dt;
-	int resultDRNonMech = damage - (damage * globalChar.resistInfo[resistanceTypes::nonMechanical].dr);
+	int resultDT =			damage - globalChar.resistInfo[damageType].dt;
+	int resultDR =			damage - (damage * globalChar.resistInfo[damageType].dr);
+	int resultDTMech =		damage - globalChar.resistInfo[resistanceTypes::mechanical].dt;
+	int resultDRMech =		damage - (damage * globalChar.resistInfo[resistanceTypes::mechanical].dr);
+	int resultDTNonMech =	damage - globalChar.resistInfo[resistanceTypes::nonMechanical].dt;
+	int resultDRNonMech =	damage - (damage * globalChar.resistInfo[resistanceTypes::nonMechanical].dr);
 
 	if (globalChar.isMech(damageType)) {
 		if (resultDT > resultDTMech)
