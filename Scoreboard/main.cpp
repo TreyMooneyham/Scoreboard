@@ -12,7 +12,7 @@
 #include "charSheet.h"
 #include "hpWindow.h"
 #include "damageCalcWindow.h"
-
+#include "levelManager.h"
 #include "charAttributes.h"
 #include "settings.h"
 
@@ -200,6 +200,9 @@ int main(int, char**)
 
         if (bDamageWindowVisible)
             damageCalcWindow(&bDamageWindowVisible);
+
+        if (bLevelManagerVisible)
+            levelManager(&bLevelManagerVisible);
 
         if (show_demo_window)
             ImGui::ShowDemoWindow(&show_demo_window);
