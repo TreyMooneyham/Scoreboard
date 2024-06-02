@@ -77,6 +77,16 @@ struct feat {
 	// Some feats
 	std::map<feat, bool>	prerequisiteFeats;
 	std::map<feat, bool>	RestrictedFeats;
+
+	// Functions
+	void setName(std::string name);
+	void setID(int id);
+	void setMinLevel(int lvl);
+	void setHitDie(int hd);
+	void setDesc(std::string desc);
+	void setMinScore(abilityScores ability, int score);
+	void featPrereq(feat reqFeat[]);
+	void featRestrict(feat resFeat[]);
 };
 
 // playerCharacter holds all the information for the currently loaded character
