@@ -72,7 +72,7 @@ struct feat {
 
 	// Most feats
 	int						minScore;
-	//Special shit
+	abilityScores			minScoreAbility;
 
 	// Some feats
 	std::map<feat, bool>	prerequisiteFeats;
@@ -85,8 +85,18 @@ struct feat {
 	void setHitDie(int hd);
 	void setDesc(std::string desc);
 	void setMinScore(abilityScores ability, int score);
-	void featPrereq(feat reqFeat[]);
-	void featRestrict(feat resFeat[]);
+	void setPrereq(feat reqFeat[]);
+	void setRestrict(feat resFeat[]);
+
+	std::string		getName();
+	int				getID();
+	int				getMinLevel();
+	int				getHitDie();
+	std::string		getDesc();
+	int				getMinScore();
+	abilityScores	getMinScoreAbility();
+	feat*			getPrereq();
+	feat*			getRestrict();
 };
 
 // playerCharacter holds all the information for the currently loaded character
