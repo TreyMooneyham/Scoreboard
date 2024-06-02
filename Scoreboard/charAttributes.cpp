@@ -1,6 +1,16 @@
 #include <string>
 #include <stdio.h>
 #include "charAttributes.h"
+#include <vector>
+
+bool feat::findFeat(int id, std::vector<int> list) {
+	for (int i = 0; i < list.size(); i++) {
+		if (list.at(i) == id) {
+			return true;
+		}
+	}
+	return false;
+}
 
 // Sets the player name for a given character
 // -1 for both, 0 for player name, and 1 for character name
@@ -327,7 +337,12 @@ nlohmann::json playerCharacter::toJson() const {
 	hpJson["currentHP"] = hpInfo.currentHP;
 	jsonObj["hp"] = hpJson;
 
-
+	nlohmann::json featsJson;
+	featsJson["count"] = this->feats.size();
+	for (int i = 0; i < this->feats.size(); ++i) {
+		featsJson[std::to_string(i)] += this->feats.at(i);
+	}
+	jsonObj["feats"] = featsJson;
 
 	return jsonObj;
 }

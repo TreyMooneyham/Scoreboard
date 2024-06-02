@@ -1,5 +1,6 @@
 //#include "settings.h"
 #include "nlohmann/json.hpp"
+#include <vector>
 
 // Names
 struct names {
@@ -75,28 +76,10 @@ struct feat {
 	abilityScores			minScoreAbility;
 
 	// Some feats
-	std::map<feat, bool>	prerequisiteFeats;
-	std::map<feat, bool>	RestrictedFeats;
+	std::vector<int>	prerequisiteFeats;
+	std::vector<int>	RestrictedFeats;
 
-	// Functions
-	void setName(std::string name);
-	void setID(int id);
-	void setMinLevel(int lvl);
-	void setHitDie(int hd);
-	void setDesc(std::string desc);
-	void setMinScore(abilityScores ability, int score);
-	void setPrereq(feat reqFeat[]);
-	void setRestrict(feat resFeat[]);
-
-	std::string		getName();
-	int				getID();
-	int				getMinLevel();
-	int				getHitDie();
-	std::string		getDesc();
-	int				getMinScore();
-	abilityScores	getMinScoreAbility();
-	feat*			getPrereq();
-	feat*			getRestrict();
+	bool				findFeat(int id, std::vector<int> list);
 };
 
 // playerCharacter holds all the information for the currently loaded character
@@ -107,7 +90,7 @@ struct playerCharacter {
 	std::map<abilityScores, int>	abilities;
 	std::map<skills, skill>			skillInfo;
 	hitPoints						hpInfo;
-	std::map<feat, bool>			feats;
+	std::vector<int>				feats;
 
 	// Setters and getters
 	void				setName(std::string name, int type);
