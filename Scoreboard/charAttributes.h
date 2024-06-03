@@ -77,7 +77,7 @@ struct feat {
 
 	// Some feats
 	std::vector<int>	prerequisiteFeats;
-	std::vector<int>	RestrictedFeats;
+	std::vector<int>	restrictedFeats;
 
 	bool				findFeat(int id, std::vector<int> list);
 };

@@ -148,9 +148,5 @@ namespace Settings {
         for (int i = 0; i < size; i++) {
             pc.feats.push_back(jsonObj.at("feats").at(std::to_string(i)).get<int>());
         }
-        //for (int i = 0; i < this->feats.size(); ++i) {
-        //    featsJson[std::to_string(i)] += this->feats.at(i);
-        //}
-        //jsonObj["feats"] = featsJson;
 	}
 }

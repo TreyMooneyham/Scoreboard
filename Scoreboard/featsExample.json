@@ -1,0 +1,42 @@
+{
+    "Action Surge": {
+        "id": 1,
+        "minLevel":2,
+        "hitDie": 10,
+        "desciption": "action surge dip shit",
+        "minScore": 15,
+        "minScoreAbility": [0, 1],
+        "prerequisiteFeats": [],
+        "restrictedFeats": []
+    },
+    "Rage": {
+        "id": 2,
+        "minLevel":1,
+        "hitDie": 12,
+        "desciption": "Rucking rage raggy",
+        "minScore": 15,
+        "minScoreAbility": 2,
+        "prerequisiteFeats": [],
+        "restrictedFeats": []
+    },
+    "Second Wind": {
+        "id": 3,
+        "minLevel":1,
+        "hitDie": 10,
+        "desciption": "wind",
+        "minScore": -1,
+        "minScoreAbility": -1,
+        "prerequisiteFeats": [],
+        "restrictedFeats": []
+    },
+    "Unarmored Defense": {
+        "id": 4,
+        "minLevel":1,
+        "hitDie": 8,
+        "desciption": "monk",
+        "minScore": 15,
+        "minScoreAbility": [2, 4],
+        "prerequisiteFeats": [],
+        "restrictedFeats": []
+    }
+}
