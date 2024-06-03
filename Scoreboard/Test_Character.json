@@ -1,6 +1,6 @@
 {
     "abilities": {
-        "charisma": 20,
+        "charisma": 8,
         "constitution": 16,
         "dexterity": 18,
         "intelligence": 14,
@@ -8,6 +8,11 @@
         "wisdom": 12
     },
     "charName": "Test Character",
+    "feats": {
+        "0": 1,
+        "1": 3,
+        "count": 2
+    },
     "hp": {
         "currentHP": 29,
         "rolledHP": 20,

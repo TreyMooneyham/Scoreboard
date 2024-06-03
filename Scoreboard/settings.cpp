@@ -49,7 +49,6 @@ namespace Settings {
         // Place holder for testing
         std::string filePath = "fuckshit.json";
         std::ifstream inputFile(filePath);
-        std::cout << "hello" << std::endl;
         // Load all this shit into the json
         nlohmann::json jsonObj;
         inputFile >> jsonObj;

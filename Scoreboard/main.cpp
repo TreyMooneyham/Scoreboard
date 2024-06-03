@@ -6,6 +6,8 @@
 #include <d3d12.h>
 #include <dxgi1_4.h>
 #include <tchar.h>
+// FOR TESTING ONLY
+#include <iostream>
 
 #ifdef _DEBUG
 #define DX12_ENABLE_DEBUG_LAYER
@@ -143,7 +145,27 @@ int main(int, char**)
 
     globalChar.initHitPoints();
     globalChar.initSkills();
+    // Grab the current list of feats
+    std::vector<feat> featList = initFeats();
 
+    /*
+    for (feat elem : featList) {
+        std::cout << elem.name << std::endl;
+        std::cout << elem.id << std::endl;
+        std::cout << "Min Score Abilities: ";
+        for (const auto& ability : elem.minScoreAbility) {
+            switch (ability) {
+            case abilityScores::strength: std::cout << "Strength" << std::endl; break;
+            case abilityScores::dexterity: std::cout << "Dexterity" << std::endl; break;
+            case abilityScores::constitution: std::cout << "Constitution" << std::endl; break;
+            case abilityScores::intelligence: std::cout << "Intelligence" << std::endl; break;
+            case abilityScores::wisdom: std::cout << "Wisdom" << std::endl; break;
+            case abilityScores::charisma: std::cout << "Charisma" << std::endl; break;
+            }
+        }
+        std::cout << "\n";
+    }
+    */
     // Main loop
     bool done = false;
     while (!done)

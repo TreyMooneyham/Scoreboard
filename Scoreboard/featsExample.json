@@ -38,5 +38,16 @@
         "minScoreAbility": [2, 4],
         "prerequisiteFeats": [],
         "restrictedFeats": []
+    },
+
+    "Test1": {
+        "id": 5,
+        "minLevel":1,
+        "hitDie": 8,
+        "desciption": "monk",
+        "minScore": 15,
+        "minScoreAbility": [2, 4],
+        "prerequisiteFeats": [1],
+        "restrictedFeats": [4]
     }
 }

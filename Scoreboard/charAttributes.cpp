@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include "charAttributes.h"
 #include <vector>
+#include <fstream>
+#include <iostream>
 
 bool feat::findFeat(int id, std::vector<int> list) {
 	for (int i = 0; i < list.size(); i++) {
@@ -340,9 +342,68 @@ nlohmann::json playerCharacter::toJson() const {
 	nlohmann::json featsJson;
 	featsJson["count"] = this->feats.size();
 	for (int i = 0; i < this->feats.size(); ++i) {
-		featsJson[std::to_string(i)] += this->feats.at(i);
+		featsJson[std::to_string(i)] = this->feats.at(i);
 	}
 	jsonObj["feats"] = featsJson;
 
 	return jsonObj;
+}
+
+std::vector<feat> initFeats() {
+	std::vector<feat> v;
+	std::string filePath = "featsExample.json";
+	std::ifstream inputFile(filePath);
+	// Load all this shit into the json
+	nlohmann::json jsonObj;
+	inputFile >> jsonObj;
+	inputFile.close();
+	for (auto& elem : jsonObj.items()) {
+		feat currFeat;
+		currFeat.name = elem.key();
+		currFeat.id = elem.value().at("id").get<int>();
+		currFeat.minLevel = elem.value().at("minLevel").get<int>();
+		currFeat.hitDie = elem.value().at("hitDie").get<int>();
+		currFeat.description = elem.value().at("desciption").get<std::string>();
+		currFeat.minScore = elem.value().at("minScore").get<int>();
+		auto parseSkill = [&](int num) {
+			switch (num)
+			{
+			case 0:
+				return abilityScores::strength;
+				break;
+			case 1:
+				return abilityScores::dexterity;
+				break;
+			case 2:
+				return abilityScores::constitution;
+				break;
+			case 3:
+				return abilityScores::intelligence;
+				break;
+			case 4:
+				return abilityScores::wisdom;
+				break;
+			case 5:
+				return abilityScores::charisma;
+				break;
+			default:
+				break;
+			}
+		};
+
+		if (elem.value().at("minScoreAbility").is_array()) {
+			std::vector<int> minScores = elem.value().at("minScoreAbility").get<std::vector<int>>();
+			for (int i = 0; i < minScores.size(); ++i) {
+				currFeat.minScoreAbility.push_back(parseSkill(minScores.at(i)));
+			}
+		}
+		else {
+			currFeat.minScoreAbility.push_back(parseSkill(elem.value().at("minScoreAbility").get<int>()));
+		}
+
+		currFeat.prerequisiteFeats = elem.value().at("prerequisiteFeats").get<std::vector<int>>();
+		currFeat.restrictedFeats = elem.value().at("restrictedFeats").get<std::vector<int>>();
+		v.push_back(currFeat);
+	}
+	return v;
 }

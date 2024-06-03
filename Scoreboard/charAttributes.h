@@ -65,21 +65,21 @@ You can comfortably ignore special actions/benefits for now
 */
 struct feat {
 	// Reqired
-	std::string			name;
-	int					id;
-	int					minLevel;
-	int					hitDie;
-	std::string			description;
+	std::string						name;
+	int								id;
+	int								minLevel;
+	int								hitDie;
+	std::string						description;
 
 	// Most feats
-	int					minScore;
-	abilityScores		minScoreAbility;
+	int								minScore;
+	std::vector<abilityScores>		minScoreAbility;
 
 	// Some feats
-	std::vector<int>	prerequisiteFeats;
-	std::vector<int>	restrictedFeats;
+	std::vector<int>				prerequisiteFeats;
+	std::vector<int>				restrictedFeats;
 
-	bool				findFeat(int id, std::vector<int> list);
+	bool							findFeat(int id, std::vector<int> list);
 };
 
 // playerCharacter holds all the information for the currently loaded character
@@ -117,3 +117,5 @@ struct playerCharacter {
 
 	nlohmann::json		toJson() const;
 };
+
+std::vector<feat> initFeats();
