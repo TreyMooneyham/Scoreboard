@@ -65,15 +65,15 @@ You can comfortably ignore special actions/benefits for now
 */
 struct feat {
 	// Reqired
-	std::string				name;
-	int						id;
-	int						minLevel;
-	int						hitDie;
-	std::string				description;
+	std::string			name;
+	int					id;
+	int					minLevel;
+	int					hitDie;
+	std::string			description;
 
 	// Most feats
-	int						minScore;
-	abilityScores			minScoreAbility;
+	int					minScore;
+	abilityScores		minScoreAbility;
 
 	// Some feats
 	std::vector<int>	prerequisiteFeats;
