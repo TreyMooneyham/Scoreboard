@@ -1,5 +1,11 @@
-//#include "nlohmann/json.hpp"
-#include "hpWindow.h"
+// Includes
+#pragma once
+#include <fstream>
+#include <iostream>
+
+#include "nlohmann/json.hpp"
+
+#include "charAttributes.h"
 
 namespace Settings {
 	void newCharacter(playerCharacter& pc);

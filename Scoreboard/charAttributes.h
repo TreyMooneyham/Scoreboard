@@ -1,4 +1,9 @@
-//#include "settings.h"
+// Includes
+#pragma once
+#include <string>
+#include <stdio.h>
+#include <map>
+
 #include "nlohmann/json.hpp"
 #include <vector>
 
@@ -54,6 +59,7 @@ struct hitPoints {
 	int currentHP;
 };
 
+
 /*
 All feats:
 Name, minimum level, hit die, description
@@ -81,6 +87,21 @@ struct feat {
 
 	bool							findFeat(int id, std::vector<int> list);
 };
+// Resistances
+enum class resistanceTypes {
+	mechanical,
+	bludgeoning, force, piercing, slashing,
+	nonMechanical,
+	acid, bio, cold, electricity, energy, heat, thunder, psychic
+};
+
+// Resistance struct
+struct resistance {
+	// dt is damage threshold, and dr is damage resistance
+	resistanceTypes type;
+	int dt;
+	float dr;
+};
 
 // playerCharacter holds all the information for the currently loaded character
 struct playerCharacter {
@@ -91,6 +112,8 @@ struct playerCharacter {
 	std::map<skills, skill>			skillInfo;
 	hitPoints						hpInfo;
 	std::vector<int>				feats;
+	std::map<resistanceTypes, resistance>	resistInfo;
+
 
 	// Setters and getters
 	void				setName(std::string name, int type);
@@ -114,6 +137,14 @@ struct playerCharacter {
 	void				setHP(int hp, int type);
 	int					getHP(int type);
 	void				initHitPoints();
+
+	void				setDT(resistanceTypes type, int t);
+	void				setDR(resistanceTypes type, float r);
+	void				setDTR(resistanceTypes type, int t, float r);
+	int					getDT(resistanceTypes type);
+	float				getDR(resistanceTypes type);
+	void				initResist();
+	bool				isMech(resistanceTypes type);
 
 	nlohmann::json		toJson() const;
 };

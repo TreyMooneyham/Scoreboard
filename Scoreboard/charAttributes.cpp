@@ -1,5 +1,4 @@
-#include <string>
-#include <stdio.h>
+// Includes
 #include "charAttributes.h"
 #include <vector>
 #include <fstream>
@@ -246,6 +245,42 @@ void playerCharacter::initHitPoints() {
 	this->hpInfo.rolledHP = ((this->getLevel(levels::rogue) * 2 + this->getLevel(levels::spellcaster) * 2 + this->getLevel(levels::warrior) * 2) + (this->getLevel(levels::rogue) * 8 + this->getLevel(levels::spellcaster) * 6 + this->getLevel(levels::warrior) * 10)) / 2;
 	this->hpInfo.tempHP = 0;
 	this->hpInfo.currentHP = this->getHP(0) + (this->getLevel(levels::character) * this->getMod(abilityScores::constitution));
+}
+
+void playerCharacter::setDT(resistanceTypes type, int t) {
+	this->resistInfo[type].dt = t;
+}
+
+void playerCharacter::setDR(resistanceTypes type, float r) {
+	this->resistInfo[type].dr = r;
+}
+
+void playerCharacter::setDTR(resistanceTypes type, int t, float r) {
+	this->resistInfo[type].dt = t;
+	this->resistInfo[type].dr = r;
+}
+
+void playerCharacter::initResist() {
+	for (int i = 0; i < 14; i++) {
+		this->resistInfo[(resistanceTypes)i].dt = 0;
+		this->resistInfo[(resistanceTypes)i].dr = 0.0f;
+	}
+}
+
+int playerCharacter::getDT(resistanceTypes type) {
+	return this->resistInfo[type].dt;
+}
+
+float playerCharacter::getDR(resistanceTypes type) {
+	return this->resistInfo[type].dr;
+}
+
+bool playerCharacter::isMech(resistanceTypes type) {
+	for (int i = 0; i < 5; i++) {
+		if ((int)type == i)
+			return true;
+	}
+	return false;
 }
 
 nlohmann::json playerCharacter::toJson() const {

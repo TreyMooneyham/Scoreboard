@@ -1,13 +1,22 @@
-#include "settings.h"
+// Includes
+#pragma once
+#include <d3d12.h>
+#include <dxgi1_4.h>
+#include <tchar.h>
+
 #include "imgui/imgui.h"
 #include "imgui/imgui_internal.h"
 #include "imgui/backends/imgui_impl_win32.h"
 #include "imgui/backends/imgui_impl_dx12.h"
-#include <d3d12.h>
-#include <dxgi1_4.h>
-#include <tchar.h>
 // FOR TESTING ONLY
 #include <iostream>
+
+#include "charSheet.h"
+#include "hpWindow.h"
+#include "damageCalcWindow.h"
+
+#include "charAttributes.h"
+#include "settings.h"
 
 #ifdef _DEBUG
 #define DX12_ENABLE_DEBUG_LAYER
@@ -21,7 +30,7 @@
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib,"d3d12.lib")
 
-#define SCOREBOARDVER "Scoreboard v0.5.2a "
+#define SCOREBOARDVER "Scoreboard v0.5.5a"
 
 struct FrameContext
 {
@@ -63,7 +72,7 @@ int main(int, char**)
 {
     // Create application window
     //ImGui_ImplWin32_EnableDpiAwareness();
-    WNDCLASSEXW wc = { sizeof(wc), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(nullptr), nullptr, nullptr, nullptr, nullptr, L"ImGui Example", nullptr };
+    WNDCLASSEXW wc = { sizeof(wc), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(nullptr), nullptr, nullptr, nullptr, nullptr, L"Scoreboard Character Sheet Manager", nullptr };
     ::RegisterClassExW(&wc);
     // Need to convert the char* array into an LPWSTR for the window title for some fucked reason
     wchar_t wtext[20];
@@ -119,7 +128,7 @@ int main(int, char**)
     //IM_ASSERT(font != nullptr);
 
     // Our state
-    bool show_demo_window = true;
+    bool show_demo_window = false;
     bool show_another_window = false;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
@@ -128,6 +137,7 @@ int main(int, char**)
     bool bCharSheetVisible = false;
     bool bSavingWindowVisible = false;
     bool bhpWindowVisible = false;
+    bool bDamageWindowVisible = false;
 
     // Initialize the character
     globalChar.setName("Test Character", -1);
@@ -166,6 +176,8 @@ int main(int, char**)
         std::cout << "\n";
     }
     */
+    globalChar.initResist();
+
     // Main loop
     bool done = false;
     while (!done)
@@ -195,6 +207,7 @@ int main(int, char**)
                 ImGui::EndMenu();
             }
             ImGui::MenuItem("Character Sheet", NULL, &bCharSheetVisible);
+            ImGui::MenuItem("Damage Calculator", NULL, &bDamageWindowVisible);
             ImGui::MenuItem("Hit Point Management", NULL, &bhpWindowVisible);
 
             ImGui::EndMainMenuBar();
@@ -205,6 +218,9 @@ int main(int, char**)
 
         if (bhpWindowVisible)
             hpWindow(&bhpWindowVisible);
+
+        if (bDamageWindowVisible)
+            damageCalcWindow(&bDamageWindowVisible);
 
         if (show_demo_window)
             ImGui::ShowDemoWindow(&show_demo_window);

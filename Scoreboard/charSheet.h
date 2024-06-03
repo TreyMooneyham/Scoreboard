@@ -1,4 +1,10 @@
+// Includes
+#pragma once
+#include <string>
+#include <algorithm>
+
 #include "imgui/imgui.h"
+
 #include "charAttributes.h"
 
 // Here's the global character
