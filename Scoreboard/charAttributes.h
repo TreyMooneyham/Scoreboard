@@ -60,15 +60,6 @@ struct hitPoints {
 };
 
 
-/*
-All feats:
-Name, minimum level, hit die, description
-Most feats:
-Minimum in a score, special actions/benefits
-Some feats:
-Prerequisite feat, Restricted feat (This feat cannot be taken if that feat is taken and vice versa)
-You can comfortably ignore special actions/benefits for now
-*/
 struct feat {
 	// Reqired
 	std::string						name;
@@ -87,6 +78,21 @@ struct feat {
 
 	bool							findFeat(int id, std::vector<int> list);
 };
+
+struct item {
+	std::string						name;
+	int								id;
+	double							cost; // This will be in gp
+	double							weight;
+	std::string						description;
+
+	int								minScore;
+	std::vector<abilityScores>		minScoreAbility;
+
+	int								scoreMod;
+	std::vector<abilityScores>		modifiedScores;
+};
+
 // Resistances
 enum class resistanceTypes {
 	mechanical,
@@ -113,6 +119,7 @@ struct playerCharacter {
 	hitPoints						hpInfo;
 	std::vector<int>				feats;
 	std::map<resistanceTypes, resistance>	resistInfo;
+	std::vector<int>				inventory;
 
 
 	// Setters and getters
