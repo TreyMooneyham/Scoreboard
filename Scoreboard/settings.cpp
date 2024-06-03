@@ -47,7 +47,6 @@ namespace Settings {
         // Place holder for testing
         std::string filePath = "fuckshit.json";
         std::ifstream inputFile(filePath);
-        std::cout << "hello" << std::endl;
         // Load all this shit into the json
         nlohmann::json jsonObj;
         inputFile >> jsonObj;
@@ -140,5 +139,11 @@ namespace Settings {
         pc.hpInfo.rolledHP = jsonObj.at("hp").at("rolledHP").get<int>();
         pc.hpInfo.tempHP = jsonObj.at("hp").at("tempHP").get<int>();
         pc.hpInfo.currentHP = jsonObj.at("hp").at("currentHP").get<int>();
+
+        // Parsing feat information
+        int size = jsonObj.at("feats").at("count").get<int>();
+        for (int i = 0; i < size; i++) {
+            pc.feats.push_back(jsonObj.at("feats").at(std::to_string(i)).get<int>());
+        }
 	}
 }
