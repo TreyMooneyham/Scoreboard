@@ -5,10 +5,10 @@
 #include <map>
 
 #include "nlohmann/json.hpp"
+#include <vector>
 
 // Names
 struct names {
-public:
 	std::string charName;
 	std::string playerName;
 };
@@ -46,7 +46,6 @@ enum class skills {
 };
 
 struct skill {
-public:
 	proficiencyLevels	profLevel;
 	abilityScores		mainAbility;
 
@@ -55,10 +54,37 @@ public:
 
 // Hit points
 struct hitPoints {
-public:
 	int rolledHP;
 	int tempHP;
 	int currentHP;
+};
+
+/*
+All feats:
+Name, minimum level, hit die, description
+Most feats:
+Minimum in a score, special actions/benefits
+Some feats:
+Prerequisite feat, Restricted feat (This feat cannot be taken if that feat is taken and vice versa)
+You can comfortably ignore special actions/benefits for now
+*/
+struct feat {
+	// Reqired
+	std::string			name;
+	int					id;
+	int					minLevel;
+	int					hitDie;
+	std::string			description;
+
+	// Most feats
+	int					minScore;
+	abilityScores		minScoreAbility;
+
+	// Some feats
+	std::vector<int>	prerequisiteFeats;
+	std::vector<int>	RestrictedFeats;
+
+	bool				findFeat(int id, std::vector<int> list);
 };
 
 // Resistances
@@ -86,6 +112,12 @@ struct playerCharacter {
 	std::map<skills, skill>					skillInfo;
 	hitPoints								hpInfo;
 	std::map<resistanceTypes, resistance>	resistInfo;
+	names							nameInfo;
+	std::map<levels, int>			levelInfo;
+	std::map<abilityScores, int>	abilities;
+	std::map<skills, skill>			skillInfo;
+	hitPoints						hpInfo;
+	std::vector<int>				feats;
 
 	// Setters and getters
 	void				setName(std::string name, int type);
