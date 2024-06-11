@@ -10,8 +10,8 @@ void renderLevelOptions(int level) {
 void levelManager(bool* enable) {
 	// Variables
 	const char* levelsList[] = { "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine",
-							 "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen",
-							 "Seventeen", "Eighteen", "Nineteen", "Twenty" }; // May God forgive me for my sins...
+								 "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen",
+								 "Seventeen", "Eighteen", "Nineteen", "Twenty" }; // May God forgive me for my sins...
 
 	// Window
 	ImGui::SetNextWindowSize(ImVec2(500, 500));
