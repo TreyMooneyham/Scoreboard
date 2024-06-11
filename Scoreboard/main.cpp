@@ -14,7 +14,7 @@
 #include "charSheet.h"
 #include "hpWindow.h"
 #include "damageCalcWindow.h"
-
+#include "levelManager.h"
 #include "charAttributes.h"
 #include "settings.h"
 
@@ -134,10 +134,11 @@ int main(int, char**)
 
     // Booleans for rendering the windows
     bool bMenuBarVisible = true;
-    bool bCharSheetVisible = false;
+    bool bCharSheetVisible = true;
     bool bSavingWindowVisible = false;
     bool bhpWindowVisible = false;
     bool bDamageWindowVisible = false;
+    bool bLevelManagerVisible = false;
 
     // Initialize the character
     globalChar.setName("Test Character", -1);
@@ -206,6 +207,7 @@ int main(int, char**)
                 ShowExampleMenuFile();
                 ImGui::EndMenu();
             }
+            ImGui::MenuItem("Level Manager", NULL, &bLevelManagerVisible);
             ImGui::MenuItem("Character Sheet", NULL, &bCharSheetVisible);
             ImGui::MenuItem("Damage Calculator", NULL, &bDamageWindowVisible);
             ImGui::MenuItem("Hit Point Management", NULL, &bhpWindowVisible);
@@ -221,6 +223,9 @@ int main(int, char**)
 
         if (bDamageWindowVisible)
             damageCalcWindow(&bDamageWindowVisible);
+
+        if (bLevelManagerVisible)
+            levelManager(&bLevelManagerVisible);
 
         if (show_demo_window)
             ImGui::ShowDemoWindow(&show_demo_window);
