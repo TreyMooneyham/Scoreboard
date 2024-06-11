@@ -14,30 +14,31 @@ void levelManager(bool* enable) {
 								 "Seventeen", "Eighteen", "Nineteen", "Twenty" }; // May God forgive me for my sins...
 
 	// Window
-	ImGui::SetNextWindowSize(ImVec2(500, 500));
+	ImGui::SetNextWindowSize(ImVec2(500, 395));
 	if (ImGui::Begin("Level Manager", enable, ImGuiWindowFlags_NoResize)) {
 		if (ImGui::BeginChild("LevelChild", ImVec2(160, -1), ImGuiChildFlags_Border)) {
-			for (int i = 0; i < IM_ARRAYSIZE(levelsList); i++) {
-				std::string childName = "levelSubChild" + std::to_string(i);
-				ImGui::BeginChild(childName.c_str(), ImVec2(-1, 40), ImGuiChildFlags_Border);
-				{
+			if (ImGui::BeginListBox("##LevelsListBox", ImVec2(-1, -1))) {
+				for (int i = 0; i < IM_ARRAYSIZE(levelsList); i++) {
+					bool bSelectedLevel = (selectedLevel - 1 == i);
 					std::string formatName = "Level ";
 					formatName += levelsList[i];
 
-					if (ImGui::Button(formatName.c_str(), ImVec2(-1, -1))) {
-						selectedLevel = i+1;
-					}
+					if (ImGui::Selectable(formatName.c_str(), bSelectedLevel))
+						selectedLevel = i + 1;
 				}
-				ImGui::EndChild();
+				ImGui::EndListBox();
 			}
 			ImGui::EndChild();
 		}
 		ImGui::SameLine();
+
 		if (ImGui::BeginChild("LevelSelectChild", ImVec2(-1, -1), ImGuiChildFlags_Border)) {
 			ImGui::Text("Current Level: %i", globalChar.levelInfo[levels::character]);
 			ImGui::Text("Selected Level: %i", selectedLevel);
 			
 			ImGui::Separator();
+
+			renderLevelOptions(selectedLevel);
 
 			ImGui::EndChild();
 		}
