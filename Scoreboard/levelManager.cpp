@@ -1,6 +1,7 @@
 // Includes
 #include "levelManager.h"
 
+// Variables
 int selectedLevel = 1;
 
 void renderLevelOptions(int level) {
@@ -13,7 +14,7 @@ void levelManager(bool* enable) {
 								 "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen",
 								 "Seventeen", "Eighteen", "Nineteen", "Twenty" }; // May God forgive me for my sins...
 
-	// Window
+	// The GUI
 	ImGui::SetNextWindowSize(ImVec2(500, 395));
 	if (ImGui::Begin("Level Manager", enable, ImGuiWindowFlags_NoResize)) {
 		if (ImGui::BeginChild("LevelChild", ImVec2(160, -1), ImGuiChildFlags_Border)) {
