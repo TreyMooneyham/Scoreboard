@@ -99,11 +99,11 @@ void charSheet(bool* enable) {
 					lvlLabel += std::to_string(globalChar.getLevel(levels::character));
 					if (ImGui::BeginCombo("##LevelCombo", lvlLabel.c_str())) {
 						for (int i = 0; i < IM_ARRAYSIZE(levelsList); i++) {
-							bool selectedLevel = (globalChar.levelInfo[levels::character] == i);
+							bool selectedLevel = (globalChar.levelInfo[levels::character] == i+1);
 
 							std::string lvl = levelsList[i];
 							if (ImGui::Selectable(lvl.c_str(), selectedLevel)) {
-								globalChar.setLevel(levels::character, i + 1);
+								globalChar.setLevel(levels::character, i+1);
 							}
 						}
 						ImGui::EndCombo();
@@ -117,7 +117,7 @@ void charSheet(bool* enable) {
 
 					ImGui::PushItemWidth(-1);
 					std::string formatHPString = std::to_string(globalChar.hpInfo.currentHP) + "/" + std::to_string(maxHP) + " Hit Points";
-					ImGui::SliderInt("##CurrentHPCharSheet", &globalChar.hpInfo.currentHP, 0, maxHP, formatHPString.c_str());
+					ImGui::SliderInt("##CurrentHPCharSheet", &globalChar.hpInfo.currentHP, 0 - maxHP/2, maxHP, formatHPString.c_str());
 					ImGui::PopItemWidth();
 				}
 				ImGui::TableNextColumn();
