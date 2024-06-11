@@ -94,17 +94,6 @@ enum class resistanceTypes {
 	acid, bio, cold, electricity, energy, heat, thunder, psychic
 };
 
-	bool				findFeat(int id, std::vector<int> list);
-};
-
-// Resistances
-enum class resistanceTypes {
-	mechanical,
-	bludgeoning, force, piercing, slashing,
-	nonMechanical,
-	acid, bio, cold, electricity, energy, heat, thunder, psychic
-};
-
 // Resistance struct
 struct resistance {
 	// dt is damage threshold, and dr is damage resistance
@@ -122,13 +111,7 @@ struct playerCharacter {
 	std::map<skills, skill>					skillInfo;
 	hitPoints								hpInfo;
 	std::map<resistanceTypes, resistance>	resistInfo;
-	names							nameInfo;
-	std::map<levels, int>			levelInfo;
-	std::map<abilityScores, int>	abilities;
-	std::map<skills, skill>			skillInfo;
-	hitPoints						hpInfo;
-	std::vector<int>				feats;
-	std::map<resistanceTypes, resistance>	resistInfo;
+	std::vector<int>						feats;
 
 
 	// Setters and getters
