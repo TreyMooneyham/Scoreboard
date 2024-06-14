@@ -9,14 +9,15 @@
     },
     "charName": "Test Character",
     "feats": {
-        "0": 1,
-        "1": 3,
-        "count": 2
+        "count": 0
     },
     "hp": {
         "currentHP": 29,
         "rolledHP": 20,
         "tempHP": 0
+    },
+    "inventory": {
+        "count": 0
     },
     "levelInfo": {
         "character": 3
