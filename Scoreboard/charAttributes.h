@@ -102,6 +102,23 @@ struct resistance {
 	float dr;
 };
 
+
+struct item {
+	std::string						name;
+	int								id;
+	double							cost; // This will be in gp
+	double							weight;
+	std::string						description;
+	int								count;
+
+	int								minScore;
+	std::vector<abilityScores>		minScoreAbility;
+
+	int								scoreMod;
+	std::vector<abilityScores>		modifiedScores;
+};
+
+
 // playerCharacter holds all the information for the currently loaded character
 struct playerCharacter {
 	// Data Types
@@ -112,6 +129,7 @@ struct playerCharacter {
 	hitPoints								hpInfo;
 	std::map<resistanceTypes, resistance>	resistInfo;
 	std::vector<int>						feats;
+	std::vector<item>						inventory;
 
 
 	// Setters and getters

@@ -381,6 +381,14 @@ nlohmann::json playerCharacter::toJson() const {
 	}
 	jsonObj["feats"] = featsJson;
 
+	nlohmann::json inventoryJson;
+	inventoryJson["count"] = this->inventory.size();
+	for (int i = 0; i < this->inventory.size(); ++i) {
+		inventoryJson[std::to_string(i)]["id"] = this->inventory.at(i).id;
+		inventoryJson[std::to_string(i)]["count"] = this->inventory.at(i).count;
+	}
+	jsonObj["inventory"] = inventoryJson;
+
 	return jsonObj;
 }
 
