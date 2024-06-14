@@ -167,3 +167,4 @@ struct playerCharacter {
 };
 
 std::vector<feat> initFeats();
+std::vector<item> initItems();

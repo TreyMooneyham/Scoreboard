@@ -450,3 +450,63 @@ std::vector<feat> initFeats() {
 	}
 	return v;
 }
+
+std::vector<item> initItems() {
+	std::vector<item> v;
+	std::string filePath = "inventoryExample.json";
+	std::ifstream inputFile(filePath);
+
+	nlohmann::json jsonObj;
+	inputFile >> jsonObj;
+	inputFile.close();
+	for (auto& elem : jsonObj.items()) {
+		item currItem;
+		currItem.name = elem.key();
+		currItem.id = elem.value().at("id").get<int>();
+		currItem.cost = elem.value().at("cost").get<double>();
+		currItem.weight = elem.value().at("weight").get<double>();
+		currItem.description = elem.value().at("desciption").get<std::string>();
+		currItem.count = elem.value().at("count").get<int>();
+		/*auto parseSkill = [&](int num) {
+			switch (num)
+			{
+			case 0:
+				return abilityScores::strength;
+				break;
+			case 1:
+				return abilityScores::dexterity;
+				break;
+			case 2:
+				return abilityScores::constitution;
+				break;
+			case 3:
+				return abilityScores::intelligence;
+				break;
+			case 4:
+				return abilityScores::wisdom;
+				break;
+			case 5:
+				return abilityScores::charisma;
+				break;
+			default:
+				break;
+			}
+			};
+
+		if (elem.value().at("minScoreAbility").is_array()) {
+			std::vector<int> minScores = elem.value().at("minScoreAbility").get<std::vector<int>>();
+			for (int i = 0; i < minScores.size(); ++i) {
+				currItem.minScoreAbility.push_back(parseSkill(minScores.at(i)));
+			}
+		}
+		else {
+			currItem.minScoreAbility.push_back(parseSkill(elem.value().at("minScoreAbility").get<int>()));
+		}
+
+		currItem.prerequisiteitems = elem.value().at("prerequisiteitems").get<std::vector<int>>();
+		currItem.restricteditems = elem.value().at("restricteditems").get<std::vector<int>>();
+		*/
+		v.push_back(currItem);
+	}
+	return v;
+}

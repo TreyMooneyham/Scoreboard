@@ -150,8 +150,8 @@ namespace Settings {
         size = jsonObj.at("inventory").at("count").get<int>();
         for (int i = 0; i < size; i++) {
             item theRatsAreBackInMySkinHelpMeGetThemOutIAmBeggingYouPlease;
-            theRatsAreBackInMySkinHelpMeGetThemOutIAmBeggingYouPlease.id = jsonObj.at("feats").at(std::to_string(i)).at("id").get<int>();
-            theRatsAreBackInMySkinHelpMeGetThemOutIAmBeggingYouPlease.count = jsonObj.at("feats").at(std::to_string(i)).at("count").get<int>();
+            theRatsAreBackInMySkinHelpMeGetThemOutIAmBeggingYouPlease.id = jsonObj.at("inventory").at(std::to_string(i)).at("id").get<int>();
+            theRatsAreBackInMySkinHelpMeGetThemOutIAmBeggingYouPlease.count = jsonObj.at("inventory").at(std::to_string(i)).at("count").get<int>();
             pc.inventory.push_back(theRatsAreBackInMySkinHelpMeGetThemOutIAmBeggingYouPlease);
         }
 	}

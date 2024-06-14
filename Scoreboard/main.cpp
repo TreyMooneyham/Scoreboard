@@ -158,7 +158,7 @@ int main(int, char**)
     globalChar.initSkills();
     // Grab the current list of feats
     std::vector<feat> featList = initFeats();
-
+    std::vector<item> itemList = initItems();
     /*
     for (feat elem : featList) {
         std::cout << elem.name << std::endl;

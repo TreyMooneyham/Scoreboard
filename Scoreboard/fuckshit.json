@@ -13,6 +13,17 @@
         "1": 3,
         "count": 2
     },
+    "inventory": {
+        "0":{ 
+            "id":1,
+            "count":2
+            },
+        "1":{ 
+            "id":3,
+            "count":2
+            },
+        "count": 2
+    },
     "hp": {
         "currentHP": 29,
         "rolledHP": 10,
