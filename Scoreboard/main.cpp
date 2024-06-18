@@ -30,7 +30,7 @@
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib,"d3d12.lib")
 
-#define SCOREBOARDVER "Scoreboard v0.5.5a"
+#define SCOREBOARDVER "Scoreboard v0.6.0a"
 
 struct FrameContext
 {
@@ -143,25 +143,11 @@ int main(int, char**)
     bool bLevelManagerVisible = false;
     bool bLoadCharWindowVisible = false;
     bool bSaveAsCharWindowVisible = false;
+    bool bAttribManagerVisible = false;
 
     // Initialize the character
-    //globalChar.setName("Test Character", -1);
-    //globalChar.setLevel(levels::character, 3);
-    //globalChar.setLevel(levels::rogue, 2);
-    //globalChar.setLevel(levels::spellcaster, 1);
-    //globalChar.setLevel(levels::warrior, 1);
+    Settings::newCharacter(globalChar);
 
-    //globalChar.setScore(abilityScores::strength, 30);
-    //globalChar.setScore(abilityScores::dexterity, 18);
-    //globalChar.setScore(abilityScores::constitution, 16);
-    //globalChar.setScore(abilityScores::intelligence, 14);
-    //globalChar.setScore(abilityScores::wisdom, 12);
-    //globalChar.setScore(abilityScores::charisma, 8);
-
-    globalChar.initLevels();
-    globalChar.initScores();
-    globalChar.initHitPoints();
-    globalChar.initSkills();
     // Grab the current list of feats
     std::vector<feat> featList = initFeats();
     std::vector<item> itemList = initItems();
@@ -183,7 +169,7 @@ int main(int, char**)
         std::cout << "\n";
     }
     */
-    globalChar.initResist();
+    
 
     // Main loop
     bool done = false;
@@ -230,7 +216,9 @@ int main(int, char**)
 
                 ImGui::EndMenu();
             }
-            ImGui::MenuItem("Level Manager", NULL, &bLevelManagerVisible);
+            //  TODO: Finish the actual level manager. Using an ability manager and other stuff in the mean time.
+            // ImGui::MenuItem("Level Manager", NULL, &bLevelManagerVisible);
+            ImGui::MenuItem("Attribute Manager", NULL, &bAttribManagerVisible);
             ImGui::MenuItem("Character Sheet", NULL, &bCharSheetVisible);
             ImGui::MenuItem("Damage Calculator", NULL, &bDamageWindowVisible);
             ImGui::MenuItem("Hit Point Management", NULL, &bhpWindowVisible);

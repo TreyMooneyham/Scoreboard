@@ -3,12 +3,13 @@
 
 namespace Settings {
 	void newCharacter(playerCharacter& pc) {
-        pc.setName("New Character", -1);
+        pc.setName("New Character", 1);
         pc.setLevel(levels::character, 1);
 
         pc.initScores();
         pc.initHitPoints();
         pc.initSkills();
+        pc.initResist();
 	}
 
 	void saveCharacter(playerCharacter pc) {
