@@ -93,7 +93,7 @@ void charSheet(bool* enable) {
 				strcpy_s(cNameChar, globalChar.getName(1).c_str());
 				if (ImGui::InputTextWithHint("##cNameBox", "Character name...", cNameChar, IM_ARRAYSIZE(cNameChar))) {
 					std::string cNameStr = cNameChar;
-					globalChar.setName(cNameStr, 0);
+					globalChar.setName(cNameStr, 1);
 				}
 				ImGui::PopItemWidth();
 			}
