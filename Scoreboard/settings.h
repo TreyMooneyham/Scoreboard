@@ -11,5 +11,5 @@ namespace Settings {
 	void newCharacter(playerCharacter& pc);
 	void saveCharacter(playerCharacter pc);
 	void saveAsCharacter(playerCharacter pc);
-	void loadCharacter(playerCharacter& pc);
+	void loadCharacter(playerCharacter& pc, std::string fp);
 }

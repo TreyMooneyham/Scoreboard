@@ -63,7 +63,8 @@ void CleanupDeviceD3D();
 void CreateRenderTarget();
 void CleanupRenderTarget();
 void WaitForLastSubmittedFrame();
-void ShowExampleMenuFile();
+void loadCharMenu(bool en);
+void saveAsCharMenu(bool en);
 FrameContext* WaitForNextFrameResources();
 LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -128,7 +129,7 @@ int main(int, char**)
     //IM_ASSERT(font != nullptr);
 
     // Our state
-    bool show_demo_window = false;
+    bool show_demo_window = true;
     bool show_another_window = false;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
@@ -139,6 +140,8 @@ int main(int, char**)
     bool bhpWindowVisible = false;
     bool bDamageWindowVisible = false;
     bool bLevelManagerVisible = false;
+    bool bLoadCharWindowVisible = false;
+    bool bSaveAsCharWindowVisible = false;
 
     // Initialize the character
     globalChar.setName("Test Character", -1);
@@ -204,7 +207,24 @@ int main(int, char**)
         // All our rendering functions will be here
         if (ImGui::BeginMainMenuBar()) {
             if (ImGui::BeginMenu("File")) {
-                ShowExampleMenuFile();
+                ImGui::MenuItem(SCOREBOARDVER, NULL, false, false);
+                if (ImGui::MenuItem("New")) { Settings::newCharacter(globalChar); }
+                if (ImGui::MenuItem("Open")) { bLoadCharWindowVisible = true; }
+                if (ImGui::MenuItem("Save")) { Settings::saveCharacter(globalChar); }
+                if (ImGui::MenuItem("Save As..")) { bSaveAsCharWindowVisible = true; }
+
+                ImGui::Separator();
+
+                if (ImGui::BeginMenu("ImGui Style Settings"))
+                {
+                    ImGui::ShowStyleEditor();
+                    ImGui::EndMenu();
+                }
+
+                ImGui::Separator();
+
+                if (ImGui::MenuItem("Quit", "Alt+F4")) { SendMessage(GetForegroundWindow(), WM_CLOSE, NULL, NULL); }
+
                 ImGui::EndMenu();
             }
             ImGui::MenuItem("Level Manager", NULL, &bLevelManagerVisible);
@@ -226,6 +246,9 @@ int main(int, char**)
 
         if (bLevelManagerVisible)
             levelManager(&bLevelManagerVisible);
+
+        if (bLoadCharWindowVisible)
+            loadCharMenu(bLoadCharWindowVisible);
 
         if (show_demo_window)
             ImGui::ShowDemoWindow(&show_demo_window);
@@ -322,25 +345,38 @@ int main(int, char**)
     return 0;
 }
 
-static void ShowExampleMenuFile()
-{
-    ImGui::MenuItem(SCOREBOARDVER, NULL, false, false);
-    if (ImGui::MenuItem("New")) { Settings::newCharacter(globalChar); }
-    if (ImGui::MenuItem("Open")) { Settings::loadCharacter(globalChar); }
-    if (ImGui::MenuItem("Save")) { Settings::saveCharacter(globalChar); }
-    if (ImGui::MenuItem("Save As..")) { Settings::saveAsCharacter(globalChar); }
+void loadCharMenu(bool en) {
+    ImGui::SetNextWindowSize(ImVec2(200, 500));
+    if (ImGui::Begin("Load Character", &en, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove)) {
+        std::string charName = "";
+        static char str0[128];
 
-    ImGui::Separator();
-    
-    if (ImGui::BeginMenu("ImGui Style Settings"))
-    {
-        ImGui::ShowStyleEditor();
-        ImGui::EndMenu();
+        ImGui::PushItemWidth(-1);
+        ImGui::InputTextWithHint("##FilenameBox", "Character name...", str0, IM_ARRAYSIZE(str0));
+
+        ImGui::Separator();
+
+        if (ImGui::Button("Load Character", ImVec2(-1, 0))) {
+            charName = str0;
+
+            if (charName == "")
+                return;
+
+            Settings::loadCharacter(globalChar, charName);
+            en = false;
+        }
+        ImGui::PopItemWidth();
+
+        ImGui::End();
     }
+}
 
-    ImGui::Separator();
+void saveAsCharMenu(bool* en) {
+    ImGui::SetNextWindowSize(ImVec2(100, 100));
+    if (ImGui::Begin("Save Character As", en, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove)) {
 
-    if (ImGui::MenuItem("Quit", "Alt+F4")) { SendMessage(GetForegroundWindow(), WM_CLOSE, NULL, NULL); }
+        ImGui::End();
+    }
 }
 
 bool CreateDeviceD3D(HWND hWnd)

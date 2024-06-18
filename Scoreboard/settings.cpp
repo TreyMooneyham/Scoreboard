@@ -43,9 +43,9 @@ namespace Settings {
 		}
 	}
 
-	void loadCharacter(playerCharacter& pc) {
+	void loadCharacter(playerCharacter& pc, std::string filePath) {
         // Place holder for testing
-        std::string filePath = "fuckshit.json";
+        // std::string filePath = "fuckshit.json";
         std::ifstream inputFile(filePath);
         // Load all this shit into the json
         nlohmann::json jsonObj;
