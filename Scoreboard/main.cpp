@@ -157,6 +157,7 @@ int main(int, char**)
     //globalChar.setScore(abilityScores::wisdom, 12);
     //globalChar.setScore(abilityScores::charisma, 8);
 
+    globalChar.initScores();
     globalChar.initHitPoints();
     globalChar.initSkills();
     // Grab the current list of feats
