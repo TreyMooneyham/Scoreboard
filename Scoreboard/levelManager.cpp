@@ -47,3 +47,12 @@ void levelManager(bool* enable) {
 		ImGui::End();
 	}
 }
+
+void attribManager(bool* enable) {
+	ImGui::SetNextWindowSize(ImVec2(500, 395));
+	if (ImGui::Begin("Attribute Manager", enable, ImGuiWindowFlags_NoResize)) {
+
+
+		ImGui::End();
+	}
+}

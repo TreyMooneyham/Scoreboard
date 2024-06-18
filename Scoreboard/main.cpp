@@ -238,6 +238,9 @@ int main(int, char**)
         if (bLevelManagerVisible)
             levelManager(&bLevelManagerVisible);
 
+        if (bAttribManagerVisible)
+            attribManager(&bAttribManagerVisible);
+
         if (bLoadCharWindowVisible)
             loadCharMenu(&bLoadCharWindowVisible);
 

@@ -58,6 +58,7 @@ char pNameChar[128] = "", cNameChar[128] = "", ancestryChar[128] = "", nationali
 
 void charSheet(bool* enable) {
 	// Common variables for the global character
+	// Will need to add support for conditions, bonuses, and penalties.
 	int strScore = globalChar.getScore(abilityScores::strength);
 	int strMod = globalChar.getMod(abilityScores::strength);
 	int conScore = globalChar.getScore(abilityScores::constitution);

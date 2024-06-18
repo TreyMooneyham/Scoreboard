@@ -130,7 +130,8 @@ struct playerCharacter {
 	std::map<resistanceTypes, resistance>	resistInfo;
 	std::vector<int>						feats;
 	std::vector<item>						inventory;
-
+	std::map<abilityScores, int>			abilityAdj;
+	std::map<skills, int>					skillAdj;
 
 	// Setters and getters
 	void				setName(std::string name, int type);
@@ -163,6 +164,14 @@ struct playerCharacter {
 	float				getDR(resistanceTypes type);
 	void				initResist();
 	bool				isMech(resistanceTypes type);
+
+	void				setAdj(abilityScores score, int val);
+	void				setAdj(skills skill, int val);
+	void				addAdj(abilityScores score, int val);
+	void				addAdj(skills skill, int val);
+	int					getAdj(abilityScores score);
+	int					getAdj(skills skill);
+	void				initAdj();
 
 	nlohmann::json		toJson() const;
 };

@@ -290,6 +290,51 @@ bool playerCharacter::isMech(resistanceTypes type) {
 	return false;
 }
 
+// Setter for ability adjustments
+void playerCharacter::setAdj(abilityScores score, int val) {
+	this->abilityAdj[score] = val;
+}
+
+// Setter for skill adjustments
+void playerCharacter::setAdj(skills skill, int val) {
+	this->skillAdj[skill] = val;
+}
+
+// "Setter" for adding an ability adjustment
+// Lets you add penalties and bonuses simultaneously, multiple of either, or both.
+void playerCharacter::addAdj(abilityScores score, int val) {
+	this->abilityAdj[score] += val;
+}
+
+// "Setter" for adding a skill adjustment
+// Lets you add penalties and bonuses simultaneously, multiple of either, or both.
+void playerCharacter::addAdj(skills skill, int val) {
+	this->skillAdj[skill] += val;
+}
+
+// Getter for ability adjustments
+int playerCharacter::getAdj(abilityScores score) {
+	return this->abilityAdj[score];
+}
+
+// Getter for skill adjustments
+int playerCharacter::getAdj(skills skill) {
+	return this->skillAdj[skill];
+}
+
+// Initializer for the adjustments
+void playerCharacter::initAdj() {
+	// Initializes the six ability scores
+	for (int i = 0; i < 6; i++) {
+		this->abilityAdj[(abilityScores)i] = 0;
+	}
+
+	// Initializes the 19 skills
+	for (int i = 0; i < 19; i++) {
+		this->skillAdj[(skills)i] = 0;
+	}
+}
+
 nlohmann::json playerCharacter::toJson() const {
 	// Create the big json
 	nlohmann::json jsonObj;

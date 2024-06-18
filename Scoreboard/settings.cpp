@@ -10,6 +10,7 @@ namespace Settings {
         pc.initHitPoints();
         pc.initSkills();
         pc.initResist();
+        pc.initAdj();
 	}
 
 	void saveCharacter(playerCharacter pc) {

@@ -5,4 +5,5 @@
 #include "charSheet.h"
 #include "charAttributes.h"
 
-void levelManager(bool* enable);
+void levelManager(bool* en);
+void attribManager(bool* en);
