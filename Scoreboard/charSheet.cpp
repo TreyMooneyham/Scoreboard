@@ -75,6 +75,7 @@ void charSheet(bool* enable) {
 	int skillScoreBonus = globalChar.getMod(globalChar.skillInfo[currentSkill].mainAbility);
 	int profBonus = globalChar.calcSkillProfBonus(currentSkill);
 	int totalBonus = skillScoreBonus + profBonus;
+	int skillAdjustments = globalChar.getAdj(currentSkill);
 
 	int maxHP = globalChar.getHP(0) + (globalChar.getLevel(levels::character) * globalChar.getMod(abilityScores::constitution));
 
@@ -186,12 +187,24 @@ void charSheet(bool* enable) {
 				
 			ImGui::Text(modFormat("Ability Bonus", skillScoreBonus).c_str());
 			ImGui::Text(modFormat("Proficiency Bonus", profBonus).c_str());
-			ImGui::Text(modFormat("Misc. Bonus", 0).c_str()); // TODO: Create the logic for this
+			ImGui::Text(modFormat("Misc. Bonus", skillAdjustments).c_str());
 
 			ImGui::Separator();
 
-			ImGui::Text(modFormat("Total Bonus", totalBonus).c_str());
-			ImGui::Text("Passive DC:           %i", totalBonus + 10); // Not really worth it to create a function to format this one.
+			if (totalBonus == (totalBonus + skillAdjustments)) {
+				ImGui::Text(modFormat("Total Bonus", totalBonus).c_str());
+				ImGui::Text("Passive DC:           %2i", totalBonus + 10);
+			}
+
+			if (totalBonus > (totalBonus + skillAdjustments)) {
+				ImGui::TextColored(ImVec4(0.8f, 0.0f, 0.0f, 1.0f), modFormat("Total Bonus", totalBonus + skillAdjustments).c_str());
+				ImGui::TextColored(ImVec4(0.8f, 0.0f, 0.0f, 1.0f), "Passive DC:           %2i", totalBonus + skillAdjustments + 10);
+			}
+
+			if (totalBonus < (totalBonus + skillAdjustments)) {
+				ImGui::TextColored(ImVec4(0.0f, 0.8f, 0.0f, 1.0f), modFormat("Total Bonus", totalBonus + skillAdjustments).c_str());
+				ImGui::TextColored(ImVec4(0.0f, 0.8f, 0.0f, 1.0f), "Passive DC:           %2i", totalBonus + skillAdjustments + 10);
+			}
 
 			ImGui::Separator();
 

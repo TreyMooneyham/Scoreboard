@@ -242,7 +242,35 @@ int main(int, char**)
             attribManager(&bAttribManagerVisible);
 
         if (bLoadCharWindowVisible)
-            loadCharMenu(&bLoadCharWindowVisible);
+            ImGui::OpenPopup("Load Char Box");
+
+        ImVec2 center = ImGui::GetMainViewport()->GetCenter();
+        ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
+        ImGui::SetNextWindowSize(ImVec2(200, 81));
+        if (ImGui::BeginPopupModal("Load Char Box", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
+            std::string charName = "";
+            static char str0[128];
+
+            ImGui::PushItemWidth(-1);
+            ImGui::InputTextWithHint("##FilenameBox", "Character name...", str0, IM_ARRAYSIZE(str0));
+            ImGui::PopItemWidth();
+
+            ImGui::Separator();
+
+            if (ImGui::Button("Load Character", ImVec2(90, 0))) {
+                charName = str0;
+
+                if (charName != "") {
+                    Settings::loadCharacter(globalChar, charName);
+                    ImGui::CloseCurrentPopup();
+                }
+            }
+            ImGui::SameLine();
+
+            if (ImGui::Button("Cancel", ImVec2(90, 0))) { bLoadCharWindowVisible = false; ImGui::CloseCurrentPopup(); }
+
+            ImGui::EndPopup();
+        }
 
         if (bSaveAsCharWindowVisible)
             saveAsCharMenu(&bSaveAsCharWindowVisible);
@@ -343,13 +371,22 @@ int main(int, char**)
 }
 
 void loadCharMenu(bool* en) {
-    ImGui::SetNextWindowSize(ImVec2(200, 81));
-    ImGui::SetNextWindowPos(ImVec2(ImGui::GetWindowSize().x*2 - 100, ImGui::GetWindowSize().y));
-    if (ImGui::Begin("Load Character", en, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove)) {
+    ImVec2 center = ImGui::GetMainViewport()->GetCenter();
+    ImGui::SetNextWindowPos(center);
+
+    if (ImGui::BeginPopupModal("Load Char Box", en, ImGuiWindowFlags_AlwaysAutoResize)) {
+
+        ImGui::EndPopup();
+    }
+
+    /*ImGui::SetNextWindowSize(ImVec2(200, 81)); 
+    ImVec2 center = ImGui::GetMainViewport()->GetCenter();
+    ImGui::SetNextWindowPos(center);
+
+    if (ImGui::BeginPopupModal("Load Character", en, ImGuiWindowFlags_AlwaysAutoResize)) {
         std::string charName = "";
         static char str0[128];
 
-        ImGui::PushItemWidth(-1);
         ImGui::InputTextWithHint("##FilenameBox", "Character name...", str0, IM_ARRAYSIZE(str0));
 
         ImGui::Separator();
@@ -363,9 +400,8 @@ void loadCharMenu(bool* en) {
             Settings::loadCharacter(globalChar, charName);
             *en = false;
         }
-        ImGui::PopItemWidth();
-        ImGui::End();
-    }
+        ImGui::EndPopup();
+    }*/
 }
 
 void saveAsCharMenu(bool* en) {
