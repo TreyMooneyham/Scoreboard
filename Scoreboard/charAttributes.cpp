@@ -57,6 +57,13 @@ int playerCharacter::getLevel(levels section) {
 	return this->levelInfo[section];
 }
 
+void playerCharacter::initLevels() {
+	this->levelInfo[levels::character] = 0;
+	this->levelInfo[levels::rogue] = 0;
+	this->levelInfo[levels::spellcaster] = 0;
+	this->levelInfo[levels::warrior] = 0;
+}
+
 // Initiatilizes every score to 10
 void playerCharacter::initScores() {
 	this->abilities[abilityScores::strength]		= 10;

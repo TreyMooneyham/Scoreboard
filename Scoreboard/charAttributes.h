@@ -138,6 +138,7 @@ struct playerCharacter {
 
 	void				setLevel(levels section, int level);
 	int					getLevel(levels section);
+	void				initLevels();
 
 	void				initScores();
 	void				setScore(abilityScores ability, int score);
