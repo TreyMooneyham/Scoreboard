@@ -1,6 +1,7 @@
 // Includes
 #include "hpWindow.h"
 
+// Switches between the section system (false) or just 12 hp max per level (true).
 const bool classicRoll = true;
 
 void hpWindow(bool* enable) {
