@@ -10,6 +10,6 @@
 namespace Settings {
 	void newCharacter(playerCharacter& pc);
 	void saveCharacter(playerCharacter pc);
-	void saveAsCharacter(playerCharacter pc);
+	void saveAsCharacter(playerCharacter pc, std::string fn);
 	void loadCharacter(playerCharacter& pc, std::string fp);
 }

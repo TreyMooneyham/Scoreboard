@@ -65,6 +65,7 @@ void CleanupRenderTarget();
 void WaitForLastSubmittedFrame();
 void loadCharMenu(bool* en);
 void saveAsCharMenu(bool* en);
+void abilityScoreMenu(bool* en);
 FrameContext* WaitForNextFrameResources();
 LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -252,6 +253,9 @@ int main(int, char**)
         if (bLoadCharWindowVisible)
             loadCharMenu(&bLoadCharWindowVisible);
 
+        if (bSaveAsCharWindowVisible)
+            saveAsCharMenu(&bSaveAsCharWindowVisible);
+
         if (show_demo_window)
             ImGui::ShowDemoWindow(&show_demo_window);
 
@@ -349,6 +353,7 @@ int main(int, char**)
 
 void loadCharMenu(bool* en) {
     ImGui::SetNextWindowSize(ImVec2(200, 81));
+    ImGui::SetNextWindowPos(ImVec2(ImGui::GetWindowSize().x*2 - 100, ImGui::GetWindowSize().y));
     if (ImGui::Begin("Load Character", en, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove)) {
         std::string charName = "";
         static char str0[128];
@@ -368,17 +373,38 @@ void loadCharMenu(bool* en) {
             *en = false;
         }
         ImGui::PopItemWidth();
-
         ImGui::End();
     }
 }
 
 void saveAsCharMenu(bool* en) {
-    ImGui::SetNextWindowSize(ImVec2(100, 100));
+    ImGui::SetNextWindowSize(ImVec2(200, 81));
+    ImGui::SetNextWindowPos(ImVec2(ImGui::GetWindowSize().x * 2 - 100, ImGui::GetWindowSize().y));
     if (ImGui::Begin("Save Character As", en, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove)) {
+        std::string charName = "";
+        static char str0[128];
 
+        ImGui::PushItemWidth(-1);
+        ImGui::InputTextWithHint("##FilenameBox", "Character name...", str0, IM_ARRAYSIZE(str0));
+
+        ImGui::Separator();
+
+        if (ImGui::Button("Save Character As", ImVec2(-1, 0))) {
+            charName = str0;
+
+            if (charName == "")
+                return;
+
+            Settings::saveAsCharacter(globalChar, charName);
+            *en = false;
+        }
+        ImGui::PopItemWidth();
         ImGui::End();
     }
+}
+
+void abilityScoreMenu(bool* en) {
+
 }
 
 bool CreateDeviceD3D(HWND hWnd)

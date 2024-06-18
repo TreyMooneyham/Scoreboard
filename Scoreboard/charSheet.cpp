@@ -117,7 +117,8 @@ void charSheet(bool* enable) {
 			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
-				
+
+				ImGui::Text("Haaaiiii :3");
 
 				ImGui::PopItemWidth();
 			}

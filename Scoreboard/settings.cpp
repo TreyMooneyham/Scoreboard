@@ -26,11 +26,8 @@ namespace Settings {
 		}
 	}
 
-	void saveAsCharacter(playerCharacter pc) {
+	void saveAsCharacter(playerCharacter pc, std::string filename) {
 		nlohmann::json jsonObj = pc.toJson();
-		std::string filename;
-		std::cout << "Enter a name for this file: ";
-		std::getline(std::cin, filename);
 		filename += ".json";
 		std::ofstream file(filename);
 		if (file.is_open()) {
