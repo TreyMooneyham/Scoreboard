@@ -1,0 +1,114 @@
+{
+    "abilities": {
+        "charisma": 20,
+        "constitution": 16,
+        "dexterity": 18,
+        "intelligence": 14,
+        "strength": 30,
+        "wisdom": 12
+    },
+    "charName": "AHHHHHH Character",
+    "feats": {
+        "0": 1,
+        "1": 3,
+        "count": 2
+    },
+    "hp": {
+        "currentHP": 29,
+        "rolledHP": 10,
+        "tempHP": 0
+    },
+    "inventory": {
+        "0": {
+            "count": 2,
+            "id": 1
+        },
+        "1": {
+            "count": 2,
+            "id": 3
+        },
+        "count": 2
+    },
+    "levelInfo": {
+        "character": 4
+    },
+    "playerName": "AHHHH Cter",
+    "skills": {
+        "acrobatics": {
+            "mainAbility": 1,
+            "profLevel": 0
+        },
+        "animalHandling": {
+            "mainAbility": 4,
+            "profLevel": 0
+        },
+        "arcana": {
+            "mainAbility": 3,
+            "profLevel": 0
+        },
+        "athletics": {
+            "mainAbility": 0,
+            "profLevel": 0
+        },
+        "crafting": {
+            "mainAbility": 3,
+            "profLevel": 0
+        },
+        "deception": {
+            "mainAbility": 5,
+            "profLevel": 0
+        },
+        "history": {
+            "mainAbility": 3,
+            "profLevel": 0
+        },
+        "insight": {
+            "mainAbility": 4,
+            "profLevel": 0
+        },
+        "intimidation": {
+            "mainAbility": 0,
+            "profLevel": 0
+        },
+        "investigation": {
+            "mainAbility": 3,
+            "profLevel": 0
+        },
+        "medicine": {
+            "mainAbility": 3,
+            "profLevel": 0
+        },
+        "nature": {
+            "mainAbility": 4,
+            "profLevel": 0
+        },
+        "perception": {
+            "mainAbility": 4,
+            "profLevel": 0
+        },
+        "performance": {
+            "mainAbility": 5,
+            "profLevel": 0
+        },
+        "persuasion": {
+            "mainAbility": 5,
+            "profLevel": 0
+        },
+        "religion": {
+            "mainAbility": 3,
+            "profLevel": 0
+        },
+        "sleightOfHand": {
+            "mainAbility": 1,
+            "profLevel": 0
+        },
+        "stealth": {
+            "mainAbility": 1,
+            "profLevel": 0
+        },
+        "survival": {
+            "mainAbility": 4,
+            "profLevel": 0
+        }
+    }
+}

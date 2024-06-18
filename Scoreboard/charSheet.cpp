@@ -54,6 +54,7 @@ const char* levelsList[] = { "One", "Two", "Three", "Four", "Five", "Six", "Seve
 							 "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", 
 							 "Seventeen", "Eighteen", "Nineteen", "Twenty" }; // May God forgive me for my sins...
 static char filterSkills[32];
+char pNameChar[128] = "", cNameChar[128] = "", ancestryChar[128] = "", nationalityChar[128] = "";
 
 void charSheet(bool* enable) {
 	// Common variables for the global character
@@ -79,52 +80,68 @@ void charSheet(bool* enable) {
 	// Actual menu starts here
 	ImGui::SetNextWindowSize(ImVec2(800, 800));
 	if (ImGui::Begin("Character Sheet", enable, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar)) {
-		if (ImGui::BeginChild("CharInfoChild", ImVec2(-1, 56), ImGuiChildFlags_Border)) {
-			if (ImGui::BeginTable("CharInfoTable", 4)) {
-				ImGui::TableNextColumn();
-				{
-					ImGui::Text("Player:"); ImGui::SameLine();
-					ImGui::Text(globalChar.getName(0).c_str());
-
-					ImGui::Text("Character:"); ImGui::SameLine();
-					ImGui::Text(globalChar.getName(1).c_str());
+		if (ImGui::BeginChild("CharInfoChild", ImVec2(-1, 58), ImGuiChildFlags_Border)) {
+			ImGui::Columns(4, NULL, false);
+			{
+				ImGui::PushItemWidth(-1);
+				strcpy_s(pNameChar, globalChar.getName(0).c_str());
+				if (ImGui::InputTextWithHint("##pNameBox", "Player name...", pNameChar, IM_ARRAYSIZE(pNameChar))) {
+					std::string pNameStr = pNameChar;
+					globalChar.setName(pNameStr, 0);
 				}
-				ImGui::TableNextColumn();
-				{
-					ImGui::Text("Heritage:"); ImGui::SameLine();
-					ImGui::Text("PLACEHOLDER");
 
-					ImGui::PushItemWidth(-1);
-					std::string lvlLabel = "Level: ";
-					lvlLabel += std::to_string(globalChar.getLevel(levels::character));
-					if (ImGui::BeginCombo("##LevelCombo", lvlLabel.c_str())) {
-						for (int i = 0; i < IM_ARRAYSIZE(levelsList); i++) {
-							bool selectedLevel = (globalChar.levelInfo[levels::character] == i+1);
+				strcpy_s(cNameChar, globalChar.getName(1).c_str());
+				if (ImGui::InputTextWithHint("##cNameBox", "Character name...", cNameChar, IM_ARRAYSIZE(cNameChar))) {
+					std::string cNameStr = cNameChar;
+					globalChar.setName(cNameStr, 0);
+				}
+				ImGui::PopItemWidth();
+			}
+			ImGui::NextColumn();
+			{
+				ImGui::PushItemWidth(-1);
+				//strcpy_s(pNameChar, globalChar.getName(0).c_str());
+				if (ImGui::InputTextWithHint("##ancestryBox", "Ancestry...", ancestryChar, IM_ARRAYSIZE(ancestryChar))) {
+					std::string ancestryStr = ancestryChar;
+					//globalChar.setName(pNameStr, 0);
+				}
 
-							std::string lvl = levelsList[i];
-							if (ImGui::Selectable(lvl.c_str(), selectedLevel)) {
-								globalChar.setLevel(levels::character, i+1);
-							}
+				//strcpy_s(pNameChar, globalChar.getName(0).c_str());
+				if (ImGui::InputTextWithHint("##nationBox", "Nationality...", nationalityChar, IM_ARRAYSIZE(nationalityChar))) {
+					std::string nationaityStr = nationalityChar;
+					//globalChar.setName(pNameStr, 0);
+				}
+
+				ImGui::PopItemWidth();
+			}
+			ImGui::NextColumn();
+			{
+				ImGui::PushItemWidth(-1);
+				
+
+				ImGui::PopItemWidth();
+			}
+			ImGui::NextColumn();
+			{
+				ImGui::PushItemWidth(-1);
+
+				std::string formatHPString = std::to_string(globalChar.hpInfo.currentHP) + "/" + std::to_string(maxHP) + " Hit Points";
+				ImGui::SliderInt("##CurrentHPCharSheet", &globalChar.hpInfo.currentHP, 0 - maxHP / 2, maxHP, formatHPString.c_str());
+
+				std::string lvlLabel = "Level: ";
+				lvlLabel += std::to_string(globalChar.getLevel(levels::character));
+				if (ImGui::BeginCombo("##LevelCombo", lvlLabel.c_str())) {
+					for (int i = 0; i < IM_ARRAYSIZE(levelsList); i++) {
+						bool selectedLevel = (globalChar.levelInfo[levels::character] == i + 1);
+
+						std::string lvl = levelsList[i];
+						if (ImGui::Selectable(lvl.c_str(), selectedLevel)) {
+							globalChar.setLevel(levels::character, i + 1);
 						}
-						ImGui::EndCombo();
 					}
-					ImGui::PopItemWidth();
+					ImGui::EndCombo();
 				}
-				ImGui::TableNextColumn();
-				{
-					ImGui::Text("Test:"); ImGui::SameLine();
-					ImGui::Text("PLACEHOLDER");
-
-					ImGui::PushItemWidth(-1);
-					std::string formatHPString = std::to_string(globalChar.hpInfo.currentHP) + "/" + std::to_string(maxHP) + " Hit Points";
-					ImGui::SliderInt("##CurrentHPCharSheet", &globalChar.hpInfo.currentHP, 0 - maxHP/2, maxHP, formatHPString.c_str());
-					ImGui::PopItemWidth();
-				}
-				ImGui::TableNextColumn();
-				{
-
-				}
-				ImGui::EndTable();
+				ImGui::PopItemWidth();
 			}
 			ImGui::EndChild();
 		}
