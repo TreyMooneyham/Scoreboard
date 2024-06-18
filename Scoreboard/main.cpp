@@ -63,8 +63,8 @@ void CleanupDeviceD3D();
 void CreateRenderTarget();
 void CleanupRenderTarget();
 void WaitForLastSubmittedFrame();
-void loadCharMenu(bool en);
-void saveAsCharMenu(bool en);
+void loadCharMenu(bool* en);
+void saveAsCharMenu(bool* en);
 FrameContext* WaitForNextFrameResources();
 LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
@@ -144,18 +144,18 @@ int main(int, char**)
     bool bSaveAsCharWindowVisible = false;
 
     // Initialize the character
-    globalChar.setName("Test Character", -1);
-    globalChar.setLevel(levels::character, 3);
-    globalChar.setLevel(levels::rogue, 2);
-    globalChar.setLevel(levels::spellcaster, 1);
-    globalChar.setLevel(levels::warrior, 1);
+    //globalChar.setName("Test Character", -1);
+    //globalChar.setLevel(levels::character, 3);
+    //globalChar.setLevel(levels::rogue, 2);
+    //globalChar.setLevel(levels::spellcaster, 1);
+    //globalChar.setLevel(levels::warrior, 1);
 
-    globalChar.setScore(abilityScores::strength, 30);
-    globalChar.setScore(abilityScores::dexterity, 18);
-    globalChar.setScore(abilityScores::constitution, 16);
-    globalChar.setScore(abilityScores::intelligence, 14);
-    globalChar.setScore(abilityScores::wisdom, 12);
-    globalChar.setScore(abilityScores::charisma, 8);
+    //globalChar.setScore(abilityScores::strength, 30);
+    //globalChar.setScore(abilityScores::dexterity, 18);
+    //globalChar.setScore(abilityScores::constitution, 16);
+    //globalChar.setScore(abilityScores::intelligence, 14);
+    //globalChar.setScore(abilityScores::wisdom, 12);
+    //globalChar.setScore(abilityScores::charisma, 8);
 
     globalChar.initHitPoints();
     globalChar.initSkills();
@@ -248,7 +248,7 @@ int main(int, char**)
             levelManager(&bLevelManagerVisible);
 
         if (bLoadCharWindowVisible)
-            loadCharMenu(bLoadCharWindowVisible);
+            loadCharMenu(&bLoadCharWindowVisible);
 
         if (show_demo_window)
             ImGui::ShowDemoWindow(&show_demo_window);
@@ -345,9 +345,9 @@ int main(int, char**)
     return 0;
 }
 
-void loadCharMenu(bool en) {
-    ImGui::SetNextWindowSize(ImVec2(200, 500));
-    if (ImGui::Begin("Load Character", &en, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove)) {
+void loadCharMenu(bool* en) {
+    ImGui::SetNextWindowSize(ImVec2(200, 81));
+    if (ImGui::Begin("Load Character", en, ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove)) {
         std::string charName = "";
         static char str0[128];
 
@@ -363,7 +363,7 @@ void loadCharMenu(bool en) {
                 return;
 
             Settings::loadCharacter(globalChar, charName);
-            en = false;
+            *en = false;
         }
         ImGui::PopItemWidth();
 
