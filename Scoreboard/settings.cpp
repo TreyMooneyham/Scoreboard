@@ -14,6 +14,11 @@ namespace Settings {
 	void saveCharacter(playerCharacter pc) {
 		nlohmann::json jsonObj = pc.toJson();
 		std::string filename = pc.getName(1) + ".json";
+        if (filename == ".json") {
+            std::cerr << "No filename. Could not be saved." << std::endl;
+            return;
+        }
+
 		std::replace(filename.begin(), filename.end(), ' ', '_');
 		std::ofstream file (filename);
 		if (file.is_open()) {
@@ -27,6 +32,9 @@ namespace Settings {
 	}
 
 	void saveAsCharacter(playerCharacter pc, std::string filename) {
+        if (filename == "")
+            std::cerr << "No filename. Could not be saved." << std::endl;
+
 		nlohmann::json jsonObj = pc.toJson();
 		filename += ".json";
 		std::ofstream file(filename);
