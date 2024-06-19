@@ -51,8 +51,15 @@ void levelManager(bool* enable) {
 void attribManager(bool* enable) {
 	ImGui::SetNextWindowSize(ImVec2(500, 395));
 	if (ImGui::Begin("Attribute Manager", enable, ImGuiWindowFlags_NoResize)) {
+		ImGui::Text("Notice! This menu is designed for directing editing of a lot of \nvalues not normally editable. This isn't meant to look pretty, \nplay nice, or function beyond the bare minimum!");
+		ImGui::Text("This CAN break things! You have been warned!");
+		ImGui::Separator();
+		{
+			if (ImGui::BeginChild("AtribEditorChild", ImVec2(-1, -1), ImGuiChildFlags_Border)) {
 
-
+				ImGui::EndChild();
+			}
+		}
 		ImGui::End();
 	}
 }
