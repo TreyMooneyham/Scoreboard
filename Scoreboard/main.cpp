@@ -193,6 +193,9 @@ int main(int, char**)
         ImGui_ImplWin32_NewFrame();
         ImGui::NewFrame();
 
+        // This is just handy
+        ImVec2 center = ImGui::GetMainViewport()->GetCenter();
+
         // All our rendering functions will be here
         if (ImGui::BeginMainMenuBar()) {
             if (ImGui::BeginMenu("File")) {
@@ -225,7 +228,10 @@ int main(int, char**)
 
             ImGui::EndMainMenuBar();
         }
-       
+
+        if (show_demo_window)
+            ImGui::ShowDemoWindow(&show_demo_window);
+
         if (bCharSheetVisible)
             charSheet(&bCharSheetVisible);
 
@@ -242,12 +248,11 @@ int main(int, char**)
             attribManager(&bAttribManagerVisible);
 
         if (bLoadCharWindowVisible)
-            ImGui::OpenPopup("Load Char Box");
+            ImGui::OpenPopup("Load Character");
 
-        ImVec2 center = ImGui::GetMainViewport()->GetCenter();
         ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
-        ImGui::SetNextWindowSize(ImVec2(200, 81));
-        if (ImGui::BeginPopupModal("Load Char Box", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
+        ImGui::SetNextWindowSize(ImVec2(250, 81));
+        if (ImGui::BeginPopupModal("Load Character", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
             std::string charName = "";
             static char str0[128];
 
@@ -257,11 +262,12 @@ int main(int, char**)
 
             ImGui::Separator();
 
-            if (ImGui::Button("Load Character", ImVec2(90, 0))) {
+            if (ImGui::Button("Load Character", ImVec2(136, 0))) {
                 charName = str0;
 
                 if (charName != "") {
                     Settings::loadCharacter(globalChar, charName);
+                    bLoadCharWindowVisible = false;
                     ImGui::CloseCurrentPopup();
                 }
             }
@@ -273,49 +279,35 @@ int main(int, char**)
         }
 
         if (bSaveAsCharWindowVisible)
-            saveAsCharMenu(&bSaveAsCharWindowVisible);
+            ImGui::OpenPopup("Save Character As");
 
-        if (show_demo_window)
-            ImGui::ShowDemoWindow(&show_demo_window);
+        ImGui::SetNextWindowPos(center, ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
+        ImGui::SetNextWindowSize(ImVec2(250, 81));
+        if (ImGui::BeginPopupModal("Save Character As", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
+            std::string charName = "";
+            static char str0[128];
 
-        /*
-        // 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
-        if (show_demo_window)
-            ImGui::ShowDemoWindow(&show_demo_window);
+            ImGui::PushItemWidth(-1);
+            ImGui::InputTextWithHint("##FilenameBox", "Character name...", str0, IM_ARRAYSIZE(str0));
+            ImGui::PopItemWidth();
 
-        // 2. Show a simple window that we create ourselves. We use a Begin/End pair to create a named window.
-        {
-            static float f = 0.0f;
-            static int counter = 0;
+            ImGui::Separator();
 
-            ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
+            if (ImGui::Button("Save Character As", ImVec2(136, 0))) {
+                charName = str0;
 
-            ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
-            ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
-            ImGui::Checkbox("Another Window", &show_another_window);
-
-            ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
-            ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
-
-            if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
-                counter++;
+                if (charName != "") {
+                    Settings::saveAsCharacter(globalChar, charName);
+                    bSaveAsCharWindowVisible = false;
+                    ImGui::CloseCurrentPopup();
+                }
+            }
             ImGui::SameLine();
-            ImGui::Text("counter = %d", counter);
 
-            ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
-            ImGui::End();
+            if (ImGui::Button("Cancel", ImVec2(90, 0))) { bSaveAsCharWindowVisible = false; ImGui::CloseCurrentPopup(); }
+            ImGui::EndPopup();
         }
 
-        // 3. Show another simple window.
-        if (show_another_window)
-        {
-            ImGui::Begin("Another Window", &show_another_window);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
-            ImGui::Text("Hello from another window!");
-            if (ImGui::Button("Close Me"))
-                show_another_window = false;
-            ImGui::End();
-        }
-        */
 
         // Rendering
         ImGui::Render();
@@ -368,40 +360,6 @@ int main(int, char**)
     ::UnregisterClassW(wc.lpszClassName, wc.hInstance);
 
     return 0;
-}
-
-void loadCharMenu(bool* en) {
-    ImVec2 center = ImGui::GetMainViewport()->GetCenter();
-    ImGui::SetNextWindowPos(center);
-
-    if (ImGui::BeginPopupModal("Load Char Box", en, ImGuiWindowFlags_AlwaysAutoResize)) {
-
-        ImGui::EndPopup();
-    }
-
-    /*ImGui::SetNextWindowSize(ImVec2(200, 81)); 
-    ImVec2 center = ImGui::GetMainViewport()->GetCenter();
-    ImGui::SetNextWindowPos(center);
-
-    if (ImGui::BeginPopupModal("Load Character", en, ImGuiWindowFlags_AlwaysAutoResize)) {
-        std::string charName = "";
-        static char str0[128];
-
-        ImGui::InputTextWithHint("##FilenameBox", "Character name...", str0, IM_ARRAYSIZE(str0));
-
-        ImGui::Separator();
-
-        if (ImGui::Button("Load Character", ImVec2(-1, 0))) {
-            charName = str0;
-
-            if (charName == "")
-                return;
-
-            Settings::loadCharacter(globalChar, charName);
-            *en = false;
-        }
-        ImGui::EndPopup();
-    }*/
 }
 
 void saveAsCharMenu(bool* en) {
