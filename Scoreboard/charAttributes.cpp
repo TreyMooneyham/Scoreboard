@@ -356,6 +356,25 @@ void playerCharacter::initConditions() {
 	}
 }
 
+// Setter for movement
+void playerCharacter::setSpeed(movements type, int speed) {
+	this->movementInfo[type] = speed;
+}
+
+// Getter for movement
+int playerCharacter::getSpeed(movements type) {
+	return this->movementInfo[type];
+}
+
+// Initializer for movement
+void playerCharacter::initSpeeds() {
+	this->movementInfo[movements::walking] = 30;
+	this->movementInfo[movements::swimming] = 15;
+	this->movementInfo[movements::climbing] = 15;
+	this->movementInfo[movements::flying] = 0;
+	this->movementInfo[movements::burrowing] = 0;
+}
+
 nlohmann::json playerCharacter::toJson() const {
 	// Create the big json
 	nlohmann::json jsonObj;

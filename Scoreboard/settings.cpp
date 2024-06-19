@@ -12,6 +12,7 @@ namespace Settings {
         pc.initResist();
         pc.initAdj();
         pc.initConditions();
+        pc.initSpeeds();
 	}
 
 	void saveCharacter(playerCharacter pc) {

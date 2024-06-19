@@ -139,9 +139,9 @@ enum class conditions {
 //Movement enum
 enum class movements {
 	walking,
-	flying,
 	swimming,
 	climbing,
+	flying,
 	burrowing
 };
 
