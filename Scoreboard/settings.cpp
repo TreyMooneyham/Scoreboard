@@ -11,6 +11,7 @@ namespace Settings {
         pc.initSkills();
         pc.initResist();
         pc.initAdj();
+        pc.initConditions();
 	}
 
 	void saveCharacter(playerCharacter pc) {
