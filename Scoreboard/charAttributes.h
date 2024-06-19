@@ -102,7 +102,7 @@ struct resistance {
 	float dr;
 };
 
-
+// Item struct
 struct item {
 	std::string						name;
 	int								id;
@@ -118,6 +118,40 @@ struct item {
 	std::vector<abilityScores>		modifiedScores;
 };
 
+// Conditions Enum
+// There are currently 30 conditions as of 6/19/24
+enum class conditions {
+	blinded,
+	clumsy,
+	confused,
+	controlled,
+	dazed,
+	deafened,
+	doomed,
+	drained,
+	dying,
+	stabilized,
+	encumbered,
+	enfeebled,
+	fatigued,
+	fleeing,
+	frightened,
+	grappled,
+	hidden,
+	immobilized,
+	invisible,
+	paralyzed,
+	petrified,
+	prone,
+	quickened,
+	restrained,
+	sickened,
+	slowed,
+	stunned,
+	stupefied,
+	unconscious,
+	undetected
+};
 
 // playerCharacter holds all the information for the currently loaded character
 struct playerCharacter {
