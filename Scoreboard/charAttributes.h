@@ -136,6 +136,15 @@ enum class conditions {
 	unconscious, undetected
 };
 
+//Movement enum
+enum class movements {
+	walking,
+	flying,
+	swimming,
+	climbing,
+	burrowing
+};
+
 // playerCharacter holds all the information for the currently loaded character
 struct playerCharacter {
 	// Data Types
@@ -150,6 +159,8 @@ struct playerCharacter {
 	std::map<abilityScores, int>			abilityAdj;
 	std::map<skills, int>					skillAdj;
 	std::map<conditions, int>				conditionInfo;
+	std::map<movements, int>				movementInfo;
+	
 
 	// Setters and getters
 	void				setName(std::string name, int type);
@@ -194,6 +205,10 @@ struct playerCharacter {
 	void				setCondition(conditions cond, int val);
 	int					getCondition(conditions cond);
 	void				initConditions();
+
+	void				setSpeed(movements type, int speed);
+	int					getSpeed(movements type);
+	void				initSpeeds();
 
 	nlohmann::json		toJson() const;
 };
