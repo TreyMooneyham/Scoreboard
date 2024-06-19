@@ -335,6 +335,27 @@ void playerCharacter::initAdj() {
 	}
 }
 
+// Setter for a condition
+// Takes a value, 0 is off, most are 0 or 1
+// some go higher.
+void playerCharacter::setCondition(conditions cond, int val) {
+	this->conditionInfo[cond] = val;
+}
+
+// Getter for a condition
+// returns a value, 0 is off, most are 0 or 1
+// some go higher.
+int playerCharacter::getCondition(conditions cond) {
+	return this->conditionInfo[cond];
+}
+
+// Initializer for all conditions
+void playerCharacter::initConditions() {
+	for (int i = 0; i < 30; i++) {
+		this->conditionInfo[(conditions)i] = 0;
+	}
+}
+
 nlohmann::json playerCharacter::toJson() const {
 	// Create the big json
 	nlohmann::json jsonObj;

@@ -121,36 +121,19 @@ struct item {
 // Conditions Enum
 // There are currently 30 conditions as of 6/19/24
 enum class conditions {
-	blinded,
-	clumsy,
-	confused,
-	controlled,
-	dazed,
-	deafened,
-	doomed,
-	drained,
-	dying,
-	stabilized,
-	encumbered,
-	enfeebled,
-	fatigued,
-	fleeing,
-	frightened,
+	blinded, 
+	clumsy, confused, controlled,
+	dazed, deafened, doomed, drained, dying,
+	encumbered, enfeebled,
+	fatigued, fleeing, frightened,
 	grappled,
 	hidden,
-	immobilized,
-	invisible,
-	paralyzed,
-	petrified,
-	prone,
+	immobilized, invisible,
+	paralyzed, petrified, prone,
 	quickened,
 	restrained,
-	sickened,
-	slowed,
-	stunned,
-	stupefied,
-	unconscious,
-	undetected
+	sickened, slowed, stabilized, stunned, stupefied,
+	unconscious, undetected
 };
 
 // playerCharacter holds all the information for the currently loaded character
@@ -166,6 +149,7 @@ struct playerCharacter {
 	std::vector<item>						inventory;
 	std::map<abilityScores, int>			abilityAdj;
 	std::map<skills, int>					skillAdj;
+	std::map<conditions, int>				conditionInfo;
 
 	// Setters and getters
 	void				setName(std::string name, int type);
@@ -206,6 +190,10 @@ struct playerCharacter {
 	int					getAdj(abilityScores score);
 	int					getAdj(skills skill);
 	void				initAdj();
+
+	void				setCondition(conditions cond, int val);
+	int					getCondition(conditions cond);
+	void				initConditions();
 
 	nlohmann::json		toJson() const;
 };
