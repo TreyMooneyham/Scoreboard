@@ -59,6 +59,7 @@ extern playerCharacter globalChar = playerCharacter();
 static skill idk;
 static skills currentSkill = skills::acrobatics;
 static proficiencyLevels currentProficiencyLevel = proficiencyLevels::noProficiency;
+static proficiencyLevels currentInitProficiencyLevel = proficiencyLevels::noProficiency;
 
 // Special things for ImGui to use
 const char* proficiencyLevelsList[] = { "No Proficiency", "Proficiency", "Expertise", "Mastery", "Legendary" }; // List of proficiency levels
@@ -176,11 +177,17 @@ void charSheet(bool* enable) {
 	int skillTotalBonus = skillScoreBonus + skillProfBonus;
 	int skillAdjustments = globalChar.getAdj(currentSkill);
 
+	int initiativeScoreBonus = globalChar.getMod(globalChar.skillInfo[skills::initiative].mainAbility);
+	int initiativeProfBonus = globalChar.getProfBonus(globalChar.skillInfo[skills::initiative].profLevel);
+	int initiativeTotalBonus = initiativeScoreBonus + initiativeProfBonus;
+	int initiativeAdjustments = globalChar.getAdj(skills::initiative);
+
 	// Hit points
 	int maxHP = globalChar.getHP(0) + (globalChar.getLevel(levels::character) * globalChar.getMod(abilityScores::constitution));
 
 	// Armor class
 	int currentBaseAC = globalChar.getBaseArmorClass(currentArmorType);
+
 
 	// Actual menu starts here
 	ImGui::SetNextWindowSize(ImVec2(800, 800));
@@ -347,7 +354,25 @@ void charSheet(bool* enable) {
 			}
 			ImGui::NextColumn();
 			{
+				ImGui::PushItemWidth(-1);
+				ImGui::Text("Initiative Proficiency");
+				std::string profText = proficiencyLevelsList[(int)currentInitProficiencyLevel];
+				if (ImGui::BeginCombo("##InitiativeProf", profText.c_str())) {
+					for (int n = 0; n < IM_ARRAYSIZE(proficiencyLevelsList); n++) {
+						const bool selectedProf = (currentInitProficiencyLevel == (proficiencyLevels)n);
 
+						std::string profName = proficiencyLevelsList[n];
+						if (ImGui::Selectable(profName.c_str(), selectedProf)) {
+							currentInitProficiencyLevel = (proficiencyLevels)n;
+							globalChar.setSkillProficiency(skills::initiative, currentInitProficiencyLevel);
+						}
+					}
+
+					ImGui::EndCombo();
+				}
+				std::string initiativeStr = "Initiative Bonus";
+				ImGui::Text(modFormat(initiativeStr, initiativeTotalBonus).c_str());
+				ImGui::PopItemWidth();
 			}
 			ImGui::NextColumn();
 			{
@@ -396,7 +421,6 @@ void charSheet(bool* enable) {
 				ImGui::EndCombo();
 			}
 
-			// Add this back in the level up menu, whenever we get around to that.
 			std::string profText = proficiencyLevelsList[(int)currentProficiencyLevel];
 			if (ImGui::BeginCombo("##ProfLevels", profText.c_str())) {
 				for (int n = 0; n < IM_ARRAYSIZE(proficiencyLevelsList); n++) {
