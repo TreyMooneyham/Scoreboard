@@ -288,7 +288,7 @@ void charSheet(bool* enable) {
 
 		ImGui::SameLine();
 
-		if (ImGui::BeginChild("ImportantFeatures", ImVec2(-1, 170), ImGuiChildFlags_Border)) {
+		if (ImGui::BeginChild("##ImportantFeatures", ImVec2(-1, 170), ImGuiChildFlags_Border)) {
 			ImGui::Columns(3, "FeatureColumns", false);
 			{
 				ImGui::PushItemWidth(-1);
