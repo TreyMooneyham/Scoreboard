@@ -157,7 +157,6 @@ enum class savingThrows {
 
 // Saving throw struct
 struct savingThrow {
-	//abilityScores		mainAbility; // One day, sweet prince...
 	proficiencyLevels	profLevel;
 };
 
