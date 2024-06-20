@@ -187,7 +187,6 @@ struct playerCharacter {
 	std::map<armorTypes, armorClass>		armorInfo;
 	std::map<conditions, int>				conditionInfo;
 
-	armorTypes								equippedArmor;
 	std::vector<int>						feats;
 	std::vector<item>						inventory;
 
