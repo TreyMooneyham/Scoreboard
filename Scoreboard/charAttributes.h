@@ -156,10 +156,11 @@ struct playerCharacter {
 	std::map<resistanceTypes, resistance>	resistInfo;
 	std::vector<int>						feats;
 	std::vector<item>						inventory;
+	std::map<movements, int>				movementInfo;
 	std::map<abilityScores, int>			abilityAdj;
 	std::map<skills, int>					skillAdj;
+	std::map<movements, int>				movementAdj;
 	std::map<conditions, int>				conditionInfo;
-	std::map<movements, int>				movementInfo;
 	
 
 	// Setters and getters
@@ -196,10 +197,13 @@ struct playerCharacter {
 
 	void				setAdj(abilityScores score, int val);
 	void				setAdj(skills skill, int val);
+	void				setAdj(movements type, int val);
 	void				addAdj(abilityScores score, int val);
 	void				addAdj(skills skill, int val);
+	void				addAdj(movements type, int val);
 	int					getAdj(abilityScores score);
 	int					getAdj(skills skill);
+	int					getAdj(movements type);
 	void				initAdj();
 
 	void				setCondition(conditions cond, int val);

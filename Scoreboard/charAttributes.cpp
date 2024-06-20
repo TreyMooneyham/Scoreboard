@@ -300,6 +300,11 @@ void playerCharacter::setAdj(skills skill, int val) {
 	this->skillAdj[skill] = val;
 }
 
+// Setter for adding a movement adjustment
+void playerCharacter::setAdj(movements type, int val) {
+	this->movementAdj[type] = val;
+}
+
 // "Setter" for adding an ability adjustment
 // Lets you add penalties and bonuses simultaneously, multiple of either, or both.
 void playerCharacter::addAdj(abilityScores score, int val) {
@@ -312,6 +317,12 @@ void playerCharacter::addAdj(skills skill, int val) {
 	this->skillAdj[skill] += val;
 }
 
+// "Setter" for adding a movement adjustment
+// Lets you add penalties and bonuses simultaneously, multiple of either, or both.
+void playerCharacter::addAdj(movements type, int val) {
+	this->movementAdj[type] += val;
+}
+
 // Getter for ability adjustments
 int playerCharacter::getAdj(abilityScores score) {
 	return this->abilityAdj[score];
@@ -320,6 +331,11 @@ int playerCharacter::getAdj(abilityScores score) {
 // Getter for skill adjustments
 int playerCharacter::getAdj(skills skill) {
 	return this->skillAdj[skill];
+}
+
+// Getter for movement adjustments
+int playerCharacter::getAdj(movements type) {
+	return this->movementAdj[type];
 }
 
 // Initializer for the adjustments
@@ -332,6 +348,11 @@ void playerCharacter::initAdj() {
 	// Initializes the 19 skills
 	for (int i = 0; i < 19; i++) {
 		this->skillAdj[(skills)i] = 0;
+	}
+
+	// Initializes the five movements
+	for (int i = 0; i < 5; i++) {
+		this->movementAdj[(movements)i] = 0;
 	}
 }
 
