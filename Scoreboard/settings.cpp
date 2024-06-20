@@ -128,7 +128,7 @@ namespace Settings {
             for (auto& save : jsonObj["saves"].items()) {
                 savingThrows savesKey = (savingThrows)(std::stoi(save.key()));
                 savingThrow saveStats;
-                saveStats.mainAbility = save.value()["mainAbility"];
+                //saveStats.mainAbility = save.value()["mainAbility"];
                 saveStats.profLevel = save.value()["profLevel"];
                 pc.savesInfo[savesKey] = saveStats;
             }
