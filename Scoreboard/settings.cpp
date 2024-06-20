@@ -64,7 +64,7 @@ namespace Settings {
             std::ifstream inputFile(filePath + ".json");
 
             // Load all this shit into the json
-            nlohmann::json jsonObj;
+             nlohmann::json jsonObj;
             inputFile >> jsonObj;
             inputFile.close();
 
@@ -143,6 +143,16 @@ namespace Settings {
             for (auto& movement : jsonObj["movement"].items()) {
                 movements movementType = (movements)(std::stoi(movement.key()));
                 pc.movementInfo[movementType] = movement.value()["speed"];
+            }
+
+            // Parsing armor information
+            for (auto& armor : jsonObj["saves"].items()) {
+                armorTypes armorKey = (armorTypes)(std::stoi(armor.key()));
+                armorClass armorStats;
+                armorStats.mainAbility = armor.value()["mainAbility"];
+                armorStats.profLevel = armor.value()["profLevel"];
+                armorStats.baseAC = armor.value()["baseAC"];
+                pc.armorInfo[armorKey] = armorStats;
             }
 
             // Adjustments below here

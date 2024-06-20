@@ -629,6 +629,17 @@ nlohmann::json playerCharacter::toJson() const {
 	}
 	jsonObj["movement"] = movementJson;
 
+	// Put the relevant AC information in
+	nlohmann::json armorJson;
+	for (const auto& armor : this->armorInfo) {
+		const armorTypes& armorType = armor.first;
+		const armorClass& AC = armor.second;
+		armorJson[std::to_string(static_cast<int>(armorType))]["profLevel"] = AC.profLevel;
+		armorJson[std::to_string(static_cast<int>(armorType))]["mainAbility"] = AC.mainAbility;
+		armorJson[std::to_string(static_cast<int>(armorType))]["baseAC"] = AC.baseAC;
+	}
+	jsonObj["armor"] = armorJson;
+
 	// Rapid fire for the adjustments
 	nlohmann::json abilityAdjJson;
 	for (const auto& adjustment : this->abilityAdj) {
