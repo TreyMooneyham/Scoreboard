@@ -299,9 +299,14 @@ void playerCharacter::setAdj(skills skill, int val) {
 	this->skillAdj[skill] = val;
 }
 
-// Setter for adding a movement adjustment
+// Setter for movement adjustment
 void playerCharacter::setAdj(movements type, int val) {
 	this->movementAdj[type] = val;
+}
+
+// Setter for save adjustment
+void playerCharacter::setAdj(savingThrows save, int val) {
+	this->saveAdj[save] = val;
 }
 
 // "Setter" for adding an ability adjustment
@@ -322,6 +327,11 @@ void playerCharacter::addAdj(movements type, int val) {
 	this->movementAdj[type] += val;
 }
 
+// "Setter" for adding a save adjustment
+void playerCharacter::addAdj(savingThrows save, int val) {
+	this->saveAdj[save] += val;
+}
+
 // Getter for ability adjustments
 int playerCharacter::getAdj(abilityScores score) {
 	return this->abilityAdj[score];
@@ -335,6 +345,11 @@ int playerCharacter::getAdj(skills skill) {
 // Getter for movement adjustments
 int playerCharacter::getAdj(movements type) {
 	return this->movementAdj[type];
+}
+
+// Getter for saving throw adjustments
+int playerCharacter::getAdj(savingThrows save) {
+	return this->saveAdj[save];
 }
 
 // Initializer for the adjustments

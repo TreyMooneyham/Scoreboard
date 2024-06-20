@@ -172,6 +172,7 @@ struct playerCharacter {
 	std::map<abilityScores, int>			abilityAdj;
 	std::map<skills, int>					skillAdj;
 	std::map<movements, int>				movementAdj;
+	std::map<savingThrows, int>				saveAdj;
 	std::map<conditions, int>				conditionInfo;
 	
 
@@ -211,12 +212,15 @@ struct playerCharacter {
 	void				setAdj(abilityScores score, int val);
 	void				setAdj(skills skill, int val);
 	void				setAdj(movements type, int val);
+	void				setAdj(savingThrows save, int val);
 	void				addAdj(abilityScores score, int val);
 	void				addAdj(skills skill, int val);
 	void				addAdj(movements type, int val);
+	void				addAdj(savingThrows save, int val);
 	int					getAdj(abilityScores score);
 	int					getAdj(skills skill);
 	int					getAdj(movements type);
+	int 				getAdj(savingThrows save);
 	void				initAdj();
 
 	void				setCondition(conditions cond, int val);
