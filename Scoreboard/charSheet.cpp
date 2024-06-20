@@ -92,6 +92,9 @@ const char* conditionDefinitionList[] = {
 	"You are stunned.\nYou are prone.", 
 	"You have a +2 bonus to attack rolls against creatures you are undetected by.\nCreatures can attempt to target you by attacking a square.\nThey must succeed on a DC 11 flat check to make an attack roll against you if you are in that square."
 };
+const char* armorTypesList[] = { "Unarmored", "Light", "Medium", "Heavy" };
+const char* armorACBonuses[] = { "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen" };
+armorTypes currentArmorType = armorTypes::unarmored;
 
 void charSheet(bool* enable) {
 	// Common variables for the global character
