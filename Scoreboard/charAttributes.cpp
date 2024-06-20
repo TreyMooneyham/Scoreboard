@@ -327,6 +327,11 @@ void playerCharacter::setAdj(savingThrows save, int val) {
 	this->saveAdj[save] = val;
 }
 
+// Setter for armorClass
+void playerCharacter::setAdj(armorTypes armor, int val) {
+	this->armorAdj[armor] = val;
+}
+
 // "Setter" for adding an ability adjustment
 // Lets you add penalties and bonuses simultaneously, multiple of either, or both.
 void playerCharacter::addAdj(abilityScores score, int val) {
@@ -350,6 +355,12 @@ void playerCharacter::addAdj(savingThrows save, int val) {
 	this->saveAdj[save] += val;
 }
 
+// "Setter" for armorClass
+// Lets you add penalties and bonuses simultaneously, multiple of either, or both.
+void playerCharacter::setAdj(armorTypes armor, int val) {
+	this->armorAdj[armor] += val;
+}
+
 // Getter for ability adjustments
 int playerCharacter::getAdj(abilityScores score) {
 	return this->abilityAdj[score];
@@ -368,6 +379,11 @@ int playerCharacter::getAdj(movements type) {
 // Getter for saving throw adjustments
 int playerCharacter::getAdj(savingThrows save) {
 	return this->saveAdj[save];
+}
+
+// Getter for armor adjustments
+int playerCharacter::getAdj(armorTypes armor) {
+	return this->armorAdj[armor];
 }
 
 // Initializer for the adjustments

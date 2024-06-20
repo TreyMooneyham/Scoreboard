@@ -191,6 +191,7 @@ struct playerCharacter {
 	std::map<skills, int>					skillAdj;
 	std::map<movements, int>				movementAdj;
 	std::map<savingThrows, int>				saveAdj;
+	std::map<armorTypes, int>				armorAdj;
 	std::map<conditions, int>				conditionInfo;
 	
 	// Setters and getters
@@ -231,17 +232,17 @@ struct playerCharacter {
 	void				setAdj(skills skill, int val);
 	void				setAdj(movements type, int val);
 	void				setAdj(savingThrows save, int val);
-	void				setAdj(armorClass armor, int val);
+	void				setAdj(armorTypes armor, int val);
 	void				addAdj(abilityScores score, int val);
 	void				addAdj(skills skill, int val);
 	void				addAdj(movements type, int val);
 	void				addAdj(savingThrows save, int val);
-	void				addAdj(armorClass armor, int val);
+	void				addAdj(armorTypes armor, int val);
 	int					getAdj(abilityScores score);
 	int					getAdj(skills skill);
 	int					getAdj(movements type);
 	int 				getAdj(savingThrows save);
-	int					getAdj(armorClass armor);
+	int					getAdj(armorTypes armor);
 	void				initAdj();
 
 	void				setCondition(conditions cond, int val);
