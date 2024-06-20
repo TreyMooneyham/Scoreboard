@@ -59,8 +59,8 @@ std::string condFormat(std::string str, int bonus) {
 }
 
 template <typename T>
-void applyAdjustment(T& obj, int val) {
-	addAdj(obj, val);
+void setAdjustment(T& obj, int val) {
+	globalChar.setAdj(obj, val);
 }
 
 // Here's the global character variable
@@ -465,7 +465,7 @@ void charSheet(bool* enable) {
 							ImGui::SameLine();
 							ImGui::PopItemWidth();
 
-							if (ImGui::Button("Add Condition", ImVec2(110, 0))) {
+							if (ImGui::Button("Update Condition", ImVec2(123, 0))) {
 								globalChar.setCondition(currentCondition, condVal);
 								ImGui::CloseCurrentPopup();
 							}
@@ -477,7 +477,7 @@ void charSheet(bool* enable) {
 							}
 							ImGui::SameLine();
 
-							if (ImGui::Button("Cancel", ImVec2(86, 0)))
+							if (ImGui::Button("Cancel", ImVec2(73, 0)))
 								ImGui::CloseCurrentPopup();
 						}
 						else {
