@@ -7,6 +7,26 @@
         "strength": 10,
         "wisdom": 10
     },
+    "abilityAdjustments": {
+        "0": {
+            "adjustment": 8
+        },
+        "1": {
+            "adjustment": 0
+        },
+        "2": {
+            "adjustment": 0
+        },
+        "3": {
+            "adjustment": 0
+        },
+        "4": {
+            "adjustment": 0
+        },
+        "5": {
+            "adjustment": 0
+        }
+    },
     "charName": "New Character",
     "conditions": {
         "0": {
@@ -131,6 +151,23 @@
             "speed": 0
         }
     },
+    "movementAdjustments": {
+        "0": {
+            "adjustment": 5
+        },
+        "1": {
+            "adjustment": 0
+        },
+        "2": {
+            "adjustment": 0
+        },
+        "3": {
+            "adjustment": 0
+        },
+        "4": {
+            "adjustment": 0
+        }
+    },
     "playerName": "",
     "resistances": {
         "0": {
@@ -204,6 +241,17 @@
             "type": 0
         }
     },
+    "saveAdjustments": {
+        "0": {
+            "adjustment": 6
+        },
+        "1": {
+            "adjustment": 0
+        },
+        "2": {
+            "adjustment": 0
+        }
+    },
     "saves": {
         "0": {
             "mainAbility": 0,
@@ -216,6 +264,65 @@
         "2": {
             "mainAbility": 0,
             "profLevel": 0
+        }
+    },
+    "skillAdjustments": {
+        "0": {
+            "adjustment": 7
+        },
+        "1": {
+            "adjustment": 0
+        },
+        "10": {
+            "adjustment": 0
+        },
+        "11": {
+            "adjustment": 0
+        },
+        "12": {
+            "adjustment": 0
+        },
+        "13": {
+            "adjustment": 0
+        },
+        "14": {
+            "adjustment": 0
+        },
+        "15": {
+            "adjustment": 0
+        },
+        "16": {
+            "adjustment": 0
+        },
+        "17": {
+            "adjustment": 0
+        },
+        "18": {
+            "adjustment": 0
+        },
+        "2": {
+            "adjustment": 0
+        },
+        "3": {
+            "adjustment": 0
+        },
+        "4": {
+            "adjustment": 0
+        },
+        "5": {
+            "adjustment": 0
+        },
+        "6": {
+            "adjustment": 0
+        },
+        "7": {
+            "adjustment": 0
+        },
+        "8": {
+            "adjustment": 0
+        },
+        "9": {
+            "adjustment": 0
         }
     },
     "skills": {

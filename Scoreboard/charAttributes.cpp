@@ -443,6 +443,7 @@ int playerCharacter::getSave(savingThrows save) {
 	}
 }
 
+
 nlohmann::json playerCharacter::toJson() const {
 	// Create the big json
 	nlohmann::json jsonObj;
@@ -539,6 +540,36 @@ nlohmann::json playerCharacter::toJson() const {
 		movementJson[std::to_string(static_cast<int>(movementType))]["speed"] = speed;
 	}
 	jsonObj["movement"] = movementJson;
+
+	// Rapid fire for the adjustments
+	nlohmann::json abilityAdjJson;
+	for (const auto& adjustment : this->abilityAdj) {
+		const abilityScores& adjustmentType = adjustment.first;
+		abilityAdjJson[std::to_string(static_cast<int>(adjustmentType))]["adjustment"] = adjustment.second;
+	}
+	jsonObj["abilityAdjustments"] = abilityAdjJson;
+
+	nlohmann::json skillAdjJson;
+	for (const auto& adjustment : this->skillAdj) {
+		const skills& adjustmentType = adjustment.first;
+		skillAdjJson[std::to_string(static_cast<int>(adjustmentType))]["adjustment"] = adjustment.second;
+	}
+	jsonObj["skillAdjustments"] = skillAdjJson;
+
+	nlohmann::json movementAdjJson;
+	for (const auto& adjustment : this->movementAdj) {
+		const movements& adjustmentType = adjustment.first;
+		movementAdjJson[std::to_string(static_cast<int>(adjustmentType))]["adjustment"] = adjustment.second;
+	}
+	jsonObj["movementAdjustments"] = movementAdjJson;
+
+	nlohmann::json saveAdjJson;
+	for (const auto& adjustment : this->saveAdj) {
+		const savingThrows& adjustmentType = adjustment.first;
+		saveAdjJson[std::to_string(static_cast<int>(adjustmentType))]["adjustment"] = adjustment.second;
+	}
+	jsonObj["saveAdjustments"] = saveAdjJson;
+
 
 	return jsonObj;
 }

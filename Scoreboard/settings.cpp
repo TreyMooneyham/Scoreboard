@@ -79,72 +79,13 @@ namespace Settings {
             pc.abilities[abilityScores::charisma] = jsonObj.at("abilities").at("charisma").get<int>();
 
             // Parsing skills
-            auto parseSkill = [&](const std::string& skillName, skills skillEnum) {
-                switch (jsonObj.at("skills").at(skillName).at("profLevel").get<int>())
-                {
-                case 0:
-                    pc.skillInfo[skillEnum].profLevel = proficiencyLevels::noProficiency;
-                    break;
-                case 1:
-                    pc.skillInfo[skillEnum].profLevel = proficiencyLevels::proficiency;
-                    break;
-                case 2:
-                    pc.skillInfo[skillEnum].profLevel = proficiencyLevels::expertise;
-                    break;
-                case 3:
-                    pc.skillInfo[skillEnum].profLevel = proficiencyLevels::mastery;
-                    break;
-                case 4:
-                    pc.skillInfo[skillEnum].profLevel = proficiencyLevels::legendary;
-                    break;
-                default:
-                    break;
-                }
-
-                switch (jsonObj.at("skills").at(skillName).at("mainAbility").get<int>())
-                {
-                case 0:
-                    pc.skillInfo[skillEnum].mainAbility = abilityScores::strength;
-                    break;
-                case 1:
-                    pc.skillInfo[skillEnum].mainAbility = abilityScores::dexterity;
-                    break;
-                case 2:
-                    pc.skillInfo[skillEnum].mainAbility = abilityScores::constitution;
-                    break;
-                case 3:
-                    pc.skillInfo[skillEnum].mainAbility = abilityScores::intelligence;
-                    break;
-                case 4:
-                    pc.skillInfo[skillEnum].mainAbility = abilityScores::wisdom;
-                    break;
-                case 5:
-                    pc.skillInfo[skillEnum].mainAbility = abilityScores::charisma;
-                    break;
-                default:
-                    break;
-                }
-                };
-
-            parseSkill("acrobatics", skills::acrobatics);
-            parseSkill("animalHandling", skills::animalHandling);
-            parseSkill("arcana", skills::arcana);
-            parseSkill("athletics", skills::athletics);
-            parseSkill("crafting", skills::crafting);
-            parseSkill("deception", skills::deception);
-            parseSkill("history", skills::history);
-            parseSkill("insight", skills::insight);
-            parseSkill("intimidation", skills::intimidation);
-            parseSkill("investigation", skills::investigation);
-            parseSkill("medicine", skills::medicine);
-            parseSkill("nature", skills::nature);
-            parseSkill("perception", skills::perception);
-            parseSkill("performance", skills::performance);
-            parseSkill("persuasion", skills::persuasion);
-            parseSkill("religion", skills::religion);
-            parseSkill("sleightOfHand", skills::sleightOfHand);
-            parseSkill("stealth", skills::stealth);
-            parseSkill("survival", skills::survival);
+            for (auto& pissman : jsonObj["skills"].items()) {
+                skills skillsKey = (skills)(std::stoi(pissman.key()));
+                skill skillStats;
+                skillStats.mainAbility = pissman.value()["mainAbility"];
+                skillStats.profLevel = pissman.value()["profLevel"];
+                pc.skillInfo[skillsKey] = skillStats;
+            }
 
             // Parsing HP information
             pc.hpInfo.rolledHP = jsonObj.at("hp").at("rolledHP").get<int>();
@@ -195,6 +136,27 @@ namespace Settings {
             for (auto& movement : jsonObj["movement"].items()) {
                 movements movementType = (movements)(std::stoi(movement.key()));
                 pc.movementInfo[movementType] = movement.value()["speed"];
+            }
+
+            // Adjustments below here
+            for (auto& adjustment : jsonObj["abilityAdjustments"].items()) {
+                abilityScores adjustmentType = (abilityScores)(std::stoi(adjustment.key()));
+                pc.abilityAdj[adjustmentType] = adjustment.value()["adjustment"];
+            }
+
+            for (auto& adjustment : jsonObj["skillAdjustments"].items()) {
+                skills adjustmentType = (skills)(std::stoi(adjustment.key()));
+                pc.skillAdj[adjustmentType] = adjustment.value()["adjustment"];
+            }
+
+            for (auto& adjustment : jsonObj["movementAdjustments"].items()) {
+                movements adjustmentType = (movements)(std::stoi(adjustment.key()));
+                pc.movementAdj[adjustmentType] = adjustment.value()["adjustment"];
+            }
+
+            for (auto& adjustment : jsonObj["saveAdjustments"].items()) {
+                savingThrows adjustmentType = (savingThrows)(std::stoi(adjustment.key()));
+                pc.saveAdj[adjustmentType] = adjustment.value()["adjustment"];
             }
 
         }
