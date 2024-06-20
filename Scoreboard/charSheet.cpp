@@ -110,6 +110,8 @@ const char* conditionDefinitionList[] = {
 const char* armorTypesList[] = { "Unarmored", "Light", "Medium", "Heavy" };
 const char* baseACList[] = { "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen" };
 armorTypes currentArmorType = armorTypes::unarmored;
+movements currentMovementType = movements::walking;
+const char* movementTypesList[] = { "Walking", "Climbing", "Swimming", "Flying", "Burrowing" };
 
 bool flag = true;
 
@@ -188,6 +190,8 @@ void charSheet(bool* enable) {
 	// Armor class
 	int currentBaseAC = globalChar.getBaseArmorClass(currentArmorType);
 
+	// Movement
+	int currentSpeed = globalChar.getSpeed(currentMovementType);
 
 	// Actual menu starts here
 	ImGui::SetNextWindowSize(ImVec2(800, 800));
@@ -367,12 +371,40 @@ void charSheet(bool* enable) {
 							globalChar.setSkillProficiency(skills::initiative, currentInitProficiencyLevel);
 						}
 					}
-
 					ImGui::EndCombo();
 				}
 				std::string initiativeStr = "Initiative Bonus";
 				ImGui::Text(modFormat(initiativeStr, initiativeTotalBonus).c_str());
 				ImGui::PopItemWidth();
+
+				if (ImGui::BeginChild("Bullshitometer", ImVec2(-1, 0))) {
+					ImGui::Separator();
+
+					ImGui::PushItemWidth(-1);
+					ImGui::Text("Movement Type");
+					if (ImGui::BeginCombo("##MovementTypeCombo", movementTypesList[(int)currentMovementType])) {
+						for (int n = 0; n < IM_ARRAYSIZE(movementTypesList); n++) {
+							const bool selectedMovementType = (currentMovementType == (movements)n);
+
+							if (ImGui::Selectable(movementTypesList[n], selectedMovementType))
+								currentMovementType = (movements)n;
+						}
+						ImGui::EndCombo();
+					}
+					ImGui::PopItemWidth();
+
+					if (ImGui::BeginChild("MovementChild", ImVec2(-1, -1), ImGuiChildFlags_Border)) {
+						ImGui::PushItemWidth(-1);
+						std::string movementStr = movementTypesList[(int)currentMovementType];
+						movementStr += " Speed";
+						ImGui::Text(movementStr.c_str());
+						ImGui::InputInt("##MovementSpeedInput", &globalChar.movementInfo[currentMovementType], 5, 10);
+						ImGui::PopItemWidth();
+
+						ImGui::EndChild();
+					}
+					ImGui::EndChild();
+				}
 			}
 			ImGui::NextColumn();
 			{
