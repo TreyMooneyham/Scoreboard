@@ -53,6 +53,11 @@ std::string acFormat(std::string str, int bonus) {
 	return str + std::to_string(bonus);
 }
 
+std::string condFormat(std::string str, int bonus) {
+	str += " ";
+	return str + std::to_string(bonus);
+}
+
 // Here's the global character variable
 extern playerCharacter globalChar = playerCharacter();
 
@@ -76,44 +81,44 @@ const char* conditionsList[] = { "Blinded", "Clumsy", "Confused", "Controlled", 
 								 "Restrained", "Sickened", "Slowed", "Stabilized", "Stunned", "Stupefied", "Unconscious", 
 								 "Undetected" };
 const char* conditionDefinitionList[] = { 
-	"All terrain is difficult.\nPerception checks that rely on sound always fail.\nYou are immune to effects that require sight.\nBlinded overwrites dazed.\nYou have disadvantage on attack rolls.", 
-	"Clumsy includes a value.\nYou have a penalty to dexterity-based attack rolls, ability checks, DCs, and saving throws equal to your clumsy value.", 
-	"You do not treat anyone as your ally.\nYou cannot Delay, Ready, or take Reactions.\nYou must use your turn to attack random nearby creatures.\nWhenever you take damage, you can attempt to save against the effect.", 
+	"All terrain is difficult.\n\nPerception checks that rely on sound always fail.\n\nYou are immune to effects that require sight.\n\nBlinded overwrites dazed.\n\nYou have disadvantage on attack rolls.", 
+	"Clumsy includes a value.\n\nYou have a penalty to dexterity-based attack rolls, ability checks, DCs, and saving throws equal to your clumsy value.", 
+	"You do not treat anyone as your ally.\n\nYou cannot Delay, Ready, or take Reactions.\n\nYou must use your turn to attack random nearby creatures.\n\nWhenever you take damage, you can attempt to save against the effect.", 
 	"You no longer have control of your character.", 
-	"All attacks you make have a 25% chance to miss (DC 5 flat check).", 
-	"Perception checks that rely on sound automatically fail.\nYou are immune to effects that require hearing.", 
-	"Doomed includes a value.\nYou have a penalty to Death Saving Throws equal to your doomed value.\nDoomed decreases by 1 for each long rest you take.", 
-	"Drained includes a value.\nYou have a penalty to constitution based attack rolls, ability checks, DCs, and saving throws equal to your drained value.\nYou lose a number of hit points equal to your character level times the drained value.\nYou maximum hit points is also reduced by your character level times the drained value.\nDrained decreases by 1 for each long rest you take.",
-	"You receive the dying condition if your hit points are less than 0.\nYou are unconscious.\nAt the end of your turn, you roll a death saving throw. On a roll of 1-10 you fail. After three failures you die.\nIf your hit points are reduced to negative half your maximum hit points, you die.\nIf you receive any healing that does not take you over 0 hit points, you go to 0 hit points.\nIf another creatures makes a medicine check, DC 18, to stabilize you, you stabilize. If that creatures rolls a natural 1, you instead take a failure on your death saves.", 
-	"You are clumsy 1.\nYou speeds are reduced by 10 feet.\nThis cannot reduce your speed to less than 5 feet.", 
-	"Enfeebled incudes a value.\nYou have a penalty to strength based attack rolls, ability checks, DCs, and saving throws equal to your enfeebled value.", 
-	"You have a -1 penalty to your AC and saving throws.\nYou cannot travel quickly, or stealthily, and cannot perform general tasks while traveling.\nYou recover from fatigued after a long rest.", 
-	"You must spend your turn getting away from the source of your condition as fast as possible.\nYou cannot Delay or Ready while fleeing.", 
-	"Frightened includes a value.\nYou have disadvantage on attack rolls and ability checks against the source of frightened.\nYou cannot willingly move closer the the source of frightened.\nThe frightened value decreases by 1 at the end of your turn.", 
-	"You are immobilized.\nAttack rolls against you have advantage.", 
-	"You have advantage on attack rolls and checks against creatures that you are hidden from.\nIf a creature targets you with something, it has a 55% chance (DC 11 flat check) to lose that action before being able to make the roll.", 
+	"All attacks you make have a 25%% chance to miss (DC 5 flat check).", 
+	"Perception checks that rely on sound automatically fail.\n\nYou are immune to effects that require hearing.", 
+	"Doomed includes a value.\n\nYou have a penalty to Death Saving Throws equal to your doomed value.\n\nDoomed decreases by 1 for each long rest you take.", 
+	"Drained includes a value.\n\nYou have a penalty to constitution based attack rolls, ability checks, DCs, and saving throws equal to your drained value.\n\nYou lose a number of hit points equal to your character level times the drained value.\n\nYou maximum hit points is also reduced by your character level times the drained value.\n\nDrained decreases by 1 for each long rest you take.",
+	"You receive the dying condition if your hit points are less than 0.\n\nYou are unconscious.\n\nAt the end of your turn, you roll a death saving throw. On a roll of 1-10 you fail. After three failures you die.\n\nIf your hit points are reduced to negative half your maximum hit points, you die.\n\nIf you receive any healing that does not take you over 0 hit points, you go to 0 hit points.\n\nIf another creatures makes a medicine check, DC 18, to stabilize you, you stabilize. If that creatures rolls a natural 1, you instead take a failure on your death saves.", 
+	"You are clumsy 1.\n\nYou speeds are reduced by 10 feet.\n\nThis cannot reduce your speed to less than 5 feet.", 
+	"Enfeebled incudes a value.\n\nYou have a penalty to strength based attack rolls, ability checks, DCs, and saving throws equal to your enfeebled value.", 
+	"You have a -1 penalty to your AC and saving throws.\n\nYou cannot travel quickly, or stealthily, and cannot perform general tasks while traveling.\n\nYou recover from fatigued after a long rest.", 
+	"You must spend your turn getting away from the source of your condition as fast as possible.\n\nYou cannot Delay or Ready while fleeing.", 
+	"Frightened includes a value.\n\nYou have disadvantage on attack rolls and ability checks against the source of frightened.\n\nYou cannot willingly move closer the the source of frightened.\n\nThe frightened value decreases by 1 at the end of your turn.", 
+	"You are immobilized.\n\nAttack rolls against you have advantage.", 
+	"You have advantage on attack rolls and checks against creatures that you are hidden from.\n\nIf a creature targets you with something, it has a 55%% chance (DC 11 flat check) to lose that action before being able to make the roll.", 
 	"Your speed is zero.", 
-	"You are undetected by everyone.\nA creature can make a perception check to find you, which makes you hidden until you succeed on a stealth check to become undetected again.\nIf you become invisible while seen, you are only hidden to that creature until you succeed on a stealth check to become undetected.", 
-	"You cannot move.\nYour AC is reduced by 2.\nYou cannot take actions that require movement of any kind.", 
-	"You cannot do anything.\nYou have an AC of 9, your hit points stay the same as when you weren't stone, and your weight is quadrupled.\nYou do not age or notice time passing.", 
-	"You treat all terrain as difficult.\nYou must spend half your movement to stand up.\nRanged attacks against you are made at disadvantage.\nMelee attacks against you are made at advantage.\nYour non-special attack rolls are made at disadvantage.", 
-	"Your speed increases by 10 feet.\nYou gain a +2 bonus to AC.\nYou gain an additional action.\nThis action can only be used to make one attack, dash, dodge, disengage, hide, or use an object.", 
-	"Your AC is reduced by 2.\nYou are immobilized.\nYou cannot make attack rolls and can only make attempts to escape.", 
-	"Sickened includes a value.\nYou have a penalty to attack rolls and ability checks equal to the value tied to sickened.\nYou cannot willingly ingest anything (Including potions).\nYou can spend an action to throw up, immediately making a fortitude saving throw. On a success you reduce your Sickened level by 1.", 
-	"You cannot take reactions while slowed.\nYou can only take an action or a bonus action on your turn.\nYour speed is reduced by 10 feet.", 
-	"You do not make death saving throws.\nYou heal 1 hit point every hour.", 
-	"Stunned overwrites slowed.\nYou cannot take reactions while stunned.\nYour are immobilized.\nYou cannot take actions or bonus actions.", 
-	"Stupefied includes a value.\nYou have a penalty to intelligence, wisdom, and charisma based attack rolls, ability checks, DCs, and saving throws equal to your stupefied value.\nWhenever you cast a spell you must beat a DC 5 + stupefied value flat roll or the spell fizzles.", 
-	"You are stunned.\nYou are prone.", 
-	"You have a +2 bonus to attack rolls against creatures you are undetected by.\nCreatures can attempt to target you by attacking a square.\nThey must succeed on a DC 11 flat check to make an attack roll against you if you are in that square."
+	"You are undetected by everyone.\n\nA creature can make a perception check to find you, which makes you hidden until you succeed on a stealth check to become undetected again.\n\nIf you become invisible while seen, you are only hidden to that creature until you succeed on a stealth check to become undetected.", 
+	"You cannot move.\n\nYour AC is reduced by 2.\n\nYou cannot take actions that require movement of any kind.", 
+	"You cannot do anything.\n\nYou have an AC of 9, your hit points stay the same as when you weren't stone, and your weight is quadrupled.\n\nYou do not age or notice time passing.", 
+	"You treat all terrain as difficult.\n\nYou must spend half your movement to stand up.\n\nRanged attacks against you are made at disadvantage.\n\nMelee attacks against you are made at advantage.\n\nYour non-special attack rolls are made at disadvantage.", 
+	"Your speed increases by 10 feet.\n\nYou gain a +2 bonus to AC.\n\nYou gain an additional action.\n\nThis action can only be used to make one attack, dash, dodge, disengage, hide, or use an object.", 
+	"Your AC is reduced by 2.\n\nYou are immobilized.\n\nYou cannot make attack rolls and can only make attempts to escape.", 
+	"Sickened includes a value.\n\nYou have a penalty to attack rolls and ability checks equal to the value tied to sickened.\n\nYou cannot willingly ingest anything (Including potions).\n\nYou can spend an action to throw up, immediately making a fortitude saving throw. On a success you reduce your Sickened level by 1.", 
+	"You cannot take reactions while slowed.\n\nYou can only take an action or a bonus action on your turn.\n\nYour speed is reduced by 10 feet.", 
+	"You do not make death saving throws.\n\nYou heal 1 hit point every hour.", 
+	"Stunned overwrites slowed.\n\nYou cannot take reactions while stunned.\n\nYour are immobilized.\n\nYou cannot take actions or bonus actions.", 
+	"Stupefied includes a value.\n\nYou have a penalty to intelligence, wisdom, and charisma based attack rolls, ability checks, DCs, and saving throws equal to your stupefied value.\n\nWhenever you cast a spell you must beat a DC 5 + stupefied value flat roll or the spell fizzles.", 
+	"You are stunned.\n\nYou are prone.", 
+	"You have a +2 bonus to attack rolls against creatures you are undetected by.\n\nCreatures can attempt to target you by attacking a square.\n\nThey must succeed on a DC 11 flat check to make an attack roll against you if you are in that square."
 };
+conditions currentCondition = conditions::blinded;
 const char* armorTypesList[] = { "Unarmored", "Light", "Medium", "Heavy" };
 const char* baseACList[] = { "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen" };
 armorTypes currentArmorType = armorTypes::unarmored;
 movements currentMovementType = movements::walking;
 const char* movementTypesList[] = { "Walking", "Climbing", "Swimming", "Flying", "Burrowing" };
-
-bool flag = true;
+int condVal = 1;
 
 void charSheet(bool* enable) {
 	// Common variables for the global character
@@ -408,7 +413,122 @@ void charSheet(bool* enable) {
 			}
 			ImGui::NextColumn();
 			{
+				static char filterConditions[32];
+				if (ImGui::Button("Manage Conditions...", ImVec2(-1, 0)))
+					ImGui::OpenPopup("Condition Manager");
 
+				ImGui::SetNextWindowPos(ImGui::GetMainViewport()->GetCenter(), ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
+				ImGui::SetNextWindowSize(ImVec2(700, 306));
+				if (ImGui::BeginPopupModal("Condition Manager", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
+					ImGui::Columns(2, "PopupColumns", false);
+					{
+						ImGui::SetColumnOffset(1, 180);
+						ImGui::PushItemWidth(-1);
+						ImGui::InputTextWithHint("##FilterConditions", "Filter Conditions...", filterConditions, IM_ARRAYSIZE(filterConditions));
+						ImGui::PopItemWidth();
+
+						if (ImGui::BeginListBox("##ConditionsListBox", ImVec2(-1, -1))) {
+							for (int n = 0; n < IM_ARRAYSIZE(conditionsList); n++) {
+								if (!contains(toLower(filterConditions), toLower(conditionsList[n])))
+									continue;
+
+								const bool selectedCondition = (currentCondition == (conditions)n);
+
+								if (ImGui::Selectable(conditionsList[n], selectedCondition))
+									currentCondition = (conditions)n;
+							}
+							ImGui::EndListBox();
+						}
+					}
+					ImGui::NextColumn();
+					{
+						if (ImGui::BeginChild("ConditionInfoChild", ImVec2(-1, 248), ImGuiChildFlags_Border)) {
+							ImGui::TextWrapped(conditionDefinitionList[(int)currentCondition]);
+
+							ImGui::EndChild();
+						}
+						if (currentCondition == conditions::clumsy ||
+							currentCondition == conditions::doomed ||
+							currentCondition == conditions::drained ||
+							currentCondition == conditions::enfeebled ||
+							currentCondition == conditions::frightened ||
+							currentCondition == conditions::sickened ||
+							currentCondition == conditions::stupefied) {
+
+							ImGui::PushItemWidth(154);
+							ImGui::SliderInt("##ConditionSlider", &condVal, 1, 10, "Condition Value: %i");
+							ImGui::SameLine();
+							ImGui::PopItemWidth();
+
+							if (ImGui::Button("Add Condition", ImVec2(110, 0))) {
+								globalChar.setCondition(currentCondition, condVal);
+								ImGui::CloseCurrentPopup();
+							}
+							ImGui::SameLine();
+
+							if (ImGui::Button("Remove Condition", ImVec2(125, 0))) {
+								globalChar.setCondition(currentCondition, 0);
+								ImGui::CloseCurrentPopup();
+							}
+							ImGui::SameLine();
+
+							if (ImGui::Button("Cancel", ImVec2(86, 0)))
+								ImGui::CloseCurrentPopup();
+						}
+						else {
+							if (ImGui::Button("Add Condition", ImVec2(180, 0))) {
+								globalChar.setCondition(currentCondition, 1);
+								ImGui::CloseCurrentPopup();
+							}
+							ImGui::SameLine();
+
+							if (ImGui::Button("Remove Condition", ImVec2(180, 0))) {
+								globalChar.setCondition(currentCondition, 0);
+								ImGui::CloseCurrentPopup();
+							}
+							ImGui::SameLine();
+
+							if (ImGui::Button("Cancel", ImVec2(123, 0)))
+								ImGui::CloseCurrentPopup();
+						}
+					}
+					ImGui::EndPopup();
+				}
+
+				if (ImGui::BeginListBox("##ActiveConditionsListbox", ImVec2(-1, -1))) {
+					for (int n = 0; n < IM_ARRAYSIZE(conditionsList); n++) {
+						if (globalChar.conditionInfo[(conditions)n] < 1)
+							continue;
+
+						if ((conditions)n == conditions::clumsy ||
+							(conditions)n == conditions::doomed ||
+							(conditions)n == conditions::drained ||
+							(conditions)n == conditions::enfeebled ||
+							(conditions)n == conditions::frightened ||
+							(conditions)n == conditions::sickened ||
+							(conditions)n == conditions::stupefied) {
+							ImGui::Text(condFormat(conditionsList[n], globalChar.conditionInfo[(conditions)n]).c_str());
+							if (ImGui::BeginItemTooltip())
+							{
+								ImGui::PushTextWrapPos(ImGui::GetFontSize() * 35.0f);
+								ImGui::TextUnformatted(conditionDefinitionList[n]);
+								ImGui::PopTextWrapPos();
+								ImGui::EndTooltip();
+							}
+						}
+						else {
+							ImGui::Text(conditionsList[n]);
+							if (ImGui::BeginItemTooltip())
+							{
+								ImGui::PushTextWrapPos(ImGui::GetFontSize() * 35.0f);
+								ImGui::TextUnformatted(conditionDefinitionList[n]);
+								ImGui::PopTextWrapPos();
+								ImGui::EndTooltip();
+							}
+						}
+					}
+					ImGui::EndListBox();
+				}
 			}
 			ImGui::EndChild();
 		}
