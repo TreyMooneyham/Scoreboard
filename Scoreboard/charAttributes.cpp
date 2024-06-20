@@ -522,7 +522,7 @@ proficiencyLevels playerCharacter::getArmorProficiency(armorTypes armor) {
 // Initializer for the armor
 void playerCharacter::initArmorClass() {
 	for (int i = 0; i < 4; i++) {
-		this->armorInfo[(armorTypes)i].baseAC = 10;
+		this->armorInfo[(armorTypes)i].baseAC = 0;
 		this->armorInfo[(armorTypes)i].mainAbility = abilityScores::dexterity;
 		this->armorInfo[(armorTypes)i].profLevel = proficiencyLevels::noProficiency;
 	}

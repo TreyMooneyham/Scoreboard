@@ -183,16 +183,20 @@ struct playerCharacter {
 	std::map<savingThrows, savingThrow>		savesInfo;
 	hitPoints								hpInfo;
 	std::map<resistanceTypes, resistance>	resistInfo;
-	std::vector<int>						feats;
-	std::vector<item>						inventory;
 	std::map<movements, int>				movementInfo;
 	std::map<armorTypes, armorClass>		armorInfo;
+	std::map<conditions, int>				conditionInfo;
+
+	armorTypes								equippedArmor;
+	std::vector<int>						feats;
+	std::vector<item>						inventory;
+
 	std::map<abilityScores, int>			abilityAdj;
 	std::map<skills, int>					skillAdj;
 	std::map<movements, int>				movementAdj;
 	std::map<savingThrows, int>				saveAdj;
 	std::map<armorTypes, int>				armorAdj;
-	std::map<conditions, int>				conditionInfo;
+
 	
 	// Setters and getters
 	void				setName(std::string name, int type);

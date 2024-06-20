@@ -93,8 +93,10 @@ const char* conditionDefinitionList[] = {
 	"You have a +2 bonus to attack rolls against creatures you are undetected by.\nCreatures can attempt to target you by attacking a square.\nThey must succeed on a DC 11 flat check to make an attack roll against you if you are in that square."
 };
 const char* armorTypesList[] = { "Unarmored", "Light", "Medium", "Heavy" };
-const char* armorACBonuses[] = { "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen" };
+const char* baseACList[] = { "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen" };
 armorTypes currentArmorType = armorTypes::unarmored;
+
+bool flag = true;
 
 void charSheet(bool* enable) {
 	// Common variables for the global character
@@ -162,6 +164,9 @@ void charSheet(bool* enable) {
 
 	// Hit points
 	int maxHP = globalChar.getHP(0) + (globalChar.getLevel(levels::character) * globalChar.getMod(abilityScores::constitution));
+
+	// Armor class
+	int currentBaseAC = globalChar.getBaseArmorClass(currentArmorType);
 
 	// Actual menu starts here
 	ImGui::SetNextWindowSize(ImVec2(800, 800));
@@ -269,8 +274,40 @@ void charSheet(bool* enable) {
 
 		ImGui::SameLine();
 
-		if (ImGui::BeginChild("TestZone", ImVec2(-1, 170), ImGuiChildFlags_Border)) {
+		if (ImGui::BeginChild("ImportantFeatures", ImVec2(-1, 170), ImGuiChildFlags_Border)) {
+			ImGui::Columns(3, "FeatureColumns", false);
+			{
+				ImGui::PushItemWidth(-1);
 
+				std::string formattedBaseACStr = "Base AC: ";
+				formattedBaseACStr += baseACList[currentBaseAC];
+				if (ImGui::BeginCombo("##BaseACCombo", formattedBaseACStr.c_str())) {
+					for (int n = 0; n < IM_ARRAYSIZE(baseACList); n++) {
+						const bool selectedBaseAC = (currentBaseAC == n);
+
+						if (ImGui::Selectable(baseACList[n], selectedBaseAC))
+							globalChar.setBaseArmorClass(currentArmorType, n);
+					}
+
+					ImGui::EndCombo();
+				}
+				
+				std::string formattedMainAbilityStr = "Main Ability: ";
+				formattedMainAbilityStr += mainAbilityList[(int)globalChar.getArmorMainAbility(currentArmorType)];
+				if (ImGui::BeginCombo("##MainACAbilityCombo", formattedMainAbilityStr.c_str())) {
+					for (int n = 0; n < IM_ARRAYSIZE(mainAbilityList); n++) {
+						const bool selectedMainAbility = (globalChar.getArmorMainAbility(currentArmorType) == (abilityScores)n);
+
+						if (ImGui::Selectable(mainAbilityList[n], selectedMainAbility))
+							globalChar.setArmorMainAbility(currentArmorType, (abilityScores)n);
+					}
+
+					ImGui::EndCombo();
+				}
+
+				ImGui::PopItemWidth();
+				ImGui::Text("%i", globalChar.getBaseArmorClass(currentArmorType));
+			}
 			ImGui::EndChild();
 		}
 
