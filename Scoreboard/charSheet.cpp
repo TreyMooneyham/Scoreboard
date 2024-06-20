@@ -223,24 +223,24 @@ void charSheet(bool* enable) {
 		if (ImGui::BeginChild("##SkillsOutput", ImVec2(190, -1), ImGuiChildFlags_Border)) {
 				
 			ImGui::Text(modFormat("Ability Bonus", skillScoreBonus).c_str());
-			ImGui::Text(modFormat("Proficiency Bonus", profBonus).c_str());
+			ImGui::Text(modFormat("Proficiency Bonus", skillProfBonus).c_str());
 			ImGui::Text(modFormat("Misc. Bonus", skillAdjustments).c_str());
 
 			ImGui::Separator();
 
-			if (totalBonus == (totalBonus + skillAdjustments)) {
-				ImGui::Text(modFormat("Total Bonus", totalBonus).c_str());
-				ImGui::Text("Passive DC:           %2i", totalBonus + 10);
+			if (skillTotalBonus == (skillTotalBonus + skillAdjustments)) {
+				ImGui::Text(modFormat("Total Bonus", skillTotalBonus).c_str());
+				ImGui::Text("Passive DC:           %2i", skillTotalBonus + 10);
 			}
 
-			if (totalBonus > (totalBonus + skillAdjustments)) {
-				ImGui::TextColored(ImVec4(0.8f, 0.0f, 0.0f, 1.0f), modFormat("Total Bonus", totalBonus + skillAdjustments).c_str());
-				ImGui::TextColored(ImVec4(0.8f, 0.0f, 0.0f, 1.0f), "Passive DC:           %2i", totalBonus + skillAdjustments + 10);
+			if (skillTotalBonus > (skillTotalBonus + skillAdjustments)) {
+				ImGui::TextColored(ImVec4(0.8f, 0.0f, 0.0f, 1.0f), modFormat("Total Bonus", skillTotalBonus + skillAdjustments).c_str());
+				ImGui::TextColored(ImVec4(0.8f, 0.0f, 0.0f, 1.0f), "Passive DC:           %2i", skillTotalBonus + skillAdjustments + 10);
 			}
 
-			if (totalBonus < (totalBonus + skillAdjustments)) {
-				ImGui::TextColored(ImVec4(0.0f, 0.8f, 0.0f, 1.0f), modFormat("Total Bonus", totalBonus + skillAdjustments).c_str());
-				ImGui::TextColored(ImVec4(0.0f, 0.8f, 0.0f, 1.0f), "Passive DC:           %2i", totalBonus + skillAdjustments + 10);
+			if (skillTotalBonus < (skillTotalBonus + skillAdjustments)) {
+				ImGui::TextColored(ImVec4(0.0f, 0.8f, 0.0f, 1.0f), modFormat("Total Bonus", skillTotalBonus + skillAdjustments).c_str());
+				ImGui::TextColored(ImVec4(0.0f, 0.8f, 0.0f, 1.0f), "Passive DC:           %2i", skillTotalBonus + skillAdjustments + 10);
 			}
 
 			ImGui::Separator();
