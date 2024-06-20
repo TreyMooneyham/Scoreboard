@@ -9,10 +9,11 @@ namespace Settings {
         pc.initHitPoints();
         pc.initSkills();
         pc.initResist();
-        pc.initAdj();
         pc.initConditions();
         pc.initSpeeds();
         pc.initSavingThrows();
+        pc.initArmorClass();
+        pc.initAdj(); // Do this one last.
 	}
 
 	void saveCharacter(playerCharacter pc) {
