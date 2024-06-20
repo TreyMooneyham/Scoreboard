@@ -145,6 +145,17 @@ enum class movements {
 	burrowing
 };
 
+// Saving throw enum
+enum class savingThrows {
+	fortitude, reflex, will
+};
+
+// Saving throw struct
+struct savingThrow {
+	abilityScores		mainAbility;
+	proficiencyLevels	profLevel;
+};
+
 // playerCharacter holds all the information for the currently loaded character
 struct playerCharacter {
 	// Data Types
@@ -152,6 +163,7 @@ struct playerCharacter {
 	std::map<levels, int>					levelInfo;
 	std::map<abilityScores, int>			abilities;
 	std::map<skills, skill>					skillInfo;
+	std::map<savingThrows, savingThrow>		savesInfo;
 	hitPoints								hpInfo;
 	std::map<resistanceTypes, resistance>	resistInfo;
 	std::vector<int>						feats;
