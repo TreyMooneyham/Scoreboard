@@ -111,6 +111,19 @@ void charSheet(bool* enable) {
 	int wisMod = globalChar.getMod(abilityScores::wisdom);
 	int chaMod = globalChar.getMod(abilityScores::charisma);
 
+	// Ability Adjustments
+	int strAdj = globalChar.abilityAdj[abilityScores::strength];
+	int dexAdj = globalChar.abilityAdj[abilityScores::dexterity];
+	int conAdj = globalChar.abilityAdj[abilityScores::constitution];
+	int intAdj = globalChar.abilityAdj[abilityScores::intelligence];
+	int wisAdj = globalChar.abilityAdj[abilityScores::wisdom];
+	int chaAdj = globalChar.abilityAdj[abilityScores::charisma];
+
+	// Ability Info Arrays
+	int abilityScoreArr[] = { strScore, conScore, dexScore, intScore, wisScore, chaScore }; // Couldn't name this abilityScores oopsie
+	int abilityScoreMods[] = { strMod, conMod, dexMod, intMod, wisMod, chaMod };
+	int abilityAdjustments[] = { strAdj, conAdj, dexAdj, intAdj, wisAdj, chaAdj };
+
 	// Saving throws
 	// Notably much longer than skills because only one skill gets shown at a time
 	// Sucks...
@@ -221,7 +234,15 @@ void charSheet(bool* enable) {
 				for (int i = 0; i < IM_ARRAYSIZE(mainAbilityList); i++) {
 					std::string formattedAbility = mainAbilityList[i];
 
-					ImGui::Text(modFormat(formattedAbility, globalChar.getMod((abilityScores)i)).c_str());
+					if (abilityAdjustments[i] > 0) {
+						ImGui::TextColored(ImVec4(0.0f, 0.8f, 0.0f, 1.0f), modFormat(formattedAbility, abilityScoreMods[i] + abilityAdjustments[i]).c_str());
+					}
+					else if (abilityAdjustments[i] < 0) {
+						ImGui::TextColored(ImVec4(0.8f, 0.0f, 0.0f, 1.0f), modFormat(formattedAbility, abilityScoreMods[i] + abilityAdjustments[i]).c_str());
+					}
+					else {
+						ImGui::Text(modFormat(formattedAbility, abilityScoreMods[i]).c_str());
+					}
 				}
 
 				ImGui::Separator();
@@ -236,7 +257,7 @@ void charSheet(bool* enable) {
 						ImGui::TextColored(ImVec4(0.8f, 0.0f, 0.0f, 1.0f), modFormat(saveStr, saveTotalBonus[i] + saveAdjustments[i]).c_str());
 					}
 					else { // When the adjustments are zero
-						ImGui::Text(modFormat(saveStr, saveTotalBonus[i] + saveAdjustments[i]).c_str());
+						ImGui::Text(modFormat(saveStr, saveTotalBonus[i]).c_str());
 					}
 				}
 
