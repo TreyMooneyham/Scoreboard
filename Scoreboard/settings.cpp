@@ -3,9 +3,8 @@
 
 namespace Settings {
 	void newCharacter(playerCharacter& pc) {
-        pc.setName("New Character", 1);
-        pc.setLevel(levels::character, 1);
-
+        pc.initNames();
+        pc.initLevels();
         pc.initScores();
         pc.initHitPoints();
         pc.initSkills();
@@ -56,6 +55,10 @@ namespace Settings {
 	void loadCharacter(playerCharacter& pc, std::string filePath) {
         // Place holder for testing
         // std::string filePath = "fuckshit.json";
+
+        // Resets the character sheet before loading
+        newCharacter(pc);
+
         try {
             std::ifstream inputFile(filePath + ".json");
 

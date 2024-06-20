@@ -184,6 +184,7 @@ struct playerCharacter {
 	// Setters and getters
 	void				setName(std::string name, int type);
 	std::string			getName(int type);
+	void				initNames();
 
 	void				setLevel(levels section, int level);
 	int					getLevel(levels section);

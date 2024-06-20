@@ -57,6 +57,14 @@ std::string playerCharacter::getName(int type) {
 	}
 }
 
+// Initializer for the names and more
+void playerCharacter::initNames() {
+	this->nameInfo.playerName = "";
+	this->nameInfo.charName = "";
+	this->nameInfo.ancestry = "";
+	this->nameInfo.nationality = "";
+}
+
 // Sets the level for a particular section
 void playerCharacter::setLevel(levels section, int level) {
 	this->levelInfo[section] = level;
@@ -68,7 +76,7 @@ int playerCharacter::getLevel(levels section) {
 }
 
 void playerCharacter::initLevels() {
-	this->levelInfo[levels::character] = 0;
+	this->levelInfo[levels::character] = 1;
 	this->levelInfo[levels::rogue] = 0;
 	this->levelInfo[levels::spellcaster] = 0;
 	this->levelInfo[levels::warrior] = 0;
