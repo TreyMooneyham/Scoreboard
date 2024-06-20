@@ -551,7 +551,7 @@ nlohmann::json playerCharacter::toJson() const {
 	}
 	jsonObj["inventory"] = inventoryJson;
 
-	// Put the relevant inventory information in
+	// Put the relevant resistance information in
 	// NOTE: key = first, value = second
 	nlohmann::json resistanceJson;
 	for (const auto& pissboy : this->resistInfo) {
@@ -562,6 +562,15 @@ nlohmann::json playerCharacter::toJson() const {
 		resistanceJson[std::to_string(static_cast<int>(resType))]["dr"] = res.dr;
 	}
 	jsonObj["resistances"] = resistanceJson;
+
+	// Put the relevant condition information in
+	nlohmann::json conditionsJson;
+	for (const auto& condition : this->conditionInfo) {
+		const conditions& conditionName = condition.first;
+		int afflictedLevel = condition.second;
+		conditionsJson[std::to_string(static_cast<int>(conditionName))]["level"] = afflictedLevel;
+	}
+	jsonObj["conditions"] = conditionsJson;
 
 
 	return jsonObj;

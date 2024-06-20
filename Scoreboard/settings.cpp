@@ -166,6 +166,7 @@ namespace Settings {
                 pc.inventory.push_back(theRatsAreBackInMySkinHelpMeGetThemOutIAmBeggingYouPlease);
             }
 
+            // Parsing resistance information
             for (auto& res : jsonObj["resistances"].items()) {
                 resistanceTypes resistanceKey = (resistanceTypes) (std::stoi(res.key()));
                 resistance resistanceValue;
@@ -173,6 +174,12 @@ namespace Settings {
                 resistanceValue.dt = res.value()["dt"].get<double>();
                 resistanceValue.type = (resistanceTypes) res.value()["type"].get<int>();
                 pc.resistInfo[resistanceKey] = resistanceValue;
+            }
+
+            // Parsing condition information
+            for (auto& condtion : jsonObj["conditions"].items()) {
+                conditions conditionKey = (conditions)(std::stoi(condtion.key()));
+                pc.conditionInfo[conditionKey] = condtion.value()["level"];
             }
 
         }
