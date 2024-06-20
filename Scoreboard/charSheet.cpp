@@ -95,38 +95,56 @@ const char* conditionDefinitionList[] = {
 
 void charSheet(bool* enable) {
 	// Common variables for the global character
-	// Will need to add support for conditions, bonuses, and penalties.
+	// Ability scores
 	int strScore = globalChar.getScore(abilityScores::strength);
-	int strMod = globalChar.getMod(abilityScores::strength);
 	int conScore = globalChar.getScore(abilityScores::constitution);
-	int conMod = globalChar.getMod(abilityScores::constitution);
 	int dexScore = globalChar.getScore(abilityScores::dexterity);
-	int dexMod = globalChar.getMod(abilityScores::dexterity);
 	int intScore = globalChar.getScore(abilityScores::intelligence);
-	int intMod = globalChar.getMod(abilityScores::intelligence);
 	int wisScore = globalChar.getScore(abilityScores::wisdom);
-	int wisMod = globalChar.getMod(abilityScores::wisdom);
 	int chaScore = globalChar.getScore(abilityScores::charisma);
+
+	// Ability modifiers
+	int strMod = globalChar.getMod(abilityScores::strength);
+	int conMod = globalChar.getMod(abilityScores::constitution);
+	int dexMod = globalChar.getMod(abilityScores::dexterity);
+	int intMod = globalChar.getMod(abilityScores::intelligence);
+	int wisMod = globalChar.getMod(abilityScores::wisdom);
 	int chaMod = globalChar.getMod(abilityScores::charisma);
 
+	// Saving throws
+	// Notably much longer than skills because only one skill gets shown at a time
+	// Sucks...
 	int fortScoreBonus = globalChar.getSave(savingThrows::fortitude);
 	int refScoreBonus = globalChar.getSave(savingThrows::reflex);
 	int willScoreBonus = globalChar.getSave(savingThrows::will);
+
 	int fortProfBonus = globalChar.getProfBonus(globalChar.getSaveProficiency(savingThrows::fortitude));
 	int refProfBonus = globalChar.getProfBonus(globalChar.getSaveProficiency(savingThrows::reflex));
 	int willProfBonus = globalChar.getProfBonus(globalChar.getSaveProficiency(savingThrows::will));
+
 	int fortTotalBonus = fortScoreBonus + fortProfBonus;
 	int refTotalBonus = refScoreBonus + refProfBonus;
 	int willTotalBonus = willScoreBonus + willProfBonus;
+
 	int fortAdjustments = globalChar.getAdj(savingThrows::fortitude);
 	int refAdjustments = globalChar.getAdj(savingThrows::reflex);
 	int willAdjustments = globalChar.getAdj(savingThrows::will);
 
+	// A little bit of turning my saves into an array...
+	// This is done for looping and readability. Not because it is optimal.
+	// This is quite bad, honestly.
+	int saveScoreBonus[] = { fortScoreBonus, refScoreBonus, willScoreBonus };
+	int saveProfBonus[] = { fortProfBonus, refProfBonus, willProfBonus };
+	int saveTotalBonus[] = { fortTotalBonus, refTotalBonus, willTotalBonus };
+	int saveAdjustments[] = { fortAdjustments, refAdjustments, willAdjustments };
+
+	// Skills
 	int skillScoreBonus = globalChar.getMod(globalChar.skillInfo[currentSkill].mainAbility);
 	int skillProfBonus = globalChar.getProfBonus(globalChar.skillInfo[currentSkill].profLevel);
 	int skillTotalBonus = skillScoreBonus + skillProfBonus;
 	int skillAdjustments = globalChar.getAdj(currentSkill);
 
+	// Hit points
 	int maxHP = globalChar.getHP(0) + (globalChar.getLevel(levels::character) * globalChar.getMod(abilityScores::constitution));
 
 	// Actual menu starts here
@@ -208,21 +226,20 @@ void charSheet(bool* enable) {
 
 				ImGui::Separator();
 
-				for (int i = 0; i < IM_ARRAYSIZE(savesList); i++) {
-					std::string formattedSave = savesList[i];
+				for (int i = 0; i < 3; i++) {
+					std::string saveStr = savesList[i];
 
-					switch (i) {
-					case 0:
-						(strMod >= conMod) ? ImGui::Text(modFormat(formattedSave, strMod).c_str()) : ImGui::Text(modFormat(formattedSave, conMod).c_str());
-						break;
-					case 1:
-						(dexMod >= intMod) ? ImGui::Text(modFormat(formattedSave, dexMod).c_str()) : ImGui::Text(modFormat(formattedSave, intMod).c_str());
-						break;
-					case 2:
-						(wisMod >= chaMod) ? ImGui::Text(modFormat(formattedSave, wisMod).c_str()) : ImGui::Text(modFormat(formattedSave, chaMod).c_str());
-						break;
+					if (saveAdjustments[i] > 0) { // When the adjustments are positive
+						ImGui::TextColored(ImVec4(0.0f, 0.8f, 0.0f, 1.0f), modFormat(saveStr, saveTotalBonus[i] + saveAdjustments[i]).c_str());
+					}
+					else if (saveAdjustments[i] < 0) { // When the adjustments are negative
+						ImGui::TextColored(ImVec4(0.8f, 0.0f, 0.0f, 1.0f), modFormat(saveStr, saveTotalBonus[i] + saveAdjustments[i]).c_str());
+					}
+					else { // When the adjustments are zero
+						ImGui::Text(modFormat(saveStr, saveTotalBonus[i] + saveAdjustments[i]).c_str());
 					}
 				}
+
 				ImGui::EndChild();
 			}
 
@@ -241,19 +258,17 @@ void charSheet(bool* enable) {
 
 			ImGui::Separator();
 
-			if (skillTotalBonus == (skillTotalBonus + skillAdjustments)) {
-				ImGui::Text(modFormat("Total Bonus", skillTotalBonus).c_str());
-				ImGui::Text("Passive DC:           %2i", skillTotalBonus + 10);
+			if (skillAdjustments > 0) { // When the adjustment is positive
+				ImGui::TextColored(ImVec4(0.0f, 0.8f, 0.0f, 1.0f), modFormat("Total Bonus", skillTotalBonus + skillAdjustments).c_str());
+				ImGui::TextColored(ImVec4(0.0f, 0.8f, 0.0f, 1.0f), "Passive DC:           %2i", skillTotalBonus + skillAdjustments + 10);
 			}
-
-			if (skillTotalBonus > (skillTotalBonus + skillAdjustments)) {
+			else if (skillAdjustments < 0) { // When the adjustment is negative
 				ImGui::TextColored(ImVec4(0.8f, 0.0f, 0.0f, 1.0f), modFormat("Total Bonus", skillTotalBonus + skillAdjustments).c_str());
 				ImGui::TextColored(ImVec4(0.8f, 0.0f, 0.0f, 1.0f), "Passive DC:           %2i", skillTotalBonus + skillAdjustments + 10);
 			}
-
-			if (skillTotalBonus < (skillTotalBonus + skillAdjustments)) {
-				ImGui::TextColored(ImVec4(0.0f, 0.8f, 0.0f, 1.0f), modFormat("Total Bonus", skillTotalBonus + skillAdjustments).c_str());
-				ImGui::TextColored(ImVec4(0.0f, 0.8f, 0.0f, 1.0f), "Passive DC:           %2i", skillTotalBonus + skillAdjustments + 10);
+			else { // When the adjustment is zero
+				ImGui::Text(modFormat("Total Bonus", skillTotalBonus).c_str());
+				ImGui::Text("Passive DC:           %2i", skillTotalBonus + 10);
 			}
 
 			ImGui::Separator();
