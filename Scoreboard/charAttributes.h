@@ -161,6 +161,19 @@ struct savingThrow {
 	proficiencyLevels	profLevel;
 };
 
+enum class armorTypes {
+	unarmored,
+	light,
+	medium,
+	heavy
+};
+
+struct armorClass {	
+	int					baseAC;
+	abilityScores		mainAbility;
+	proficiencyLevels	profLevel;
+};
+
 // playerCharacter holds all the information for the currently loaded character
 struct playerCharacter {
 	// Data Types
@@ -174,6 +187,7 @@ struct playerCharacter {
 	std::vector<int>						feats;
 	std::vector<item>						inventory;
 	std::map<movements, int>				movementInfo;
+	std::map<armorTypes, armorClass>		armorInfo;
 	std::map<abilityScores, int>			abilityAdj;
 	std::map<skills, int>					skillAdj;
 	std::map<movements, int>				movementAdj;
@@ -219,14 +233,17 @@ struct playerCharacter {
 	void				setAdj(skills skill, int val);
 	void				setAdj(movements type, int val);
 	void				setAdj(savingThrows save, int val);
+	void				setAdj(int armor);
 	void				addAdj(abilityScores score, int val);
 	void				addAdj(skills skill, int val);
 	void				addAdj(movements type, int val);
 	void				addAdj(savingThrows save, int val);
+	void				addAdj(int armor);
 	int					getAdj(abilityScores score);
 	int					getAdj(skills skill);
 	int					getAdj(movements type);
 	int 				getAdj(savingThrows save);
+	int					getArmorAdj();
 	void				initAdj();
 
 	void				setCondition(conditions cond, int val);
