@@ -125,6 +125,9 @@ movements currentMovementType = movements::walking;
 const char* movementTypesList[] = { "Walking", "Climbing", "Swimming", "Flying", "Burrowing" };
 int condVal = 1;
 
+bool actionTab = true;
+bool inventoryTab = true;
+
 void charSheet(bool* enable) {
 	// Common variables for the global character
 	// Ability scores
@@ -623,7 +626,27 @@ void charSheet(bool* enable) {
 		ImGui::SameLine();
 
 		if (ImGui::BeginChild("##Col2Child1", ImVec2(-1, -1), ImGuiChildFlags_Border)) {
-			ImGui::Text("2nd Column");
+			if (ImGui::BeginTabBar("CharSheetTabBar", ImGuiTabBarFlags_Reorderable)) {
+				if (ImGui::BeginTabItem("Actions")) {
+					ImGui::Text("Action Tab");
+
+					ImGui::EndTabItem();
+				}
+
+				if (ImGui::BeginTabItem("Inventory")) {
+					ImGui::Text("Inventory Tab");
+
+					ImGui::EndTabItem();
+				}
+
+				if (ImGui::BeginTabItem("Feats")) {
+					ImGui::Text("Feats Tab");
+
+					ImGui::EndTabItem();
+				}
+
+				ImGui::EndTabBar();
+			}
 
 			ImGui::EndChild();
 		}
