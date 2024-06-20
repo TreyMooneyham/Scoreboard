@@ -58,6 +58,8 @@ std::string condFormat(std::string str, int bonus) {
 	return str + std::to_string(bonus);
 }
 
+// Put it here Cory
+
 // Here's the global character variable
 extern playerCharacter globalChar = playerCharacter();
 
