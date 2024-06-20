@@ -13,6 +13,7 @@ namespace Settings {
         pc.initAdj();
         pc.initConditions();
         pc.initSpeeds();
+        pc.initSavingThrows();
 	}
 
 	void saveCharacter(playerCharacter pc) {

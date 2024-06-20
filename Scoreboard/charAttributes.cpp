@@ -443,6 +443,13 @@ int playerCharacter::getSave(savingThrows save) {
 	}
 }
 
+// Initializes the saving throws
+void playerCharacter::initSavingThrows() {
+	for (int i = 0; i < 3; i++) {
+		this->savesInfo[(savingThrows)i].profLevel = proficiencyLevels::noProficiency;
+	}
+}
+
 nlohmann::json playerCharacter::toJson() const {
 	// Create the big json
 	nlohmann::json jsonObj;
