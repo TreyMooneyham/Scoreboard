@@ -217,7 +217,7 @@ int main(int, char**)
 
                 ImGui::EndMenu();
             }
-            //  TODO: Finish the actual level manager. Using an ability manager and other stuff in the mean time.
+            // TODO: Finish the actual level manager. Using an ability manager and other stuff in the mean time.
             // ImGui::MenuItem("Level Manager", NULL, &bLevelManagerVisible);
             ImGui::MenuItem("Attribute Manager", NULL, &bAttribManagerVisible);
             ImGui::MenuItem("Character Sheet", NULL, &bCharSheetVisible);

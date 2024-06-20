@@ -358,22 +358,6 @@ void charSheet(bool* enable) {
 
 			ImGui::EndChild();
 		}
-
-		/*ImGui::TableNextColumn();
-
-		if (ImGui::BeginChild("##Col3Child1", ImVec2(-1, 190), ImGuiChildFlags_Border)) {
-			ImGui::Text("3rd Column");
-
-			ImGui::EndChild();
-		}
-
-		ImGui::TableNextColumn();
-
-		if (ImGui::BeginChild("##Col4Child1", ImVec2(-1, 190), ImGuiChildFlags_Border)) {
-			ImGui::Text("4th Column");
-
-			ImGui::EndChild();
-		}*/
 	}
 	ImGui::End();
 }
