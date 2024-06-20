@@ -114,6 +114,23 @@
     "levelInfo": {
         "character": 1
     },
+    "movement": {
+        "0": {
+            "speed": 60
+        },
+        "1": {
+            "speed": 15
+        },
+        "2": {
+            "speed": 15
+        },
+        "3": {
+            "speed": 0
+        },
+        "4": {
+            "speed": 0
+        }
+    },
     "playerName": "",
     "resistances": {
         "0": {
@@ -189,8 +206,8 @@
     },
     "saves": {
         "0": {
-            "mainAbility": 1,
-            "profLevel": 1
+            "mainAbility": 0,
+            "profLevel": 0
         },
         "1": {
             "mainAbility": 0,

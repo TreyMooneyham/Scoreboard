@@ -191,6 +191,12 @@ namespace Settings {
                 pc.savesInfo[savesKey] = saveStats;
             }
 
+            // Parsing speed information
+            for (auto& movement : jsonObj["movement"].items()) {
+                movements movementType = (movements)(std::stoi(movement.key()));
+                pc.movementInfo[movementType] = movement.value()["speed"];
+            }
+
         }
         catch (...) {
             std::cerr << "Character not found/unreachable" << std::endl;

@@ -582,6 +582,14 @@ nlohmann::json playerCharacter::toJson() const {
 	}
 	jsonObj["saves"] = savesJson;
 
+	// Put the relevant movement information in
+	nlohmann::json movementJson;
+	for (const auto& movement : this->movementInfo) {
+		const movements& movementType = movement.first;
+		int speed = movement.second;
+		movementJson[std::to_string(static_cast<int>(movementType))]["speed"] = speed;
+	}
+	jsonObj["movement"] = movementJson;
 
 	return jsonObj;
 }
