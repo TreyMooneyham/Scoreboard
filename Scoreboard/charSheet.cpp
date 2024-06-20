@@ -118,9 +118,9 @@ void charSheet(bool* enable) {
 	int fortTotalBonus = fortScoreBonus + fortProfBonus;
 	int refTotalBonus = refScoreBonus + refProfBonus;
 	int willTotalBonus = willScoreBonus + willProfBonus;
-	//int fortAdjustments = globalChar.getAdj(savingThrows::fortitude);
-	//int refAdjustments = globalChar.getAdj(savingThrows::reflex);
-	//int willAdjustments = globalChar.getAdj(savingThrows::will);
+	int fortAdjustments = globalChar.getAdj(savingThrows::fortitude);
+	int refAdjustments = globalChar.getAdj(savingThrows::reflex);
+	int willAdjustments = globalChar.getAdj(savingThrows::will);
 
 	int skillScoreBonus = globalChar.getMod(globalChar.skillInfo[currentSkill].mainAbility);
 	int skillProfBonus = globalChar.getProfBonus(globalChar.skillInfo[currentSkill].profLevel);
