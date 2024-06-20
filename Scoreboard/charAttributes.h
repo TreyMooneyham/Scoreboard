@@ -188,12 +188,13 @@ struct playerCharacter {
 	int					getScore(abilityScores ability);
 	int					getMod(abilityScores ability);
 
+	int					getProfBonus(proficiencyLevels level);
+
 	void				initSkills();
 	void				setSkillProficiency(skills skill, proficiencyLevels level);
 	proficiencyLevels	getSkillProficiency(skills skill);
 	void				setSkillAbility(skills skill, abilityScores ability);
 	abilityScores		getSkillAbility(skills skill);
-	int					calcSkillProfBonus(skills s);
 
 	void				setHP(int hp, int type);
 	int					getHP(int type);
@@ -225,6 +226,11 @@ struct playerCharacter {
 	void				setSpeed(movements type, int speed);
 	int					getSpeed(movements type);
 	void				initSpeeds();
+
+	void				setSaveProficiency(savingThrows save, proficiencyLevels prof);
+	proficiencyLevels	getSaveProficiency(savingThrows save);
+	int					getSave(savingThrows save);
+	void				initSavingThrows();
 
 	nlohmann::json		toJson() const;
 };

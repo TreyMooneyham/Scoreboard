@@ -93,6 +93,23 @@ int playerCharacter::getMod(abilityScores ability) {
 	return (this->getScore(ability) - 10) / 2;
 }
 
+int playerCharacter::getProfBonus(proficiencyLevels level) {
+	switch (level) {
+	case proficiencyLevels::noProficiency:
+		return 0;
+	case proficiencyLevels::proficiency:
+		return 2 + this->getLevel(levels::character);
+	case proficiencyLevels::expertise:
+		return 4 + this->getLevel(levels::character);
+	case proficiencyLevels::mastery:
+		return 6 + this->getLevel(levels::character);
+	case proficiencyLevels::legendary:
+		return 8 + this->getLevel(levels::character);
+	default:
+		return 0;
+	}
+}
+
 // This initializes every single skill with their respective ability score and no proficiency.
 // It's fucked.
 void playerCharacter::initSkills() {
@@ -188,24 +205,6 @@ std::string skill::getSkillName(skills skill) {
 		return "Survival";
 	default:
 		return "Invalid";
-	}
-}
-
-// Calculates the proficiency bonus for a skill
-int playerCharacter::calcSkillProfBonus(skills s) {
-	switch (this->getSkillProficiency(s)) {
-	case proficiencyLevels::noProficiency:
-		return 0;
-	case proficiencyLevels::proficiency:
-		return 2 + this->getLevel(levels::character);
-	case proficiencyLevels::expertise:
-		return 4 + this->getLevel(levels::character);
-	case proficiencyLevels::mastery:
-		return 6 + this->getLevel(levels::character);
-	case proficiencyLevels::legendary:
-		return 8 + this->getLevel(levels::character);
-	default:
-		return 0;
 	}
 }
 
@@ -394,6 +393,39 @@ void playerCharacter::initSpeeds() {
 	this->movementInfo[movements::climbing] = 15;
 	this->movementInfo[movements::flying] = 0;
 	this->movementInfo[movements::burrowing] = 0;
+}
+
+// Setter for saving throw's proficiency level
+void playerCharacter::setSaveProficiency(savingThrows save, proficiencyLevels prof) {
+	this->savesInfo[save].profLevel = prof;
+}
+
+// Getter for saving throw's proficiency level
+proficiencyLevels playerCharacter::getSaveProficiency(savingThrows save) {
+	return this->savesInfo[save].profLevel;
+}
+
+// Getter for saving throw's bonus
+int playerCharacter::getSave(savingThrows save) {
+	switch (save) {
+	case savingThrows::fortitude:
+		if (this->abilities[abilityScores::constitution] >= this->abilities[abilityScores::strength])
+			return this->getMod(abilityScores::constitution);
+
+		return this->getMod(abilityScores::strength);
+	case savingThrows::reflex:
+		if (this->abilities[abilityScores::dexterity] >= this->abilities[abilityScores::intelligence])
+			return this->getMod(abilityScores::dexterity);
+
+		return this->getMod(abilityScores::intelligence);
+	case savingThrows::will:
+		if (this->abilities[abilityScores::wisdom] >= this->abilities[abilityScores::charisma])
+			return this->getMod(abilityScores::wisdom);
+
+		return this->getMod(abilityScores::charisma);
+	default:
+		return 0;
+	}
 }
 
 nlohmann::json playerCharacter::toJson() const {

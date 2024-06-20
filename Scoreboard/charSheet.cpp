@@ -110,8 +110,8 @@ void charSheet(bool* enable) {
 	int chaMod = globalChar.getMod(abilityScores::charisma);
 
 	int skillScoreBonus = globalChar.getMod(globalChar.skillInfo[currentSkill].mainAbility);
-	int profBonus = globalChar.calcSkillProfBonus(currentSkill);
-	int totalBonus = skillScoreBonus + profBonus;
+	int skillProfBonus = globalChar.getProfBonus(globalChar.skillInfo[currentSkill].profLevel);
+	int skillTotalBonus = skillScoreBonus + skillProfBonus;
 	int skillAdjustments = globalChar.getAdj(currentSkill);
 
 	int maxHP = globalChar.getHP(0) + (globalChar.getLevel(levels::character) * globalChar.getMod(abilityScores::constitution));
