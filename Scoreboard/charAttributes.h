@@ -193,7 +193,6 @@ struct playerCharacter {
 	std::map<savingThrows, int>				saveAdj;
 	std::map<conditions, int>				conditionInfo;
 	
-
 	// Setters and getters
 	void				setName(std::string name, int type);
 	std::string			getName(int type);
@@ -232,17 +231,17 @@ struct playerCharacter {
 	void				setAdj(skills skill, int val);
 	void				setAdj(movements type, int val);
 	void				setAdj(savingThrows save, int val);
-	void				setAdj(int armor);
+	void				setAdj(armorClass armor, int val);
 	void				addAdj(abilityScores score, int val);
 	void				addAdj(skills skill, int val);
 	void				addAdj(movements type, int val);
 	void				addAdj(savingThrows save, int val);
-	void				addAdj(int armor);
+	void				addAdj(armorClass armor, int val);
 	int					getAdj(abilityScores score);
 	int					getAdj(skills skill);
 	int					getAdj(movements type);
 	int 				getAdj(savingThrows save);
-	int					getArmorAdj();
+	int					getAdj(armorClass armor);
 	void				initAdj();
 
 	void				setCondition(conditions cond, int val);
