@@ -534,6 +534,7 @@ nlohmann::json playerCharacter::toJson() const {
 	hpJson["currentHP"] = hpInfo.currentHP;
 	jsonObj["hp"] = hpJson;
 
+	// Put the relevant feats information in
 	nlohmann::json featsJson;
 	featsJson["count"] = this->feats.size();
 	for (int i = 0; i < this->feats.size(); ++i) {
@@ -541,6 +542,7 @@ nlohmann::json playerCharacter::toJson() const {
 	}
 	jsonObj["feats"] = featsJson;
 
+	// Put the relevant inventory information in
 	nlohmann::json inventoryJson;
 	inventoryJson["count"] = this->inventory.size();
 	for (int i = 0; i < this->inventory.size(); ++i) {
@@ -548,6 +550,19 @@ nlohmann::json playerCharacter::toJson() const {
 		inventoryJson[std::to_string(i)]["count"] = this->inventory.at(i).count;
 	}
 	jsonObj["inventory"] = inventoryJson;
+
+	// Put the relevant inventory information in
+	// NOTE: key = first, value = second
+	nlohmann::json resistanceJson;
+	for (const auto& pissboy : this->resistInfo) {
+		const resistanceTypes& resType = pissboy.first;
+		const resistance& res = pissboy.second;
+		resistanceJson[std::to_string(static_cast<int>(resType))]["type"] = res.type;
+		resistanceJson[std::to_string(static_cast<int>(resType))]["dt"] = res.dt;
+		resistanceJson[std::to_string(static_cast<int>(resType))]["dr"] = res.dr;
+	}
+	jsonObj["resistances"] = resistanceJson;
+
 
 	return jsonObj;
 }

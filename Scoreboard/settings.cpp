@@ -165,6 +165,16 @@ namespace Settings {
                 theRatsAreBackInMySkinHelpMeGetThemOutIAmBeggingYouPlease.count = jsonObj.at("inventory").at(std::to_string(i)).at("count").get<int>();
                 pc.inventory.push_back(theRatsAreBackInMySkinHelpMeGetThemOutIAmBeggingYouPlease);
             }
+
+            for (auto& res : jsonObj["resistances"].items()) {
+                resistanceTypes resistanceKey = (resistanceTypes) (std::stoi(res.key()));
+                resistance resistanceValue;
+                resistanceValue.dr = res.value()["dr"].get<double>();
+                resistanceValue.dt = res.value()["dt"].get<double>();
+                resistanceValue.type = (resistanceTypes) res.value()["type"].get<int>();
+                pc.resistInfo[resistanceKey] = resistanceValue;
+            }
+
         }
         catch (...) {
             std::cerr << "Character not found/unreachable" << std::endl;
