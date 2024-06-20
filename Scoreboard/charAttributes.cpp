@@ -14,7 +14,8 @@ bool feat::findFeat(int id, std::vector<int> list) {
 }
 
 // Sets the player name for a given character
-// -1 for both, 0 for player name, and 1 for character name
+// -1 for character and player, 0 for player, and 1 for character
+// 2 for ancestry, 3 for nationality
 void playerCharacter::setName(std::string name, int type) {
 	switch (type) {
 	case -1:
@@ -27,10 +28,14 @@ void playerCharacter::setName(std::string name, int type) {
 	case 1:
 		this->nameInfo.charName = name;
 		break;
-	default:
-		this->nameInfo.charName = "Invalid";
-		this->nameInfo.playerName = "Invalid";
+	case 2:
+		this->nameInfo.ancestry = name;
 		break;
+	case 3:
+		this->nameInfo.nationality = name;
+		break;
+	default:
+		return;
 	}
 }
 

@@ -7,10 +7,15 @@
 #include "nlohmann/json.hpp"
 #include <vector>
 
-// Names
+// Names & info
 struct names {
+	// Names
 	std::string charName;
 	std::string playerName;
+
+	// Info
+	std::string ancestry;
+	std::string nationality;
 };
 
 // Levels
