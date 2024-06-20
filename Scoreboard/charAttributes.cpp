@@ -537,6 +537,8 @@ nlohmann::json playerCharacter::toJson() const {
 	// Put the char and player names into it
 	jsonObj["charName"] = nameInfo.charName;
 	jsonObj["playerName"] = nameInfo.playerName;
+	jsonObj["ancestry"] = nameInfo.ancestry;
+	jsonObj["nationality"] = nameInfo.nationality;
 
 	// Put the relevant level information in
 	nlohmann::json levelInfoJson;

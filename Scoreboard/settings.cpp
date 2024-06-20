@@ -71,6 +71,8 @@ namespace Settings {
             // Parsing name information
             pc.nameInfo.charName = jsonObj.at("charName").get<std::string>();
             pc.nameInfo.playerName = jsonObj.at("playerName").get<std::string>();
+            pc.nameInfo.ancestry = jsonObj.at("ancestry").get<std::string>();
+            pc.nameInfo.nationality = jsonObj.at("nationality").get<std::string>();
 
             // Parsing level information
             pc.levelInfo[levels::character] = jsonObj.at("levelInfo").at("character").get<int>();
