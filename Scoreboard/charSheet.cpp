@@ -422,6 +422,9 @@ void charSheet(bool* enable) {
 					if (!contains(toLower(filterSkills), toLower(idk.getSkillName(it.first).c_str())))
 						continue;
 
+					if (it.first == skills::initiative)
+						continue;
+
 					const bool selectedSkill = ((int)it.first == (int)currentSkill);
 					ImGui::PushID((int)it.first);
 					std::string skillName = idk.getSkillName(it.first).c_str();
