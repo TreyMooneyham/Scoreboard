@@ -183,16 +183,16 @@ void charSheet(bool* enable) {
 			ImGui::NextColumn();
 			{
 				ImGui::PushItemWidth(-1);
-				//strcpy_s(pNameChar, globalChar.getName(0).c_str());
+				strcpy_s(ancestryChar, globalChar.getName(2).c_str());
 				if (ImGui::InputTextWithHint("##ancestryBox", "Ancestry...", ancestryChar, IM_ARRAYSIZE(ancestryChar))) {
 					std::string ancestryStr = ancestryChar;
-					//globalChar.setName(pNameStr, 0);
+					globalChar.setName(ancestryStr, 2);
 				}
 
-				//strcpy_s(pNameChar, globalChar.getName(0).c_str());
+				strcpy_s(nationalityChar, globalChar.getName(3).c_str());
 				if (ImGui::InputTextWithHint("##nationBox", "Nationality...", nationalityChar, IM_ARRAYSIZE(nationalityChar))) {
 					std::string nationaityStr = nationalityChar;
-					//globalChar.setName(pNameStr, 0);
+					globalChar.setName(nationalityChar, 3);
 				}
 
 				ImGui::PopItemWidth();

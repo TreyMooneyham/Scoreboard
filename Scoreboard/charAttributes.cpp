@@ -41,12 +41,17 @@ void playerCharacter::setName(std::string name, int type) {
 
 // Gets the player name for a given character
 // 0 for player name, and 1 for character name
+// 2 for ancestry, and 3 for nationality
 std::string playerCharacter::getName(int type) {
 	switch (type) {
 	case 0:
 		return this->nameInfo.playerName;
 	case 1:
 		return this->nameInfo.charName;
+	case 2:
+		return this->nameInfo.ancestry;
+	case 3:
+		return this->nameInfo.nationality;
 	default:
 		return "Invalid";
 	}
