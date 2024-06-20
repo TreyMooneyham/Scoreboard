@@ -47,7 +47,9 @@ enum class skills {
 	crafting, deception, history, insight,
 	intimidation, investigation, medicine, nature,
 	perception, performance, persuasion, religion,
-	sleightOfHand, stealth, survival
+	sleightOfHand, stealth, survival,
+
+	initiative // Here lies the special butterfly
 };
 
 struct skill {

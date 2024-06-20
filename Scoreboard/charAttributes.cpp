@@ -155,6 +155,8 @@ void playerCharacter::initSkills() {
 	this->skillInfo[skills::performance].mainAbility =		abilityScores::charisma;
 	this->skillInfo[skills::persuasion].mainAbility =		abilityScores::charisma;
 
+	this->skillInfo[skills::initiative].mainAbility =		abilityScores::dexterity;
+
 	for (auto& it : skillInfo) {
 		this->skillInfo[it.first].profLevel = proficiencyLevels::noProficiency;
 	}
@@ -393,8 +395,8 @@ void playerCharacter::initAdj() {
 		this->abilityAdj[(abilityScores)i] = 0;
 	}
 
-	// Initializes the 19 skills
-	for (int i = 0; i < 19; i++) {
+	// Initializes the 19 skills and initiative
+	for (int i = 0; i < 20; i++) {
 		this->skillAdj[(skills)i] = 0;
 	}
 

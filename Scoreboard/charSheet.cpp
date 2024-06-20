@@ -345,6 +345,14 @@ void charSheet(bool* enable) {
 				}
 				ImGui::PopItemWidth();
 			}
+			ImGui::NextColumn();
+			{
+
+			}
+			ImGui::NextColumn();
+			{
+
+			}
 			ImGui::EndChild();
 		}
 
