@@ -116,7 +116,7 @@
     },
     "movement": {
         "0": {
-            "speed": 60
+            "speed": 30
         },
         "1": {
             "speed": 15
@@ -219,80 +219,80 @@
         }
     },
     "skills": {
-        "acrobatics": {
+        "0": {
             "mainAbility": 1,
             "profLevel": 0
         },
-        "animalHandling": {
+        "1": {
             "mainAbility": 4,
             "profLevel": 0
         },
-        "arcana": {
+        "10": {
             "mainAbility": 3,
             "profLevel": 0
         },
-        "athletics": {
+        "11": {
+            "mainAbility": 4,
+            "profLevel": 0
+        },
+        "12": {
+            "mainAbility": 4,
+            "profLevel": 0
+        },
+        "13": {
+            "mainAbility": 5,
+            "profLevel": 0
+        },
+        "14": {
+            "mainAbility": 5,
+            "profLevel": 0
+        },
+        "15": {
+            "mainAbility": 3,
+            "profLevel": 0
+        },
+        "16": {
+            "mainAbility": 1,
+            "profLevel": 0
+        },
+        "17": {
+            "mainAbility": 1,
+            "profLevel": 0
+        },
+        "18": {
+            "mainAbility": 4,
+            "profLevel": 0
+        },
+        "2": {
+            "mainAbility": 3,
+            "profLevel": 0
+        },
+        "3": {
             "mainAbility": 0,
             "profLevel": 0
         },
-        "crafting": {
+        "4": {
             "mainAbility": 3,
             "profLevel": 0
         },
-        "deception": {
+        "5": {
             "mainAbility": 5,
             "profLevel": 0
         },
-        "history": {
+        "6": {
             "mainAbility": 3,
             "profLevel": 0
         },
-        "insight": {
+        "7": {
             "mainAbility": 4,
             "profLevel": 0
         },
-        "intimidation": {
+        "8": {
             "mainAbility": 0,
             "profLevel": 0
         },
-        "investigation": {
+        "9": {
             "mainAbility": 3,
-            "profLevel": 0
-        },
-        "medicine": {
-            "mainAbility": 3,
-            "profLevel": 0
-        },
-        "nature": {
-            "mainAbility": 4,
-            "profLevel": 0
-        },
-        "perception": {
-            "mainAbility": 4,
-            "profLevel": 0
-        },
-        "performance": {
-            "mainAbility": 5,
-            "profLevel": 0
-        },
-        "persuasion": {
-            "mainAbility": 5,
-            "profLevel": 0
-        },
-        "religion": {
-            "mainAbility": 3,
-            "profLevel": 0
-        },
-        "sleightOfHand": {
-            "mainAbility": 1,
-            "profLevel": 0
-        },
-        "stealth": {
-            "mainAbility": 1,
-            "profLevel": 0
-        },
-        "survival": {
-            "mainAbility": 4,
             "profLevel": 0
         }
     }
