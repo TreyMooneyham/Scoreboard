@@ -357,7 +357,7 @@ void playerCharacter::addAdj(savingThrows save, int val) {
 
 // "Setter" for armorClass
 // Lets you add penalties and bonuses simultaneously, multiple of either, or both.
-void playerCharacter::setAdj(armorTypes armor, int val) {
+void playerCharacter::addAdj(armorTypes armor, int val) {
 	this->armorAdj[armor] += val;
 }
 
@@ -401,6 +401,11 @@ void playerCharacter::initAdj() {
 	// Initializes the five movements
 	for (int i = 0; i < 5; i++) {
 		this->movementAdj[(movements)i] = 0;
+	}
+
+	// Initializes the four armor types
+	for (int i = 0; i < 4; i++) {
+		this->armorAdj[(armorTypes)i] = 0;
 	}
 }
 
@@ -477,7 +482,6 @@ int playerCharacter::getSave(savingThrows save) {
 	}
 }
 
-
 // Initializes the saving throws
 void playerCharacter::initSavingThrows() {
 	for (int i = 0; i < 3; i++) {
@@ -485,6 +489,44 @@ void playerCharacter::initSavingThrows() {
 	}
 }
 
+// Setter for the base AC
+void playerCharacter::setBaseArmorClass(armorTypes armor, int baseAC) {
+	this->armorInfo[armor].baseAC = baseAC;
+}
+
+// Setter for the armor main ability
+void playerCharacter::setArmorMainAbility(armorTypes armor, abilityScores ability) {
+	this->armorInfo[armor].mainAbility = ability;
+}
+
+// Setter for the armor proficiency
+void playerCharacter::setArmorProficiency(armorTypes armor, proficiencyLevels prof) {
+	this->armorInfo[armor].profLevel = prof;
+}
+
+// Getter for the base AC
+int playerCharacter::getBaseArmorClass(armorTypes armor) {
+	return this->armorInfo[armor].baseAC;
+}
+
+// Getter for the armor's main ability
+abilityScores playerCharacter::getArmorMainAbility(armorTypes armor) {
+	return this->armorInfo[armor].mainAbility;
+}
+
+// Getter for the armor's proficiency level
+proficiencyLevels playerCharacter::getArmorProficiency(armorTypes armor) {
+	return this->armorInfo[armor].profLevel;
+}
+
+// Initializer for the armor
+void playerCharacter::initArmorClass() {
+	for (int i = 0; i < 4; i++) {
+		this->armorInfo[(armorTypes)i].baseAC = 10;
+		this->armorInfo[(armorTypes)i].mainAbility = abilityScores::dexterity;
+		this->armorInfo[(armorTypes)i].profLevel = proficiencyLevels::noProficiency;
+	}
+}
 
 nlohmann::json playerCharacter::toJson() const {
 	// Create the big json

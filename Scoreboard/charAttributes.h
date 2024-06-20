@@ -258,12 +258,12 @@ struct playerCharacter {
 	int					getSave(savingThrows save);
 	void				initSavingThrows();
 
-	void				setBaseArmorClass(armorClass armor, int baseAC);
-	void				setArmorMainAbility(armorClass armor, abilityScores ability);
-	void				setArmorProficiency(armorClass armor, proficiencyLevels prof);
-	int					getBaseArmorClass(armorClass armor);
-	abilityScores		getArmorMainAbility(armorClass armor);
-	proficiencyLevels	getArmorProficiency(armorClass armor);
+	void				setBaseArmorClass(armorTypes armor, int baseAC);
+	void				setArmorMainAbility(armorTypes armor, abilityScores ability);
+	void				setArmorProficiency(armorTypes armor, proficiencyLevels prof);
+	int					getBaseArmorClass(armorTypes armor);
+	abilityScores		getArmorMainAbility(armorTypes armor);
+	proficiencyLevels	getArmorProficiency(armorTypes armor);
 	void				initArmorClass();
 
 	nlohmann::json		toJson() const;
