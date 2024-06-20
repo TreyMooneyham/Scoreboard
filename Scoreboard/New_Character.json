@@ -10,7 +10,7 @@
     "charName": "New Character",
     "conditions": {
         "0": {
-            "level": 2
+            "level": 0
         },
         "1": {
             "level": 0
@@ -185,6 +185,20 @@
             "dr": 0.0,
             "dt": 0,
             "type": 0
+        }
+    },
+    "saves": {
+        "0": {
+            "mainAbility": 1,
+            "profLevel": 1
+        },
+        "1": {
+            "mainAbility": 0,
+            "profLevel": 0
+        },
+        "2": {
+            "mainAbility": 0,
+            "profLevel": 0
         }
     },
     "skills": {

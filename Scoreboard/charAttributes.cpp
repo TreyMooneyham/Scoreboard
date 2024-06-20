@@ -572,6 +572,16 @@ nlohmann::json playerCharacter::toJson() const {
 	}
 	jsonObj["conditions"] = conditionsJson;
 
+	// Put the relevant saves information in
+	nlohmann::json savesJson;
+	for (const auto& save : this->savesInfo) {
+		const savingThrows& saveType = save.first;
+		const savingThrow& saveStats = save.second;
+		savesJson[std::to_string(static_cast<int>(saveType))]["mainAbility"] = saveStats.mainAbility;
+		savesJson[std::to_string(static_cast<int>(saveType))]["profLevel"] = saveStats.profLevel;
+	}
+	jsonObj["saves"] = savesJson;
+
 
 	return jsonObj;
 }

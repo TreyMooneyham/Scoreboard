@@ -182,6 +182,15 @@ namespace Settings {
                 pc.conditionInfo[conditionKey] = condtion.value()["level"];
             }
 
+            // Parsing saves information
+            for (auto& save : jsonObj["saves"].items()) {
+                savingThrows savesKey = (savingThrows)(std::stoi(save.key()));
+                savingThrow saveStats;
+                saveStats.mainAbility = save.value()["mainAbility"];
+                saveStats.profLevel = save.value()["profLevel"];
+                pc.savesInfo[savesKey] = saveStats;
+            }
+
         }
         catch (...) {
             std::cerr << "Character not found/unreachable" << std::endl;
