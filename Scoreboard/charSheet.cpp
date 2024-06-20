@@ -641,6 +641,17 @@ void charSheet(bool* enable) {
 
 				if (ImGui::BeginTabItem("Feats")) {
 					ImGui::Text("Feats Tab");
+					if (ImGui::Button("Add Feature...", ImVec2(0, 0)))
+						ImGui::OpenPopup("Feature Manager");
+
+					ImGui::SetNextWindowPos(ImGui::GetMainViewport()->GetCenter(), ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
+					ImGui::SetNextWindowSize(ImVec2(700, 306));
+					if (ImGui::BeginPopupModal("Feature Manager", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
+						if (ImGui::Button("Close", ImVec2(0, 0)))
+							ImGui::CloseCurrentPopup();
+
+						ImGui::EndPopup();
+					}
 
 					ImGui::EndTabItem();
 				}
