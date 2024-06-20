@@ -443,12 +443,14 @@ int playerCharacter::getSave(savingThrows save) {
 	}
 }
 
+
 // Initializes the saving throws
 void playerCharacter::initSavingThrows() {
 	for (int i = 0; i < 3; i++) {
 		this->savesInfo[(savingThrows)i].profLevel = proficiencyLevels::noProficiency;
 	}
 }
+
 
 nlohmann::json playerCharacter::toJson() const {
 	// Create the big json
@@ -475,63 +477,12 @@ nlohmann::json playerCharacter::toJson() const {
 
 	// Put the relevant skills information in
 	nlohmann::json skillsJson;
-	skillsJson["acrobatics"]["profLevel"] = skillInfo.at(skills::acrobatics).profLevel;
-	skillsJson["acrobatics"]["mainAbility"] = skillInfo.at(skills::acrobatics).mainAbility;
-
-	skillsJson["animalHandling"]["profLevel"] = skillInfo.at(skills::animalHandling).profLevel;
-	skillsJson["animalHandling"]["mainAbility"] = skillInfo.at(skills::animalHandling).mainAbility;
-
-	skillsJson["arcana"]["profLevel"] = skillInfo.at(skills::arcana).profLevel;
-	skillsJson["arcana"]["mainAbility"] = skillInfo.at(skills::arcana).mainAbility;
-
-	skillsJson["athletics"]["profLevel"] = skillInfo.at(skills::athletics).profLevel;
-	skillsJson["athletics"]["mainAbility"] = skillInfo.at(skills::athletics).mainAbility;
-
-	skillsJson["crafting"]["profLevel"] = skillInfo.at(skills::crafting).profLevel;
-	skillsJson["crafting"]["mainAbility"] = skillInfo.at(skills::crafting).mainAbility;
-
-	skillsJson["deception"]["profLevel"] = skillInfo.at(skills::deception).profLevel;
-	skillsJson["deception"]["mainAbility"] = skillInfo.at(skills::deception).mainAbility;
-
-	skillsJson["history"]["profLevel"] = skillInfo.at(skills::history).profLevel;
-	skillsJson["history"]["mainAbility"] = skillInfo.at(skills::history).mainAbility;
-
-	skillsJson["insight"]["profLevel"] = skillInfo.at(skills::insight).profLevel;
-	skillsJson["insight"]["mainAbility"] = skillInfo.at(skills::insight).mainAbility;
-
-	skillsJson["intimidation"]["profLevel"] = skillInfo.at(skills::intimidation).profLevel;
-	skillsJson["intimidation"]["mainAbility"] = skillInfo.at(skills::intimidation).mainAbility;
-
-	skillsJson["investigation"]["profLevel"] = skillInfo.at(skills::investigation).profLevel;
-	skillsJson["investigation"]["mainAbility"] = skillInfo.at(skills::investigation).mainAbility;
-
-	skillsJson["medicine"]["profLevel"] = skillInfo.at(skills::medicine).profLevel;
-	skillsJson["medicine"]["mainAbility"] = skillInfo.at(skills::medicine).mainAbility;
-
-	skillsJson["nature"]["profLevel"] = skillInfo.at(skills::nature).profLevel;
-	skillsJson["nature"]["mainAbility"] = skillInfo.at(skills::nature).mainAbility;
-
-	skillsJson["perception"]["profLevel"] = skillInfo.at(skills::perception).profLevel;
-	skillsJson["perception"]["mainAbility"] = skillInfo.at(skills::perception).mainAbility;
-
-	skillsJson["performance"]["profLevel"] = skillInfo.at(skills::performance).profLevel;
-	skillsJson["performance"]["mainAbility"] = skillInfo.at(skills::performance).mainAbility;
-
-	skillsJson["persuasion"]["profLevel"] = skillInfo.at(skills::persuasion).profLevel;
-	skillsJson["persuasion"]["mainAbility"] = skillInfo.at(skills::persuasion).mainAbility;
-
-	skillsJson["religion"]["profLevel"] = skillInfo.at(skills::religion).profLevel;
-	skillsJson["religion"]["mainAbility"] = skillInfo.at(skills::religion).mainAbility;
-
-	skillsJson["sleightOfHand"]["profLevel"] = skillInfo.at(skills::sleightOfHand).profLevel;
-	skillsJson["sleightOfHand"]["mainAbility"] = skillInfo.at(skills::sleightOfHand).mainAbility;
-
-	skillsJson["stealth"]["profLevel"] = skillInfo.at(skills::stealth).profLevel;
-	skillsJson["stealth"]["mainAbility"] = skillInfo.at(skills::stealth).mainAbility;
-
-	skillsJson["survival"]["profLevel"] = skillInfo.at(skills::survival).profLevel;
-	skillsJson["survival"]["mainAbility"] = skillInfo.at(skills::survival).mainAbility;
-
+	for (const auto& pissman : this->skillInfo) {
+		const skills& skillType = pissman.first;
+		const skill& actualSkill = pissman.second;
+		skillsJson[std::to_string(static_cast<int>(skillType))]["mainAbility"] = actualSkill.mainAbility;
+		skillsJson[std::to_string(static_cast<int>(skillType))]["profLevel"] = actualSkill.profLevel;
+	}
 	jsonObj["skills"] = skillsJson;
 
 	// Put the relevant hp information in
@@ -541,6 +492,7 @@ nlohmann::json playerCharacter::toJson() const {
 	hpJson["currentHP"] = hpInfo.currentHP;
 	jsonObj["hp"] = hpJson;
 
+	// Put the relevant feats information in
 	nlohmann::json featsJson;
 	featsJson["count"] = this->feats.size();
 	for (int i = 0; i < this->feats.size(); ++i) {
@@ -548,6 +500,7 @@ nlohmann::json playerCharacter::toJson() const {
 	}
 	jsonObj["feats"] = featsJson;
 
+	// Put the relevant inventory information in
 	nlohmann::json inventoryJson;
 	inventoryJson["count"] = this->inventory.size();
 	for (int i = 0; i < this->inventory.size(); ++i) {
@@ -555,6 +508,76 @@ nlohmann::json playerCharacter::toJson() const {
 		inventoryJson[std::to_string(i)]["count"] = this->inventory.at(i).count;
 	}
 	jsonObj["inventory"] = inventoryJson;
+
+	// Put the relevant resistance information in
+	// NOTE: key = first, value = second
+	nlohmann::json resistanceJson;
+	for (const auto& pissboy : this->resistInfo) {
+		const resistanceTypes& resType = pissboy.first;
+		const resistance& res = pissboy.second;
+		resistanceJson[std::to_string(static_cast<int>(resType))]["type"] = res.type;
+		resistanceJson[std::to_string(static_cast<int>(resType))]["dt"] = res.dt;
+		resistanceJson[std::to_string(static_cast<int>(resType))]["dr"] = res.dr;
+	}
+	jsonObj["resistances"] = resistanceJson;
+
+	// Put the relevant condition information in
+	nlohmann::json conditionsJson;
+	for (const auto& condition : this->conditionInfo) {
+		const conditions& conditionName = condition.first;
+		int afflictedLevel = condition.second;
+		conditionsJson[std::to_string(static_cast<int>(conditionName))]["level"] = afflictedLevel;
+	}
+	jsonObj["conditions"] = conditionsJson;
+
+	// Put the relevant saves information in
+	nlohmann::json savesJson;
+	for (const auto& save : this->savesInfo) {
+		const savingThrows& saveType = save.first;
+		const savingThrow& saveStats = save.second;
+		savesJson[std::to_string(static_cast<int>(saveType))]["mainAbility"] = saveStats.mainAbility;
+		savesJson[std::to_string(static_cast<int>(saveType))]["profLevel"] = saveStats.profLevel;
+	}
+	jsonObj["saves"] = savesJson;
+
+	// Put the relevant movement information in
+	nlohmann::json movementJson;
+	for (const auto& movement : this->movementInfo) {
+		const movements& movementType = movement.first;
+		int speed = movement.second;
+		movementJson[std::to_string(static_cast<int>(movementType))]["speed"] = speed;
+	}
+	jsonObj["movement"] = movementJson;
+
+	// Rapid fire for the adjustments
+	nlohmann::json abilityAdjJson;
+	for (const auto& adjustment : this->abilityAdj) {
+		const abilityScores& adjustmentType = adjustment.first;
+		abilityAdjJson[std::to_string(static_cast<int>(adjustmentType))]["adjustment"] = adjustment.second;
+	}
+	jsonObj["abilityAdjustments"] = abilityAdjJson;
+
+	nlohmann::json skillAdjJson;
+	for (const auto& adjustment : this->skillAdj) {
+		const skills& adjustmentType = adjustment.first;
+		skillAdjJson[std::to_string(static_cast<int>(adjustmentType))]["adjustment"] = adjustment.second;
+	}
+	jsonObj["skillAdjustments"] = skillAdjJson;
+
+	nlohmann::json movementAdjJson;
+	for (const auto& adjustment : this->movementAdj) {
+		const movements& adjustmentType = adjustment.first;
+		movementAdjJson[std::to_string(static_cast<int>(adjustmentType))]["adjustment"] = adjustment.second;
+	}
+	jsonObj["movementAdjustments"] = movementAdjJson;
+
+	nlohmann::json saveAdjJson;
+	for (const auto& adjustment : this->saveAdj) {
+		const savingThrows& adjustmentType = adjustment.first;
+		saveAdjJson[std::to_string(static_cast<int>(adjustmentType))]["adjustment"] = adjustment.second;
+	}
+	jsonObj["saveAdjustments"] = saveAdjJson;
+
 
 	return jsonObj;
 }
