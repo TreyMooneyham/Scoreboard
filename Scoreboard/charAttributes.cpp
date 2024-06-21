@@ -672,7 +672,7 @@ nlohmann::json playerCharacter::toJson() const {
 	nlohmann::json ACAdjJson;
 	for (const auto& adjustment : this->armorAdj) {
 		const armorTypes& adjustmentType = adjustment.first;
-		saveAdjJson[std::to_string(static_cast<int>(adjustmentType))]["adjustment"] = adjustment.second;
+		ACAdjJson[std::to_string(static_cast<int>(adjustmentType))]["adjustment"] = adjustment.second;
 	}
 	jsonObj["ACAdjustments"] = ACAdjJson;
 
