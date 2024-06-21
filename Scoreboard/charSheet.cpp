@@ -15,7 +15,7 @@ std::string toLower(std::string str) {
 }
 
 std::string scoreFormat(std::string str, abilityScores ability) {
-	int score = globalChar.getScore(ability), mod = globalChar.getMod(ability), diff;
+	int score = globalChar.getScore(ability), mod = globalChar.getMod(ability) + globalChar.getAdj(ability), diff;
 	str += ":";
 	(score < 10) ? diff = 19 - str.length() : diff = 18 - str.length();
 
@@ -161,9 +161,9 @@ void charSheet(bool* enable) {
 	int chaAdj = globalChar.abilityAdj[abilityScores::charisma];
 
 	// Ability Info Arrays
-	int abilityScoreArr[] = { strScore, conScore, dexScore, intScore, wisScore, chaScore }; // Couldn't name this abilityScores oopsie
-	int abilityScoreMods[] = { strMod, conMod, dexMod, intMod, wisMod, chaMod };
-	int abilityAdjustments[] = { strAdj, conAdj, dexAdj, intAdj, wisAdj, chaAdj };
+	int abilityScoreArr[] = { strScore, dexScore, conScore, intScore, wisScore, chaScore }; // Couldn't name this abilityScores oopsie
+	int abilityScoreMods[] = { strMod, dexMod, conMod, intMod, wisMod, chaMod };
+	int abilityAdjustments[] = { strAdj, dexAdj, conAdj, intAdj, wisAdj, chaAdj };
 
 	// Saving throws
 	// Notably much longer than skills because only one skill gets shown at a time
@@ -283,27 +283,19 @@ void charSheet(bool* enable) {
 		}
 
 		if (ImGui::BeginChild("##AbilityScores", ImVec2(190, 170), ImGuiChildFlags_Border)) {
-			ImGui::Text(scoreFormat("Strength", abilityScores::strength).c_str());
-			ImGui::Text(scoreFormat("Dexterity", abilityScores::dexterity).c_str());
-			ImGui::Text(scoreFormat("Constitution", abilityScores::constitution).c_str());
-			ImGui::Text(scoreFormat("Intelligence", abilityScores::intelligence).c_str());
-			ImGui::Text(scoreFormat("Wisdom", abilityScores::wisdom).c_str());
-			ImGui::Text(scoreFormat("Charisma", abilityScores::charisma).c_str());
-
-			// This shit broken?
-			/*for (int i = 0; i < IM_ARRAYSIZE(mainAbilityList); i++) {
+			for (int i = 0; i < IM_ARRAYSIZE(mainAbilityList); i++) {
 				std::string formattedAbility = mainAbilityList[i];
 
-				if (abilityAdjustments[i] > 0) {
-					ImGui::TextColored(ImVec4(0.0f, 0.8f, 0.0f, 1.0f), modFormat(formattedAbility, abilityScoreMods[i] + abilityAdjustments[i]).c_str());
+				if (abilityAdjustments[i] > 0) { // Positive adjustment
+					ImGui::TextColored(ImVec4(0.0f, 0.8f, 0.0f, 1.0f), scoreFormat(formattedAbility, (abilityScores)i).c_str());
 				}
-				else if (abilityAdjustments[i] < 0) {
-					ImGui::TextColored(ImVec4(0.8f, 0.0f, 0.0f, 1.0f), modFormat(formattedAbility, abilityScoreMods[i] + abilityAdjustments[i]).c_str());
+				else if (abilityAdjustments[i] < 0) { // Negative adjustment
+					ImGui::TextColored(ImVec4(0.8f, 0.0f, 0.0f, 1.0f), scoreFormat(formattedAbility, (abilityScores)i).c_str());
 				}
-				else {
-					ImGui::Text(modFormat(formattedAbility, abilityScoreMods[i]).c_str());
+				else { // No adjustment
+					ImGui::Text(scoreFormat(formattedAbility, (abilityScores)i).c_str());
 				}
-			}*/
+			}
 
 			ImGui::Separator();
 
