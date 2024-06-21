@@ -320,7 +320,6 @@ void charSheet(bool* enable) {
 					ImGui::Text(modFormat(saveStr, saveTotalBonus[i]).c_str());
 				}
 			}
-
 			ImGui::EndChild();
 		}
 
@@ -338,7 +337,6 @@ void charSheet(bool* enable) {
 						if (ImGui::Selectable(armorTypesList[n], selectedArmorType))
 							currentArmorType = (armorTypes)n;
 					}
-
 					ImGui::EndCombo();
 				}
 				ImGui::PopItemWidth();
@@ -355,7 +353,6 @@ void charSheet(bool* enable) {
 							if (ImGui::Selectable(baseACList[n], selectedBaseAC))
 								globalChar.setBaseArmorClass(currentArmorType, n);
 						}
-
 						ImGui::EndCombo();
 					}
 
@@ -369,7 +366,6 @@ void charSheet(bool* enable) {
 							if (ImGui::Selectable(mainAbilityList[n], selectedMainAbility))
 								globalChar.setArmorMainAbility(currentArmorType, (abilityScores)n);
 						}
-
 						ImGui::EndCombo();
 					}
 					ImGui::PopItemWidth();
@@ -591,7 +587,6 @@ void charSheet(bool* enable) {
 						globalChar.skillInfo[currentSkill].mainAbility = (abilityScores)n;
 					}
 				}
-
 				ImGui::EndCombo();
 			}
 
@@ -606,7 +601,6 @@ void charSheet(bool* enable) {
 						globalChar.setSkillProficiency(currentSkill, currentProficiencyLevel);
 					}
 				}
-
 				ImGui::EndCombo();
 			}
 			ImGui::PopItemWidth();
