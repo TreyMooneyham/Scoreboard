@@ -348,6 +348,8 @@ int main(int, char**)
 
     WaitForLastSubmittedFrame();
 
+    //Could have it auto save here
+
     // Cleanup
     ImGui_ImplDX12_Shutdown();
     ImGui_ImplWin32_Shutdown();
