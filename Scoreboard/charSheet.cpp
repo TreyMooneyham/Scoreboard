@@ -14,6 +14,21 @@ std::string toLower(std::string str) {
 	return str;
 }
 
+std::string scoreFormat(std::string str, abilityScores ability) {
+	int score = globalChar.getScore(ability), mod = globalChar.getMod(ability), diff;
+	str += ":";
+	(score < 10) ? diff = 19 - str.length() : diff = 18 - str.length();
+
+	for (int i = 0; i < diff; i++) {
+		str += " ";
+	}
+
+	str += std::to_string(score) + ", ";
+	(mod < 0) ? str += std::to_string(mod) : str += "+" + std::to_string(mod);
+
+	return str;
+}
+
 std::string modFormat(std::string str, int bonus) {
 	str += ":";
 
@@ -26,15 +41,6 @@ std::string modFormat(std::string str, int bonus) {
 	}
 
 	(bonus < 0) ? str += std::to_string(bonus) : str += "+" + std::to_string(bonus);
-
-	return str;
-}
-
-std::string modFormat(const char* charray, int bonus) {
-	std::string str;
-	str += charray;
-
-	str = modFormat(str, bonus);
 
 	return str;
 }
@@ -277,12 +283,12 @@ void charSheet(bool* enable) {
 		}
 
 		if (ImGui::BeginChild("##AbilityScores", ImVec2(190, 170), ImGuiChildFlags_Border)) {
-			ImGui::Text(modFormat("Strength", strMod).c_str());
-			ImGui::Text(modFormat("Dexterity", dexMod).c_str());
-			ImGui::Text(modFormat("Constitution", conMod).c_str());
-			ImGui::Text(modFormat("Intelligence", intMod).c_str());
-			ImGui::Text(modFormat("Wisdom", wisMod).c_str());
-			ImGui::Text(modFormat("Charisma", chaMod).c_str());
+			ImGui::Text(scoreFormat("Strength", abilityScores::strength).c_str());
+			ImGui::Text(scoreFormat("Dexterity", abilityScores::dexterity).c_str());
+			ImGui::Text(scoreFormat("Constitution", abilityScores::constitution).c_str());
+			ImGui::Text(scoreFormat("Intelligence", abilityScores::intelligence).c_str());
+			ImGui::Text(scoreFormat("Wisdom", abilityScores::wisdom).c_str());
+			ImGui::Text(scoreFormat("Charisma", abilityScores::charisma).c_str());
 
 			// This shit broken?
 			/*for (int i = 0; i < IM_ARRAYSIZE(mainAbilityList); i++) {
@@ -597,14 +603,11 @@ void charSheet(bool* enable) {
 					std::string profName = proficiencyLevelsList[n];
 					if (ImGui::Selectable(profName.c_str(), selectedProf)) {
 						currentProficiencyLevel = (proficiencyLevels)n;
+						globalChar.setSkillProficiency(currentSkill, currentProficiencyLevel);
 					}
 				}
 
 				ImGui::EndCombo();
-			}
-
-			if (ImGui::Button("Apply Proficiency", ImVec2(-1, 0))) {
-				globalChar.setSkillProficiency(currentSkill, currentProficiencyLevel);
 			}
 
 			ImGui::PopItemWidth();
