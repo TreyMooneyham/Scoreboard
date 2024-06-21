@@ -3,6 +3,7 @@
 #include <vector>
 #include <fstream>
 #include <iostream>
+#include <math.h>
 
 bool feat::findFeat(int id, std::vector<int> list) {
 	for (int i = 0; i < list.size(); i++) {
@@ -108,7 +109,7 @@ int playerCharacter::getScore(abilityScores ability) {
 
 // Gets a specified ability score's modifier
 int playerCharacter::getMod(abilityScores ability) {
-	return (this->getScore(ability) - 10) / 2;
+	return floor((this->getScore(ability) - 10.0f) / 2.0f);
 }
 
 int playerCharacter::getProfBonus(proficiencyLevels level) {

@@ -277,38 +277,46 @@ void charSheet(bool* enable) {
 		}
 
 		if (ImGui::BeginChild("##AbilityScores", ImVec2(190, 170), ImGuiChildFlags_Border)) {
-				for (int i = 0; i < IM_ARRAYSIZE(mainAbilityList); i++) {
-					std::string formattedAbility = mainAbilityList[i];
+			ImGui::Text(modFormat("Strength", strMod).c_str());
+			ImGui::Text(modFormat("Dexterity", dexMod).c_str());
+			ImGui::Text(modFormat("Constitution", conMod).c_str());
+			ImGui::Text(modFormat("Intelligence", intMod).c_str());
+			ImGui::Text(modFormat("Wisdom", wisMod).c_str());
+			ImGui::Text(modFormat("Charisma", chaMod).c_str());
 
-					if (abilityAdjustments[i] > 0) {
-						ImGui::TextColored(ImVec4(0.0f, 0.8f, 0.0f, 1.0f), modFormat(formattedAbility, abilityScoreMods[i] + abilityAdjustments[i]).c_str());
-					}
-					else if (abilityAdjustments[i] < 0) {
-						ImGui::TextColored(ImVec4(0.8f, 0.0f, 0.0f, 1.0f), modFormat(formattedAbility, abilityScoreMods[i] + abilityAdjustments[i]).c_str());
-					}
-					else {
-						ImGui::Text(modFormat(formattedAbility, abilityScoreMods[i]).c_str());
-					}
+			// This shit broken?
+			/*for (int i = 0; i < IM_ARRAYSIZE(mainAbilityList); i++) {
+				std::string formattedAbility = mainAbilityList[i];
+
+				if (abilityAdjustments[i] > 0) {
+					ImGui::TextColored(ImVec4(0.0f, 0.8f, 0.0f, 1.0f), modFormat(formattedAbility, abilityScoreMods[i] + abilityAdjustments[i]).c_str());
 				}
-
-				ImGui::Separator();
-
-				for (int i = 0; i < 3; i++) {
-					std::string saveStr = savesList[i];
-
-					if (saveAdjustments[i] > 0) { // When the adjustments are positive
-						ImGui::TextColored(ImVec4(0.0f, 0.8f, 0.0f, 1.0f), modFormat(saveStr, saveTotalBonus[i] + saveAdjustments[i]).c_str());
-					}
-					else if (saveAdjustments[i] < 0) { // When the adjustments are negative
-						ImGui::TextColored(ImVec4(0.8f, 0.0f, 0.0f, 1.0f), modFormat(saveStr, saveTotalBonus[i] + saveAdjustments[i]).c_str());
-					}
-					else { // When the adjustments are zero
-						ImGui::Text(modFormat(saveStr, saveTotalBonus[i]).c_str());
-					}
+				else if (abilityAdjustments[i] < 0) {
+					ImGui::TextColored(ImVec4(0.8f, 0.0f, 0.0f, 1.0f), modFormat(formattedAbility, abilityScoreMods[i] + abilityAdjustments[i]).c_str());
 				}
+				else {
+					ImGui::Text(modFormat(formattedAbility, abilityScoreMods[i]).c_str());
+				}
+			}*/
 
-				ImGui::EndChild();
+			ImGui::Separator();
+
+			for (int i = 0; i < 3; i++) {
+				std::string saveStr = savesList[i];
+
+				if (saveAdjustments[i] > 0) { // When the adjustments are positive
+					ImGui::TextColored(ImVec4(0.0f, 0.8f, 0.0f, 1.0f), modFormat(saveStr, saveTotalBonus[i] + saveAdjustments[i]).c_str());
+				}
+				else if (saveAdjustments[i] < 0) { // When the adjustments are negative
+					ImGui::TextColored(ImVec4(0.8f, 0.0f, 0.0f, 1.0f), modFormat(saveStr, saveTotalBonus[i] + saveAdjustments[i]).c_str());
+				}
+				else { // When the adjustments are zero
+					ImGui::Text(modFormat(saveStr, saveTotalBonus[i]).c_str());
+				}
 			}
+
+			ImGui::EndChild();
+		}
 
 		ImGui::SameLine();
 
@@ -363,7 +371,7 @@ void charSheet(bool* enable) {
 					ImGui::Separator();
 					std::string finalACStr = armorTypesList[(int)currentArmorType];
 					finalACStr += " AC";
-					ImGui::Text(acFormat(finalACStr, 10 + currentBaseAC + globalChar.getMod(globalChar.getArmorMainAbility(currentArmorType))).c_str());
+					ImGui::Text(acFormat(finalACStr, 10 + currentBaseAC + globalChar.getMod(globalChar.getArmorMainAbility(currentArmorType)) + globalChar.getProfBonus(globalChar.getArmorProficiency(currentArmorType))).c_str());
 
 					ImGui::EndChild();
 				}
