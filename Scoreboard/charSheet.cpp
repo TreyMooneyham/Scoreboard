@@ -609,7 +609,6 @@ void charSheet(bool* enable) {
 
 				ImGui::EndCombo();
 			}
-
 			ImGui::PopItemWidth();
 
 			if (ImGui::BeginListBox("##SkillsList", ImVec2(-1, -1))) {
