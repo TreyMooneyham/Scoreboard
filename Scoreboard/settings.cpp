@@ -176,6 +176,10 @@ namespace Settings {
                 pc.saveAdj[adjustmentType] = adjustment.value()["adjustment"];
             }
 
+            for (auto& adjustment : jsonObj["ACAdjustments"].items()) {
+                armorTypes adjustmentType = (armorTypes)(std::stoi(adjustment.key()));
+                pc.armorAdj[adjustmentType] = adjustment.value()["adjustment"];
+            }
         }
         catch (...) {
             std::cerr << "Character not found/unreachable" << std::endl;
