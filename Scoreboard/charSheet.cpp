@@ -153,12 +153,12 @@ void charSheet(bool* enable) {
 	int chaMod = globalChar.getMod(abilityScores::charisma);
 
 	// Ability Adjustments
-	int strAdj = globalChar.abilityAdj[abilityScores::strength];
-	int dexAdj = globalChar.abilityAdj[abilityScores::dexterity];
-	int conAdj = globalChar.abilityAdj[abilityScores::constitution];
-	int intAdj = globalChar.abilityAdj[abilityScores::intelligence];
-	int wisAdj = globalChar.abilityAdj[abilityScores::wisdom];
-	int chaAdj = globalChar.abilityAdj[abilityScores::charisma];
+	int strAdj = globalChar.getAdj(abilityScores::strength);
+	int dexAdj = globalChar.getAdj(abilityScores::dexterity);
+	int conAdj = globalChar.getAdj(abilityScores::constitution);
+	int intAdj = globalChar.getAdj(abilityScores::intelligence);
+	int wisAdj = globalChar.getAdj(abilityScores::wisdom);
+	int chaAdj = globalChar.getAdj(abilityScores::charisma);
 
 	// Ability Info Arrays
 	int abilityScoreArr[] = { strScore, dexScore, conScore, intScore, wisScore, chaScore }; // Couldn't name this abilityScores oopsie
