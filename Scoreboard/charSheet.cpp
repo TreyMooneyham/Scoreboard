@@ -621,8 +621,8 @@ void charSheet(bool* enable) {
 
 		ImGui::SameLine();
 
-		if (ImGui::BeginChild("##Col2Child1", ImVec2(-1, -1), ImGuiChildFlags_Border)) {
-			if (ImGui::BeginTabBar("CharSheetTabBar", ImGuiTabBarFlags_Reorderable)) {
+		if (ImGui::BeginChild("##MainArea", ImVec2(-1, -1), ImGuiChildFlags_Border)) {
+			if (ImGui::BeginTabBar("CharSheetTabBar")) {
 				if (ImGui::BeginTabItem("Actions")) {
 					ImGui::Text("Action Tab");
 
