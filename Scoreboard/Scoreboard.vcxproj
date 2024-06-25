@@ -129,6 +129,7 @@
   <ItemGroup>
     <ClCompile Include="charAttributes.cpp" />
     <ClCompile Include="charSheet.cpp" />
+    <ClCompile Include="conditionEffects.cpp" />
     <ClCompile Include="damageCalcWindow.cpp" />
     <ClCompile Include="hpWindow.cpp" />
     <ClCompile Include="levelManager.cpp" />
@@ -145,6 +146,7 @@
   <ItemGroup>
     <ClInclude Include="charAttributes.h" />
     <ClInclude Include="charSheet.h" />
+    <ClInclude Include="conditionEffects.h" />
     <ClInclude Include="damageCalcWindow.h" />
     <ClInclude Include="hpWindow.h" />
     <ClInclude Include="imgui\backends\imgui_impl_dx12.h" />

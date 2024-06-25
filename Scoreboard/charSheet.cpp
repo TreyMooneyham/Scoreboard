@@ -64,11 +64,6 @@ std::string condFormat(std::string str, int bonus) {
 	return str + std::to_string(bonus);
 }
 
-template <typename T>
-void setAdjustment(T& obj, int val) {
-	globalChar.setAdj(obj, val);
-}
-
 // Here's the global character variable
 extern playerCharacter globalChar = playerCharacter();
 
@@ -168,9 +163,9 @@ void charSheet(bool* enable) {
 	// Saving throws
 	// Notably much longer than skills because only one skill gets shown at a time
 	// Sucks...
-	int fortScoreBonus = globalChar.getSave(savingThrows::fortitude);
-	int refScoreBonus = globalChar.getSave(savingThrows::reflex);
-	int willScoreBonus = globalChar.getSave(savingThrows::will);
+	int fortScoreBonus = globalChar.getSaveBonus(savingThrows::fortitude);
+	int refScoreBonus = globalChar.getSaveBonus(savingThrows::reflex);
+	int willScoreBonus = globalChar.getSaveBonus(savingThrows::will);
 
 	int fortProfBonus = globalChar.getProfBonus(globalChar.getSaveProficiency(savingThrows::fortitude));
 	int refProfBonus = globalChar.getProfBonus(globalChar.getSaveProficiency(savingThrows::reflex));

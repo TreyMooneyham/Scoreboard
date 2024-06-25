@@ -154,7 +154,8 @@ enum class movements {
 
 // Saving throw enum
 enum class savingThrows {
-	fortitude, reflex, will
+	fortitude, reflex, will,
+	death
 };
 
 // Saving throw struct
@@ -260,7 +261,8 @@ struct playerCharacter {
 
 	void				setSaveProficiency(savingThrows save, proficiencyLevels prof);
 	proficiencyLevels	getSaveProficiency(savingThrows save);
-	int					getSave(savingThrows save);
+	int					getSaveBonus(savingThrows save);
+	abilityScores		getSaveAbility(savingThrows save);
 	void				initSavingThrows();
 
 	void				setBaseArmorClass(armorTypes armor, int baseAC);

@@ -463,7 +463,7 @@ proficiencyLevels playerCharacter::getSaveProficiency(savingThrows save) {
 }
 
 // Getter for saving throw's bonus
-int playerCharacter::getSave(savingThrows save) {
+int playerCharacter::getSaveBonus(savingThrows save) {
 	switch (save) {
 	case savingThrows::fortitude:
 		if (this->abilities[abilityScores::constitution] >= this->abilities[abilityScores::strength])
@@ -485,9 +485,31 @@ int playerCharacter::getSave(savingThrows save) {
 	}
 }
 
+abilityScores playerCharacter::getSaveAbility(savingThrows save) {
+	switch (save) {
+	case savingThrows::fortitude:
+		if (this->abilities[abilityScores::constitution] >= this->abilities[abilityScores::strength])
+			return abilityScores::constitution;
+
+		return abilityScores::strength;
+	case savingThrows::reflex:
+		if (this->abilities[abilityScores::dexterity] >= this->abilities[abilityScores::intelligence])
+			return abilityScores::dexterity;
+
+		return abilityScores::intelligence;
+	case savingThrows::will:
+		if (this->abilities[abilityScores::wisdom] >= this->abilities[abilityScores::charisma])
+			return abilityScores::wisdom;
+
+		return abilityScores::charisma;
+	default:
+		return;
+	}
+}
+
 // Initializes the saving throws
 void playerCharacter::initSavingThrows() {
-	for (int i = 0; i < 3; i++) {
+	for (int i = 0; i < 4; i++) {
 		this->savesInfo[(savingThrows)i].profLevel = proficiencyLevels::noProficiency;
 	}
 }
