@@ -502,8 +502,6 @@ abilityScores playerCharacter::getSaveAbility(savingThrows save) {
 			return abilityScores::wisdom;
 
 		return abilityScores::charisma;
-	default:
-		return;
 	}
 }
 

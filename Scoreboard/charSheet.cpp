@@ -88,16 +88,16 @@ const char* conditionsList[] = { "Blinded", "Clumsy", "Confused", "Controlled", 
 								 "Undetected" };
 const char* conditionDefinitionList[] = { 
 	"All terrain is difficult.\n\nPerception checks that rely on sound always fail.\n\nYou are immune to effects that require sight.\n\nBlinded overwrites dazed.\n\nYou have disadvantage on attack rolls.", 
-	"Clumsy includes a value.\n\nYou have a penalty to dexterity-based attack rolls, ability checks, DCs, and saving throws equal to your clumsy value.", 
+	"Clumsy includes a value.\n\nYou have a penalty to dexterity-based attack rolls, ability checks and DCs, and reflex saving throws equal to your clumsy value.", 
 	"You do not treat anyone as your ally.\n\nYou cannot Delay, Ready, or take Reactions.\n\nYou must use your turn to attack random nearby creatures.\n\nWhenever you take damage, you can attempt to save against the effect.", 
 	"You no longer have control of your character.", 
 	"All attacks you make have a 25%% chance to miss (DC 5 flat check).", 
 	"Perception checks that rely on sound automatically fail.\n\nYou are immune to effects that require hearing.", 
 	"Doomed includes a value.\n\nYou have a penalty to Death Saving Throws equal to your doomed value.\n\nDoomed decreases by 1 for each long rest you take.", 
-	"Drained includes a value.\n\nYou have a penalty to constitution based attack rolls, ability checks, DCs, and saving throws equal to your drained value.\n\nYou lose a number of hit points equal to your character level times the drained value.\n\nYou maximum hit points is also reduced by your character level times the drained value.\n\nDrained decreases by 1 for each long rest you take.",
+	"Drained includes a value.\n\nYou have a penalty to constitution based attack rolls, ability checks, and DCs, and fortitude saving throws equal to your drained value.\n\nYou lose a number of hit points equal to your character level times the drained value.\n\nYou maximum hit points is also reduced by your character level times the drained value.\n\nDrained decreases by 1 for each long rest you take.",
 	"You receive the dying condition if your hit points are less than 0.\n\nYou are unconscious.\n\nAt the end of your turn, you roll a death saving throw. On a roll of 1-10 you fail. After three failures you die.\n\nIf your hit points are reduced to negative half your maximum hit points, you die.\n\nIf you receive any healing that does not take you over 0 hit points, you go to 0 hit points.\n\nIf another creatures makes a medicine check, DC 18, to stabilize you, you stabilize. If that creatures rolls a natural 1, you instead take a failure on your death saves.", 
 	"You are clumsy 1.\n\nYou speeds are reduced by 10 feet.\n\nThis cannot reduce your speed to less than 5 feet.", 
-	"Enfeebled incudes a value.\n\nYou have a penalty to strength based attack rolls, ability checks, DCs, and saving throws equal to your enfeebled value.", 
+	"Enfeebled incudes a value.\n\nYou have a penalty to strength based attack rolls, ability checks, and DCs equal to your enfeebled value.", 
 	"You have a -1 penalty to your AC and saving throws.\n\nYou cannot travel quickly, or stealthily, and cannot perform general tasks while traveling.\n\nYou recover from fatigued after a long rest.", 
 	"You must spend your turn getting away from the source of your condition as fast as possible.\n\nYou cannot Delay or Ready while fleeing.", 
 	"Frightened includes a value.\n\nYou have disadvantage on attack rolls and ability checks against the source of frightened.\n\nYou cannot willingly move closer the the source of frightened.\n\nThe frightened value decreases by 1 at the end of your turn.", 
@@ -114,7 +114,7 @@ const char* conditionDefinitionList[] = {
 	"You cannot take reactions while slowed.\n\nYou can only take an action or a bonus action on your turn.\n\nYour speed is reduced by 10 feet.", 
 	"You do not make death saving throws.\n\nYou heal 1 hit point every hour.", 
 	"Stunned overwrites slowed.\n\nYou cannot take reactions while stunned.\n\nYour are immobilized.\n\nYou cannot take actions or bonus actions.", 
-	"Stupefied includes a value.\n\nYou have a penalty to intelligence, wisdom, and charisma based attack rolls, ability checks, DCs, and saving throws equal to your stupefied value.\n\nWhenever you cast a spell you must beat a DC 5 + stupefied value flat roll or the spell fizzles.", 
+	"Stupefied includes a value.\n\nYou have a penalty to intelligence, wisdom, and charisma based attack rolls, ability checks, and DCs, and will saving throws equal to your stupefied value.\n\nWhenever you cast a spell you must beat a DC 5 + stupefied value flat roll or the spell fizzles.", 
 	"You are stunned.\n\nYou are prone.", 
 	"You have a +2 bonus to attack rolls against creatures you are undetected by.\n\nCreatures can attempt to target you by attacking a square.\n\nThey must succeed on a DC 11 flat check to make an attack roll against you if you are in that square."
 };
@@ -178,6 +178,7 @@ void charSheet(bool* enable) {
 	int fortAdjustments = globalChar.getAdj(savingThrows::fortitude);
 	int refAdjustments = globalChar.getAdj(savingThrows::reflex);
 	int willAdjustments = globalChar.getAdj(savingThrows::will);
+	int deathAdjustment = globalChar.getAdj(savingThrows::death);
 
 	// A little bit of turning my saves into an array...
 	// This is done for looping and readability. Not because it is optimal.
@@ -259,19 +260,33 @@ void charSheet(bool* enable) {
 				std::string formatHPString = std::to_string(globalChar.hpInfo.currentHP) + "/" + std::to_string(maxHP) + " Hit Points";
 				ImGui::SliderInt("##CurrentHPCharSheet", &globalChar.hpInfo.currentHP, 0 - maxHP / 2, maxHP, formatHPString.c_str());
 
-				std::string lvlLabel = "Level: ";
-				lvlLabel += std::to_string(globalChar.getLevel(levels::character));
-				if (ImGui::BeginCombo("##LevelCombo", lvlLabel.c_str())) {
-					for (int i = 0; i < IM_ARRAYSIZE(levelsList); i++) {
-						bool selectedLevel = (globalChar.levelInfo[levels::character] == i + 1);
+				if (globalChar.getHP(2) > 0 || globalChar.getCondition(conditions::stabilized) > 0) {
+					std::string lvlLabel = "Level: ";
+					lvlLabel += std::to_string(globalChar.getLevel(levels::character));
+					if (ImGui::BeginCombo("##LevelCombo", lvlLabel.c_str())) {
+						for (int i = 0; i < IM_ARRAYSIZE(levelsList); i++) {
+							bool selectedLevel = (globalChar.levelInfo[levels::character] == i + 1);
 
-						std::string lvl = levelsList[i];
-						if (ImGui::Selectable(lvl.c_str(), selectedLevel)) {
-							globalChar.setLevel(levels::character, i + 1);
+							std::string lvl = levelsList[i];
+							if (ImGui::Selectable(lvl.c_str(), selectedLevel)) {
+								globalChar.setLevel(levels::character, i + 1);
+							}
 						}
+						ImGui::EndCombo();
 					}
-					ImGui::EndCombo();
 				}
+				else {
+					if (deathAdjustment > 0) { // Positive adjustment
+						ImGui::TextColored(ImVec4(0.0f, 0.8f, 0.0f, 1.0f), modFormat(" Death Save", deathAdjustment).c_str());
+					}
+					else if (deathAdjustment < 0) { // Negative adjustment
+						ImGui::TextColored(ImVec4(0.8f, 0.0f, 0.0f, 1.0f), modFormat(" Death Save", deathAdjustment).c_str());
+					}
+					else { // No adjustment
+						ImGui::Text(modFormat(" Death Save", deathAdjustment).c_str());
+					}
+				}
+				
 				ImGui::PopItemWidth();
 			}
 			ImGui::EndChild();
@@ -466,13 +481,13 @@ void charSheet(bool* enable) {
 							ImGui::PopItemWidth();
 
 							if (ImGui::Button("Update Condition", ImVec2(123, 0))) {
-								globalChar.setCondition(currentCondition, condVal);
+								applyConditionEffect(currentCondition, condVal);
 								ImGui::CloseCurrentPopup();
 							}
 							ImGui::SameLine();
 
 							if (ImGui::Button("Remove Condition", ImVec2(125, 0))) {
-								globalChar.setCondition(currentCondition, 0);
+								applyConditionEffect(currentCondition, 0);
 								ImGui::CloseCurrentPopup();
 							}
 							ImGui::SameLine();
@@ -482,13 +497,13 @@ void charSheet(bool* enable) {
 						}
 						else {
 							if (ImGui::Button("Add Condition", ImVec2(180, 0))) {
-								globalChar.setCondition(currentCondition, 1);
+								applyConditionEffect(currentCondition, 1);
 								ImGui::CloseCurrentPopup();
 							}
 							ImGui::SameLine();
 
 							if (ImGui::Button("Remove Condition", ImVec2(180, 0))) {
-								globalChar.setCondition(currentCondition, 0);
+								applyConditionEffect(currentCondition, 0);
 								ImGui::CloseCurrentPopup();
 							}
 							ImGui::SameLine();
