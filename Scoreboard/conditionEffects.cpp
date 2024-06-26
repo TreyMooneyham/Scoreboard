@@ -38,6 +38,13 @@ void applyConditionEffect(conditions cond, int val) {
 			globalChar.hpInfo.currentHP += valDelta;
 		globalChar.hpInfo.rolledHP += valDelta;
 		break;
+	case conditions::encumbered:
+		if (globalChar.getCondition(conditions::clumsy) < 1)
+			applyConditionEffect(conditions::clumsy, 1);
+
+		for (int i = 0; i < 5; i++) {
+			globalChar.addAdj((movements)i, valDelta*10);
+		}
 	default:
 		return;
 	}

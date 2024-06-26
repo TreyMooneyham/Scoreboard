@@ -207,6 +207,20 @@ void charSheet(bool* enable) {
 
 	// Movement
 	int currentSpeed = globalChar.getSpeed(currentMovementType);
+	int speedAdj = globalChar.getAdj(currentMovementType);
+	int finalSpeed = currentSpeed + speedAdj;
+
+	if (globalChar.getCondition(conditions::encumbered) == 1) {
+		if (finalSpeed < 5 && currentSpeed > 5)
+			finalSpeed = 5;
+
+		if (finalSpeed < 0)
+			finalSpeed = 0;
+	}
+
+	if (finalSpeed < 0) {
+		finalSpeed = 0;
+	}
 
 	// Actual menu starts here
 	ImGui::SetNextWindowSize(ImVec2(800, 800));
@@ -406,8 +420,10 @@ void charSheet(bool* enable) {
 					ImGui::Separator();
 
 					ImGui::PushItemWidth(-1);
-					ImGui::Text("Movement Type");
-					if (ImGui::BeginCombo("##MovementTypeCombo", movementTypesList[(int)currentMovementType])) {
+					ImGui::Text("Movement");
+					std::string formattedMovementStr = movementTypesList[(int)currentMovementType];
+					formattedMovementStr += ": " + std::to_string(finalSpeed) + " ft.";
+					if (ImGui::BeginCombo("##MovementTypeCombo", formattedMovementStr.c_str())) {
 						for (int n = 0; n < IM_ARRAYSIZE(movementTypesList); n++) {
 							const bool selectedMovementType = (currentMovementType == (movements)n);
 
@@ -417,17 +433,6 @@ void charSheet(bool* enable) {
 						ImGui::EndCombo();
 					}
 					ImGui::PopItemWidth();
-
-					if (ImGui::BeginChild("MovementChild", ImVec2(-1, -1), ImGuiChildFlags_Border)) {
-						ImGui::PushItemWidth(-1);
-						std::string movementStr = movementTypesList[(int)currentMovementType];
-						movementStr += " Speed";
-						ImGui::Text(movementStr.c_str());
-						ImGui::InputInt("##MovementSpeedInput", &globalChar.movementInfo[currentMovementType], 5, 10);
-						ImGui::PopItemWidth();
-
-						ImGui::EndChild();
-					}
 					ImGui::EndChild();
 				}
 			}
