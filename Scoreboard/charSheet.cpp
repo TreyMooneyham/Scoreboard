@@ -204,12 +204,17 @@ void charSheet(bool* enable) {
 
 	// Armor class
 	int currentBaseAC = globalChar.getBaseArmorClass(currentArmorType);
+	int acAdjustment = globalChar.getAdj(currentArmorType);
+	int acAbilityBonus = globalChar.getMod(globalChar.getArmorMainAbility(currentArmorType));
+	int acProfBonus = globalChar.getProfBonus(globalChar.getArmorProficiency(currentArmorType));
+	int currentAC = 10 + currentBaseAC + acAbilityBonus + acProfBonus + acAdjustment;
 
 	// Movement
 	int currentSpeed = globalChar.getSpeed(currentMovementType);
 	int speedAdj = globalChar.getAdj(currentMovementType);
 	int finalSpeed = currentSpeed + speedAdj;
 
+	// Clamping for the movement speeds
 	if (globalChar.getCondition(conditions::encumbered) == 1) {
 		if (finalSpeed < 5 && currentSpeed > 5)
 			finalSpeed = 5;
@@ -389,7 +394,15 @@ void charSheet(bool* enable) {
 					ImGui::Separator();
 					std::string finalACStr = armorTypesList[(int)currentArmorType];
 					finalACStr += " AC";
-					ImGui::Text(acFormat(finalACStr, 10 + currentBaseAC + globalChar.getMod(globalChar.getArmorMainAbility(currentArmorType)) + globalChar.getProfBonus(globalChar.getArmorProficiency(currentArmorType))).c_str());
+					if (acAdjustment > 0) { // When the adjustments are positive
+						ImGui::TextColored(ImVec4(0.0f, 0.8f, 0.0f, 1.0f), acFormat(finalACStr, currentAC).c_str());
+					}
+					else if (acAdjustment < 0) { // When the adjustments are negative
+						ImGui::TextColored(ImVec4(0.8f, 0.0f, 0.0f, 1.0f), acFormat(finalACStr, currentAC).c_str());
+					}
+					else { // When the adjustments are zero
+						ImGui::Text(acFormat(finalACStr, currentAC).c_str());
+					}
 
 					ImGui::EndChild();
 				}
@@ -591,7 +604,7 @@ void charSheet(bool* enable) {
 
 					std::string mainAbilityName = mainAbilityList[n];
 					if (ImGui::Selectable(mainAbilityName.c_str(), selectedAbility)) {
-						globalChar.skillInfo[currentSkill].mainAbility = (abilityScores)n;
+						globalChar.setSkillAbility(currentSkill, (abilityScores)n);
 					}
 				}
 				ImGui::EndCombo();
