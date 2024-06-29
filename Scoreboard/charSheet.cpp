@@ -193,6 +193,7 @@ void charSheet(bool* enable) {
 	int skillProfBonus = globalChar.getProfBonus(globalChar.skillInfo[currentSkill].profLevel);
 	int skillTotalBonus = skillScoreBonus + skillProfBonus;
 	int skillAdjustments = globalChar.getAdj(currentSkill);
+	int dcAdjustment = skillAdjustments;
 
 	int initiativeScoreBonus = globalChar.getMod(globalChar.skillInfo[skills::initiative].mainAbility);
 	int initiativeProfBonus = globalChar.getProfBonus(globalChar.skillInfo[skills::initiative].profLevel);
@@ -580,15 +581,26 @@ void charSheet(bool* enable) {
 			ImGui::Separator();
 
 			if (skillAdjustments > 0) { // When the adjustment is positive
-				ImGui::TextColored(ImVec4(0.0f, 0.8f, 0.0f, 1.0f), modFormat("Total Bonus", skillTotalBonus + skillAdjustments).c_str());
-				ImGui::TextColored(ImVec4(0.0f, 0.8f, 0.0f, 1.0f), "Passive DC:           %2i", skillTotalBonus + skillAdjustments + 10);
+				ImGui::TextColored(ImVec4(0.0f, 0.8f, 0.0f, 1.0f), modFormat("Total Bonus", skillTotalBonus + skillAdjustments).c_str());\
 			}
 			else if (skillAdjustments < 0) { // When the adjustment is negative
 				ImGui::TextColored(ImVec4(0.8f, 0.0f, 0.0f, 1.0f), modFormat("Total Bonus", skillTotalBonus + skillAdjustments).c_str());
-				ImGui::TextColored(ImVec4(0.8f, 0.0f, 0.0f, 1.0f), "Passive DC:           %2i", skillTotalBonus + skillAdjustments + 10);
 			}
 			else { // When the adjustment is zero
 				ImGui::Text(modFormat("Total Bonus", skillTotalBonus).c_str());
+			}
+
+			if (globalChar.getCondition(conditions::sickened) != 0) {
+				dcAdjustment += globalChar.getCondition(conditions::sickened);
+			}
+
+			if (dcAdjustment > 0) { // When the adjustment is positive
+				ImGui::TextColored(ImVec4(0.0f, 0.8f, 0.0f, 1.0f), "Passive DC:           %2i", skillTotalBonus + dcAdjustment + 10);
+			}
+			else if (dcAdjustment < 0) { // When the adjustment is negative
+				ImGui::TextColored(ImVec4(0.8f, 0.0f, 0.0f, 1.0f), "Passive DC:           %2i", skillTotalBonus + dcAdjustment + 10);
+			}
+			else { // When the adjustment is zero
 				ImGui::Text("Passive DC:           %2i", skillTotalBonus + 10);
 			}
 

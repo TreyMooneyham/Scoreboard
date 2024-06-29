@@ -65,6 +65,44 @@ void applyConditionEffect(conditions cond, int val) {
 			globalChar.addAdj((armorTypes)i, valDelta);
 		}
 		break;
+	case conditions::immobilized:
+		for (int i = 0; i < 4; i++) {
+			int speedPenalty = valDelta * globalChar.getSpeed((movements)i);
+			globalChar.addAdj((movements)i, speedPenalty);
+		}
+		break;
+	case conditions::paralyzed:
+		for (int i = 0; i < 4; i++) {
+			globalChar.addAdj((armorTypes)i, 2 * valDelta);
+			int speedPenalty = valDelta * globalChar.getSpeed((movements)i);
+			globalChar.addAdj((movements)i, speedPenalty);
+		}
+		break;
+	case conditions::quickened:
+		for (int i = 0; i < 4; i++) {
+			globalChar.addAdj((movements)i, valDelta * -10); // The system was designed penalties in mind, so I multiply them by the negative of the bonus
+			globalChar.addAdj((armorTypes)i, valDelta * -2);
+		}
+		break;
+	case conditions::restrained:
+		if (globalChar.getCondition(conditions::immobilized) < 1 && valDelta < 0)
+			applyConditionEffect(conditions::immobilized, 1);
+		for (int i = 0; i < 4; i++) {
+			globalChar.addAdj((armorTypes)i, valDelta * 2);
+		}
+		break;
+	case conditions::sickened:
+		// Logic for attack rolls
+		//asjdbhakdjgnsodga idfk man we haven't made it yet
+		for (int i = 0; i < 19; i++) {
+			globalChar.addAdj((skills)i, valDelta);
+		}
+		break;
+	case conditions::slowed:
+		for (int i = 0; i < 4; i++) {
+			globalChar.addAdj((movements)i, valDelta * 10);
+		}
+		break;
 	default:
 		return;
 	}
