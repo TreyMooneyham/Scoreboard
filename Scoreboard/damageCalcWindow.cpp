@@ -7,12 +7,11 @@ const char* damageTypesList[] = { "Mechanical",
 	                              "Non-Mechanical",
                                   "Acid", "Bio", "Cold", "Electricity", "Energy", "Heat", "Thunder", "Psychic" };
 resistanceTypes currentResistance = resistanceTypes::mechanical;
-resistanceTypes currentDamage = resistanceTypes::mechanical;
-resistanceTypes currentDamage2 = resistanceTypes::mechanical;
+resistanceTypes currentDamage[] = { resistanceTypes::mechanical, resistanceTypes::mechanical, resistanceTypes::mechanical, resistanceTypes::mechanical, resistanceTypes::mechanical };
 int currentDT = 0;
 int intDR = 0;
 float currentDR = 0.0f;
-int damageAmt = 0, damageAmt2 = 0;
+int damageAmts[] = { 0, 0, 0, 0, 0 };
 
 int damageCalc(resistanceTypes damageType, int damage) {
 	int resultDT =			damage - globalChar.resistInfo[damageType].dt;
@@ -94,60 +93,37 @@ void damageCalcWindow(bool* enable) {
 			ImGui::SameLine();
 
 			if (ImGui::BeginChild("DamageCalculatorChild", ImVec2(-1, -1), ImGuiChildFlags_Border)) {
-				ImGui::Text("Damage:");
-				ImGui::PushItemWidth((ImGui::GetWindowWidth()-24.5)/2);
-				ImGui::InputInt("##DamageAmount", &damageAmt, 1, 5);
-				if (damageAmt < 0)
-					damageAmt = 0;
-				ImGui::SameLine();
-				std::string damageText = damageTypesList[(int)currentDamage];
-				if (ImGui::BeginCombo("##DamageType", damageText.c_str())) {
-					for (auto& it : globalChar.resistInfo) {
-						const bool selectedDamage = ((int)it.first == (int)currentDamage);
-
-						std::string selectedDamageText = damageTypesList[(int)it.first];
-						ImGui::PushID((int)it.first);
-						if (ImGui::Selectable(selectedDamageText.c_str(), selectedDamage))
-							currentDamage = it.first;
-
+				for (int i = 0; i < 5; i++) {
+					ImGui::Text("Damage:");
+					ImGui::PushItemWidth((ImGui::GetWindowWidth() - 24.5) / 2);
+					ImGui::InputInt("##DamageAmount", &damageAmts[i], 1, 5);
+					if (damageAmts[i] < 0)
+						damageAmts[i] = 0;
+					ImGui::SameLine();
+					std::string damageText = damageTypesList[(int)currentDamage[i]];
+					ImGui::PushID(1234 + i);
+					if (ImGui::BeginCombo("##DamageType", damageText.c_str())) {
 						ImGui::PopID();
+						for (auto& it : globalChar.resistInfo) {
+							const bool selectedDamage = ((int)it.first == (int)currentDamage);
+
+							std::string selectedDamageText = damageTypesList[(int)it.first];
+							ImGui::PushID((int)it.first);
+							if (ImGui::Selectable(selectedDamageText.c_str(), selectedDamage))
+								currentDamage[i] = it.first;
+
+							ImGui::PopID();
+						}
+						ImGui::EndCombo();
 					}
-					ImGui::EndCombo();
+					ImGui::PopItemWidth();
+
+					ImGui::Separator();
+
+					ImGui::Text("Result: %i", damageCalc(currentDamage[i], damageAmts[i]));
+
+					ImGui::Separator();
 				}
-				ImGui::PopItemWidth();
-
-				ImGui::Separator();
-
-				ImGui::Text("Result: %i", damageCalc(currentDamage, damageAmt));
-
-				ImGui::Separator();
-
-				ImGui::Text("Damage:");
-				ImGui::PushItemWidth((ImGui::GetWindowWidth() - 24.5) / 2);
-				ImGui::InputInt("##DamageAmount2", &damageAmt2, 1, 5);
-				if (damageAmt2 < 0)
-					damageAmt2 = 0;
-				ImGui::SameLine();
-				std::string damageText2 = damageTypesList[(int)currentDamage2];
-				if (ImGui::BeginCombo("##DamageType2", damageText2.c_str())) {
-					for (auto& it : globalChar.resistInfo) {
-						const bool selectedDamage = ((int)it.first == (int)currentDamage2);
-
-						std::string selectedDamageText = damageTypesList[(int)it.first];
-						ImGui::PushID((int)it.first);
-						if (ImGui::Selectable(selectedDamageText.c_str(), selectedDamage))
-							currentDamage2 = it.first;
-
-						ImGui::PopID();
-					}
-					ImGui::EndCombo();
-				}
-				ImGui::PopItemWidth();
-
-				ImGui::Separator();
-
-				ImGui::Text("Result: %i", damageCalc(currentDamage2, damageAmt2));
-
 				ImGui::EndChild();
 			}
 		}
