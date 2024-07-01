@@ -30,7 +30,7 @@
 #pragma comment(lib, "dxgi.lib")
 #pragma comment(lib,"d3d12.lib")
 
-#define SCOREBOARDVER "Scoreboard v0.6.0a"
+#define SCOREBOARDVER "Scoreboard v0.6.2a"
 
 struct FrameContext
 {

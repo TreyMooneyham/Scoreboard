@@ -124,7 +124,7 @@ const char* baseACList[] = { "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", 
 armorTypes currentArmorType = armorTypes::unarmored;
 proficiencyLevels currentArmorProfLevel = proficiencyLevels::noProficiency;
 movements currentMovementType = movements::walking;
-const char* movementTypesList[] = { "Walking", "Climbing", "Swimming", "Flying", "Burrowing" };
+const char* movementTypesList[] = { "Walking", "Swimming", "Climbing", "Flying", "Burrowing" };
 int condVal = 1;
 
 bool actionTab = true;
