@@ -366,7 +366,7 @@ void charSheet(bool* enable) {
 
 				if (ImGui::BeginChild("ArmorTypeAttribs", ImVec2(-1, -1), ImGuiChildFlags_Border)) {
 					ImGui::PushItemWidth(-1);
-					if (ImGui::BeginCombo("##ArmorTypeProfCombo", proficiencyLevelsList[(int)currentArmorType])) {
+					if (ImGui::BeginCombo("##ArmorTypeProfCombo", proficiencyLevelsList[(int)currentArmorProfLevel])) {
 						for (int n = 0; n < IM_ARRAYSIZE(proficiencyLevelsList); n++) {
 							const bool selectedArmorProfLevel = (currentArmorProfLevel == (proficiencyLevels)n);
 
