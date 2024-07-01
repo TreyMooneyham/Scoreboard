@@ -127,7 +127,7 @@ int main(int, char**)
     //IM_ASSERT(font != nullptr);
 
     // Our state
-    bool show_demo_window = true;
+    bool show_demo_window = false;
     bool show_another_window = false;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
@@ -218,7 +218,7 @@ int main(int, char**)
             }
             // TODO: Finish the actual level manager. Using an ability manager and other stuff in the mean time.
             // ImGui::MenuItem("Level Manager", NULL, &bLevelManagerVisible);
-            ImGui::MenuItem("Attribute Manager", NULL, &bAttribManagerVisible);
+            // ImGui::MenuItem("Attribute Manager", NULL, &bAttribManagerVisible);
             ImGui::MenuItem("Character Sheet", NULL, &bCharSheetVisible);
             ImGui::MenuItem("Damage Calculator", NULL, &bDamageWindowVisible);
             ImGui::MenuItem("Hit Point Management", NULL, &bhpWindowVisible);

@@ -122,6 +122,7 @@ conditions currentCondition = conditions::blinded;
 const char* armorTypesList[] = { "Unarmored", "Light", "Medium", "Heavy" };
 const char* baseACList[] = { "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen" };
 armorTypes currentArmorType = armorTypes::unarmored;
+proficiencyLevels currentArmorProfLevel = proficiencyLevels::noProficiency;
 movements currentMovementType = movements::walking;
 const char* movementTypesList[] = { "Walking", "Climbing", "Swimming", "Flying", "Burrowing" };
 int condVal = 1;
@@ -351,7 +352,7 @@ void charSheet(bool* enable) {
 			ImGui::Columns(3, "FeatureColumns", false);
 			{
 				ImGui::PushItemWidth(-1);
-				ImGui::Text("Current Armor Type");
+				ImGui::Text("Armor Type");
 				if (ImGui::BeginCombo("##ArmorTypeCombo", armorTypesList[(int)currentArmorType])) {
 					for (int n = 0; n < IM_ARRAYSIZE(armorTypesList); n++) {
 						const bool selectedArmorType = (currentArmorType == (armorTypes)n);
@@ -365,9 +366,25 @@ void charSheet(bool* enable) {
 
 				if (ImGui::BeginChild("ArmorTypeAttribs", ImVec2(-1, -1), ImGuiChildFlags_Border)) {
 					ImGui::PushItemWidth(-1);
-					std::string baseACStr = armorTypesList[(int)currentArmorType];
-					baseACStr += " Base AC";
-					ImGui::Text(baseACStr.c_str());
+					if (ImGui::BeginCombo("##ArmorTypeProfCombo", proficiencyLevelsList[(int)currentArmorType])) {
+						for (int n = 0; n < IM_ARRAYSIZE(proficiencyLevelsList); n++) {
+							const bool selectedArmorProfLevel = (currentArmorProfLevel == (proficiencyLevels)n);
+
+							if (ImGui::Selectable(proficiencyLevelsList[n], selectedArmorProfLevel)) {
+								currentArmorProfLevel = (proficiencyLevels)n;
+								globalChar.setArmorProficiency(currentArmorType, currentArmorProfLevel);
+							}
+						}
+						ImGui::EndCombo();
+					}
+					if (ImGui::BeginItemTooltip())
+					{
+						ImGui::PushTextWrapPos(ImGui::GetFontSize() * 35.0f);
+						ImGui::TextUnformatted("Armor Proficiency Level");
+						ImGui::PopTextWrapPos();
+						ImGui::EndTooltip();
+					}
+
 					if (ImGui::BeginCombo("##BaseACCombo", baseACList[currentBaseAC])) {
 						for (int n = 0; n < IM_ARRAYSIZE(baseACList); n++) {
 							const bool selectedBaseAC = (currentBaseAC == n);
@@ -377,10 +394,14 @@ void charSheet(bool* enable) {
 						}
 						ImGui::EndCombo();
 					}
+					if (ImGui::BeginItemTooltip())
+					{
+						ImGui::PushTextWrapPos(ImGui::GetFontSize() * 35.0f);
+						ImGui::TextUnformatted("Armor Base AC");
+						ImGui::PopTextWrapPos();
+						ImGui::EndTooltip();
+					}
 
-					std::string mainAbilityStr = armorTypesList[(int)currentArmorType];
-					mainAbilityStr += " Main Ability";
-					ImGui::Text(mainAbilityStr.c_str());
 					if (ImGui::BeginCombo("##MainACAbilityCombo", mainAbilityList[(int)globalChar.getArmorMainAbility(currentArmorType)])) {
 						for (int n = 0; n < IM_ARRAYSIZE(mainAbilityList); n++) {
 							const bool selectedMainAbility = (globalChar.getArmorMainAbility(currentArmorType) == (abilityScores)n);
@@ -390,6 +411,14 @@ void charSheet(bool* enable) {
 						}
 						ImGui::EndCombo();
 					}
+					if (ImGui::BeginItemTooltip())
+					{
+						ImGui::PushTextWrapPos(ImGui::GetFontSize() * 35.0f);
+						ImGui::TextUnformatted("Armor Main Ability");
+						ImGui::PopTextWrapPos();
+						ImGui::EndTooltip();
+					}
+
 					ImGui::PopItemWidth();
 
 					ImGui::Separator();
