@@ -198,7 +198,6 @@ struct playerCharacter {
 	std::map<movements, int>				movementAdj;
 	std::map<savingThrows, int>				saveAdj;
 	std::map<armorTypes, int>				armorAdj;
-
 	
 	// Setters and getters
 	void				setName(std::string name, int type);

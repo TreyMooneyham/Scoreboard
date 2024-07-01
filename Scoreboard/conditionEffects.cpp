@@ -32,7 +32,7 @@ void applyConditionEffect(conditions cond, int val) {
 		// This isn't implemented yet.
 		//int curAttackAdj = globalChar.getAdj(/* Logic for dexterity based attack rolls */);
 		for (int i = 0; i < 19; i++) { // Searches through the first 19 skills. The ones we care about.
-			if (globalChar.getSkillAbility((skills)i) == abilityScores::constitution) { // Checks if those skills' primary ability is dexterity
+			if (globalChar.getSkillAbility((skills)i) == abilityScores::constitution) { // Checks if those skills' primary ability is constitution
 				globalChar.addAdj((skills)i, valDelta);
 			}
 		}
@@ -43,8 +43,11 @@ void applyConditionEffect(conditions cond, int val) {
 		globalChar.hpInfo.rolledHP += valDelta;
 		break;
 	case conditions::encumbered:
-		if (globalChar.getCondition(conditions::clumsy) < 1 && valDelta < 0)
+		if (globalChar.getCondition(conditions::clumsy) == 0 && valDelta < 0)
 			applyConditionEffect(conditions::clumsy, 1);
+
+		if (globalChar.getCondition(conditions::clumsy) == 1 && valDelta > 0)
+			applyConditionEffect(conditions::clumsy, 0);
 
 		for (int i = 0; i < 5; i++) {
 			globalChar.addAdj((movements)i, valDelta*10);
@@ -54,7 +57,7 @@ void applyConditionEffect(conditions cond, int val) {
 		// This isn't implemented yet.
 		//int curAttackAdj = globalChar.getAdj(/* Logic for dexterity based attack rolls */);
 		for (int i = 0; i < 19; i++) { // Searches through the first 19 skills. The ones we care about.
-			if (globalChar.getSkillAbility((skills)i) == abilityScores::strength) { // Checks if those skills' primary ability is dexterity
+			if (globalChar.getSkillAbility((skills)i) == abilityScores::strength) { // Checks if those skills' primary ability is strength
 				globalChar.addAdj((skills)i, valDelta);
 			}
 		}
@@ -85,8 +88,12 @@ void applyConditionEffect(conditions cond, int val) {
 		}
 		break;
 	case conditions::restrained:
-		if (globalChar.getCondition(conditions::immobilized) < 1 && valDelta < 0)
+		if (globalChar.getCondition(conditions::immobilized) == 0 && valDelta < 0)
 			applyConditionEffect(conditions::immobilized, 1);
+
+		if (globalChar.getCondition(conditions::immobilized) == 1 && valDelta > 0)
+			applyConditionEffect(conditions::immobilized, 0);
+
 		for (int i = 0; i < 4; i++) {
 			globalChar.addAdj((armorTypes)i, valDelta * 2);
 		}
@@ -102,6 +109,40 @@ void applyConditionEffect(conditions cond, int val) {
 		for (int i = 0; i < 4; i++) {
 			globalChar.addAdj((movements)i, valDelta * 10);
 		}
+		break;
+	case conditions::stunned:
+		if (globalChar.getCondition(conditions::slowed) == 0 && valDelta < 0)
+			applyConditionEffect(conditions::slowed, 1);
+		if (globalChar.getCondition(conditions::immobilized) == 0 && valDelta < 0)
+			applyConditionEffect(conditions::immobilized, 1);
+
+		if (globalChar.getCondition(conditions::slowed) == 1 && valDelta > 0)
+			applyConditionEffect(conditions::slowed, 0);
+		if (globalChar.getCondition(conditions::immobilized) == 1 && valDelta > 0)
+			applyConditionEffect(conditions::immobilized, 0);
+		break;
+	case conditions::stupefied:
+		// This isn't implemented yet.
+		//int curAttackAdj = globalChar.getAdj(/* Logic for dexterity based attack rolls */);
+		for (int i = 0; i < 19; i++) { // Searches through the first 19 skills. The ones we care about.
+			if (globalChar.getSkillAbility((skills)i) == abilityScores::intelligence || 
+				globalChar.getSkillAbility((skills)i) == abilityScores::wisdom ||
+				globalChar.getSkillAbility((skills)i) == abilityScores::charisma) { // Checks if those skills' primary ability is int, wis, or cha
+				globalChar.addAdj((skills)i, valDelta);
+			}
+		}
+		globalChar.addAdj(savingThrows::will, valDelta);
+		break;
+	case conditions::unconscious:
+		if (globalChar.getCondition(conditions::stunned) == 0 && valDelta < 0)
+			applyConditionEffect(conditions::stunned, 1);
+		if (globalChar.getCondition(conditions::prone) == 0 && valDelta < 0)
+			applyConditionEffect(conditions::prone, 1);
+
+		if (globalChar.getCondition(conditions::stunned) == 1 && valDelta > 0)
+			applyConditionEffect(conditions::stunned, 0);
+		if (globalChar.getCondition(conditions::prone) == 1 && valDelta > 0)
+			applyConditionEffect(conditions::prone, 0);
 		break;
 	default:
 		return;
