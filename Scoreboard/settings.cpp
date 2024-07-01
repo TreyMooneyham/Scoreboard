@@ -144,9 +144,9 @@ namespace Settings {
                 movements movementType = (movements)(std::stoi(movement.key()));
                 pc.movementInfo[movementType] = movement.value()["speed"];
             }
-
+            
             // Parsing armor information
-            for (auto& armor : jsonObj["saves"].items()) {
+            for (auto& armor : jsonObj["armor"].items()) {
                 armorTypes armorKey = (armorTypes)(std::stoi(armor.key()));
                 armorClass armorStats;
                 armorStats.mainAbility = armor.value()["mainAbility"];
@@ -154,35 +154,36 @@ namespace Settings {
                 armorStats.baseAC = armor.value()["baseAC"];
                 pc.armorInfo[armorKey] = armorStats;
             }
-
+            
             // Adjustments below here
             for (auto& adjustment : jsonObj["abilityAdjustments"].items()) {
                 abilityScores adjustmentType = (abilityScores)(std::stoi(adjustment.key()));
                 pc.abilityAdj[adjustmentType] = adjustment.value()["adjustment"];
             }
-
+            
             for (auto& adjustment : jsonObj["skillAdjustments"].items()) {
                 skills adjustmentType = (skills)(std::stoi(adjustment.key()));
                 pc.skillAdj[adjustmentType] = adjustment.value()["adjustment"];
             }
-
+            
             for (auto& adjustment : jsonObj["movementAdjustments"].items()) {
                 movements adjustmentType = (movements)(std::stoi(adjustment.key()));
                 pc.movementAdj[adjustmentType] = adjustment.value()["adjustment"];
             }
-
+            
             for (auto& adjustment : jsonObj["saveAdjustments"].items()) {
                 savingThrows adjustmentType = (savingThrows)(std::stoi(adjustment.key()));
                 pc.saveAdj[adjustmentType] = adjustment.value()["adjustment"];
             }
-
+            
             for (auto& adjustment : jsonObj["ACAdjustments"].items()) {
                 armorTypes adjustmentType = (armorTypes)(std::stoi(adjustment.key()));
                 pc.armorAdj[adjustmentType] = adjustment.value()["adjustment"];
             }
+            std::cerr << "Character loaded successfully!" << std::endl;
         }
         catch (...) {
-            std::cerr << "Character not found/unreachable" << std::endl;
+            std::cerr << "Character not found/unreachable, try typing the name correctly" << std::endl;
         }
 	}
 }
