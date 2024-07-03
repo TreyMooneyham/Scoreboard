@@ -126,7 +126,11 @@ proficiencyLevels currentArmorProfLevel = proficiencyLevels::noProficiency;
 movements currentMovementType = movements::walking;
 const char* movementTypesList[] = { "Walking", "Swimming", "Climbing", "Flying", "Burrowing" };
 int condVal = 1;
-const char* actionTypesList[] = { "Attack", "Cast a Spell", "Dash", "Delay", "Disengage", "Dodge", "Grapple", "Help", "Hide", "Improvise", "Ready", "Search", "Shove", "Use an Object" };
+const char* actionTypesList[] = { "Action", "Bonus Action", "Reaction", "Other Action" };
+action currentAction;
+actionTypes currentActionType = actionTypes::action;
+char currentActionName[32] = "";
+char currentActionDesc[1024 * 32] = "";
 
 bool actionTab = true;
 bool inventoryTab = true;
@@ -698,15 +702,58 @@ void charSheet(bool* enable) {
 						ImGui::OpenPopup("Action Manager");
 
 					ImGui::SetNextWindowPos(ImGui::GetMainViewport()->GetCenter(), ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
-					ImGui::SetNextWindowSize(ImVec2(700, 306));
+					ImGui::SetNextWindowSize(ImVec2(450, 300));
 					if (ImGui::BeginPopupModal("Action Manager", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
-						if (ImGui::BeginCombo("##ActionTypeCombo")) {
+						ImGui::Columns(2, "ActionManagerColumns", true);
+						ImGui::SetColumnOffset(1, 160);
+						{
+							if (ImGui::BeginChild("ActionManagerChildCol1", ImVec2(-1, -1))) {
+								static char filterActions[32] = "";
+								ImGui::InputTextWithHint("##ActionsListFilter", "Filter Actions...", filterActions, IM_ARRAYSIZE(filterActions));
+								if (ImGui::BeginListBox("##ActionsListBox", ImVec2(-1, -1))) {
+									for (int i = 0; i < globalChar.actions.size(); i++) {
+										if (!contains(toLower(filterActions), toLower(currentActionName)))
+											continue;
 
-							ImGui::EndCombo();
+										const bool selectedAction = (globalChar.actions[i].actionName == currentActionName);
+
+										if (ImGui::Selectable(globalChar.actions[i].actionName.c_str(), selectedAction)) {
+											currentAction = globalChar.actions[i];
+										}
+									}
+
+									ImGui::EndListBox();
+								}
+
+								ImGui::EndChild();
+							}
 						}
-						if (ImGui::Button("Close", ImVec2(0, 0)))
-							ImGui::CloseCurrentPopup();
+						ImGui::NextColumn();
+						{
+							if (ImGui::BeginChild("ActionManagerChildCol2", ImVec2(-1, -1))) {
+								ImGui::PushItemWidth(-1);
+								ImGui::Text("Action Type");
+								if (ImGui::BeginCombo("##ActionTypeCombo", actionTypesList[(int)currentActionType])) {
+									for (int i = 0; i < IM_ARRAYSIZE(actionTypesList); i++) {
+										const bool selectedActionType = (currentActionType == (actionTypes)i);
 
+										if (ImGui::Selectable(actionTypesList[i], selectedActionType))
+											currentActionType = (actionTypes)i;
+									}
+									ImGui::EndCombo();
+								}
+								ImGui::Separator();
+								ImGui::Text("Action Name & Description");
+								ImGui::InputTextWithHint("##ActionNameInput", "Action Name...", currentActionName, IM_ARRAYSIZE(currentActionName));
+								ImGui::InputTextMultiline("##ActionDescInput", currentActionDesc, IM_ARRAYSIZE(currentActionDesc));
+								ImGui::Separator();
+								if (ImGui::Button("Close", ImVec2(0, 0)))
+									ImGui::CloseCurrentPopup();
+
+								ImGui::PopItemWidth();
+								ImGui::EndChild();
+							}
+						}
 						ImGui::EndPopup();
 					}
 
