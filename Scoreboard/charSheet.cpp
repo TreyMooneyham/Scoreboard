@@ -728,9 +728,6 @@ void charSheet(bool* enable) {
 										else {
 											if (ImGui::Selectable(globalChar.actions[i].actionName.c_str(), selectedAction)) {
 												currentAction = globalChar.actions[i];
-												//currentAction.actionType = globalChar.actions[i].actionType;
-												//currentAction.actionName = globalChar.actions[i].actionName;
-												//currentAction.actionDescription = globalChar.actions[i].actionDescription;
 												strcpy_s(actionNameStr, currentAction.actionName.c_str());
 												strcpy_s(actionDescStr, currentAction.actionDescription.c_str());
 											}
@@ -764,25 +761,20 @@ void charSheet(bool* enable) {
 								if (ImGui::Button("Close", ImVec2(0, 0)))
 									ImGui::CloseCurrentPopup();
 
-								if (actionNameStr[0] != '\0') {
-									if (currentAction.actionName == "") {
-										if (ImGui::Button("Add Action", ImVec2(0, 0))) {
-											currentAction.actionName = actionNameStr;
-											currentAction.actionDescription = actionDescStr;
-											globalChar.createAction(currentAction.actionType, currentAction.actionName, currentAction.actionDescription);
-										}
+								if (currentAction.actionName == "") {
+									if (ImGui::Button("Add Action", ImVec2(0, 0))) {
+										currentAction.actionName = actionNameStr;
+										currentAction.actionDescription = actionDescStr;
+										globalChar.createAction(currentAction.actionType, currentAction.actionName, currentAction.actionDescription);
 									}
-									else {
-										if (ImGui::Button("Update Action", ImVec2(0, 0))) {
-											for (int i = 0; i < globalChar.actions.size(); i++) {
-												if (actionNameStr == globalChar.actions[i].actionName) {
-													currentAction.actionName = actionNameStr;
-													currentAction.actionDescription = actionDescStr;
-													globalChar.actions[i] = currentAction;
-													//globalChar.actions[i].actionType = currentAction.actionType;
-													//globalChar.actions[i].actionName = currentAction.actionName;
-													//globalChar.actions[i].actionDescription = currentAction.actionDescription;
-												}
+								}
+								else {
+									if (ImGui::Button("Update Action", ImVec2(0, 0))) {
+										for (int i = 0; i < globalChar.actions.size(); i++) {
+											if (currentAction.actionName == globalChar.actions[i].actionName) {
+												currentAction.actionName = actionNameStr;
+												currentAction.actionDescription = actionDescStr;
+												globalChar.actions[i] = currentAction;
 											}
 										}
 									}
