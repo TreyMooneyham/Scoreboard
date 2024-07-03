@@ -697,41 +697,78 @@ void charSheet(bool* enable) {
 		if (ImGui::BeginChild("##MainArea", ImVec2(-1, -1), ImGuiChildFlags_Border)) {
 			if (ImGui::BeginTabBar("CharSheetTabBar")) {
 				if (ImGui::BeginTabItem("Actions")) {
+					if (ImGui::Button("Manage Custom Actions...", ImVec2(0, 0)))
+						ImGui::OpenPopup("Action Manager");
+
+					ImGui::SetNextWindowPos(ImGui::GetMainViewport()->GetCenter(), ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
+					ImGui::SetNextWindowSize(ImVec2(700, 306));
+					if (ImGui::BeginPopupModal("Action Manager", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
+						if (ImGui::Button("Close", ImVec2(0, 0)))
+							ImGui::CloseCurrentPopup();
+
+						ImGui::EndPopup();
+					}
+
 					ImGui::Text("Actions");
 					ImGui::Separator();
-					{
-						if (ImGui::BeginChild("ActionsChild", ImVec2(-1, 25), ImGuiChildFlags_Border)) {
-
-							ImGui::EndChild();
+					if (ImGui::BeginChild("ActionsChild", ImVec2(-1, 0), ImGuiChildFlags_Border | ImGuiChildFlags_AutoResizeY)) {
+						
+						ImGui::Text("Basic Actions");
+						ImGui::Separator();
+						{
+							ImGui::Text("Attack,"); ImGui::SameLine();
+							ImGui::Text("Cast a Spell,"); ImGui::SameLine();
+							ImGui::Text("Dash," ); ImGui::SameLine();
+							ImGui::Text("Delay,"); ImGui::SameLine();
+							ImGui::Text("Disengage,"); ImGui::SameLine();
+							ImGui::Text("Dodge,"); ImGui::SameLine();
+							ImGui::Text("Grapple,"); ImGui::SameLine();
+							ImGui::Text("Help,"); ImGui::SameLine();
+							ImGui::Text("Hide,"); 
+							ImGui::Text("Improvise,"); ImGui::SameLine();
+							ImGui::Text("Ready,"); ImGui::SameLine();
+							ImGui::Text("Search,"); ImGui::SameLine();
+							ImGui::Text("Shove,"); ImGui::SameLine();
+							ImGui::Text("and"); ImGui::SameLine();
+							ImGui::Text("Use an Object.");
 						}
+						ImGui::EndChild();
 					}
 
 					ImGui::Text("Bonus Actions");
 					ImGui::Separator();
-					{
-						if (ImGui::BeginChild("BonusActionsChild", ImVec2(-1, 25), ImGuiChildFlags_Border)) {
+					if (ImGui::BeginChild("BonusActionsChild", ImVec2(-1, 0), ImGuiChildFlags_Border | ImGuiChildFlags_AutoResizeY)) {
 
-							ImGui::EndChild();
+						ImGui::Text("Basic Bonus Actions");
+						ImGui::Separator();
+						{
+							ImGui::Text("Two-Weapon Fighting.");
 						}
+						ImGui::EndChild();
 					}
 
 					ImGui::Text("Reactions");
 					ImGui::Separator();
-					{
-						if (ImGui::BeginChild("ReactionsChild", ImVec2(-1, 25), ImGuiChildFlags_Border)) {
+					if (ImGui::BeginChild("ReactionsChild", ImVec2(-1, 0), ImGuiChildFlags_Border | ImGuiChildFlags_AutoResizeY)) {
 
-							ImGui::EndChild();
+						ImGui::Text("Basic Reactions");
+						ImGui::Separator();
+						{
+							ImGui::Text("Opportunity Attack.");
 						}
+						ImGui::EndChild();
 					}
 
 					ImGui::Text("Other Actions");
 					ImGui::Separator();
-					{
-						if (ImGui::BeginChild("OtherActionsChild", ImVec2(-1, 25), ImGuiChildFlags_Border)) {
+					if (ImGui::BeginChild("OtherActionsChild", ImVec2(-1, 0), ImGuiChildFlags_Border | ImGuiChildFlags_AutoResizeY)) {
 
-							ImGui::EndChild();
+						ImGui::Text("Basic Other Actions");
+						ImGui::Separator();
+						{
+							ImGui::Text("Interact with an Object.");
 						}
-
+						ImGui::EndChild();
 					}
 
 					ImGui::EndTabItem();
