@@ -176,7 +176,15 @@ struct armorClass {
 	proficiencyLevels	profLevel;
 };
 
+enum class actionTypes {
+	action,
+	bonusAction,
+	reaction,
+	otherAction
+};
+
 struct action {
+	actionTypes actionType;
 	std::string actionName;
 	std::string actionDescription;
 };
@@ -278,9 +286,11 @@ struct playerCharacter {
 	proficiencyLevels	getArmorProficiency(armorTypes armor);
 	void				initArmorClass();
 
-	void				createAction(std::string name, std::string desc);
+	void				createAction(actionTypes type, std::string name, std::string desc);
+	void				setActionType(action act, actionTypes type);
 	void				setActionName(action act, std::string name);
 	void				setActionDescription(action act, std::string desc);
+	actionTypes			getActionType(action act);
 	std::string			getActionName(action act);
 	std::string			getActionDescription(action act);
 

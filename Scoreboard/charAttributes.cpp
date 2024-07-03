@@ -552,11 +552,17 @@ void playerCharacter::initArmorClass() {
 }
 
 // Function to create an action.
-void playerCharacter::createAction(std::string name, std::string desc) {
+void playerCharacter::createAction(actionTypes type, std::string name, std::string desc) {
 	action newAction;
+	newAction.actionType = type;
 	newAction.actionName = name;
 	newAction.actionDescription = desc;
 	this->actions.push_back(newAction);
+}
+
+// Setter for a given action's type
+void playerCharacter::setActionType(action act, actionTypes type) {
+	act.actionType = type;
 }
 
 // Setter for a given action's name
@@ -567,6 +573,11 @@ void playerCharacter::setActionName(action act, std::string name) {
 // Setter for a given action's description
 void playerCharacter::setActionDescription(action act, std::string desc) {
 	act.actionDescription = desc;
+}
+
+// Getter for a given action's type
+actionTypes playerCharacter::getActionType(action act) {
+	return act.actionType;
 }
 
 // Getter for a given action's name

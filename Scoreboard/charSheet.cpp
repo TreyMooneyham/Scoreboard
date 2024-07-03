@@ -126,10 +126,7 @@ proficiencyLevels currentArmorProfLevel = proficiencyLevels::noProficiency;
 movements currentMovementType = movements::walking;
 const char* movementTypesList[] = { "Walking", "Swimming", "Climbing", "Flying", "Burrowing" };
 int condVal = 1;
-const char* basicActionsList[] = { "Attack", "Cast a Spell", "Dash", "Delay", "Disengage", "Dodge", "Grapple", "Help", "Hide", "Improvise", "Ready", "Search", "Shove", "Use an Object" };
-const char* basicBonusActionsList[] = { "Two-Weapon Fighting" };
-const char* basicReactionsList[] = { "Opportunity Attack" };
-const char* basicOtherActionsList[] = { "Interact with an Object" };
+const char* actionTypesList[] = { "Attack", "Cast a Spell", "Dash", "Delay", "Disengage", "Dodge", "Grapple", "Help", "Hide", "Improvise", "Ready", "Search", "Shove", "Use an Object" };
 
 bool actionTab = true;
 bool inventoryTab = true;
@@ -703,6 +700,10 @@ void charSheet(bool* enable) {
 					ImGui::SetNextWindowPos(ImGui::GetMainViewport()->GetCenter(), ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
 					ImGui::SetNextWindowSize(ImVec2(700, 306));
 					if (ImGui::BeginPopupModal("Action Manager", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
+						if (ImGui::BeginCombo("##ActionTypeCombo")) {
+
+							ImGui::EndCombo();
+						}
 						if (ImGui::Button("Close", ImVec2(0, 0)))
 							ImGui::CloseCurrentPopup();
 
