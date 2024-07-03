@@ -127,10 +127,9 @@ movements currentMovementType = movements::walking;
 const char* movementTypesList[] = { "Walking", "Swimming", "Climbing", "Flying", "Burrowing" };
 int condVal = 1;
 const char* actionTypesList[] = { "Action", "Bonus Action", "Reaction", "Other Action" };
-action currentAction;
-actionTypes currentActionType = actionTypes::action;
-char currentActionName[32] = "";
-char currentActionDesc[1024 * 32] = "";
+action currentAction = { actionTypes::action, "", "" };
+char actionNameSize[32];
+char actionDescSize[1024 * 32];
 
 bool actionTab = true;
 bool inventoryTab = true;
@@ -704,51 +703,64 @@ void charSheet(bool* enable) {
 					ImGui::SetNextWindowPos(ImGui::GetMainViewport()->GetCenter(), ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
 					ImGui::SetNextWindowSize(ImVec2(450, 300));
 					if (ImGui::BeginPopupModal("Action Manager", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
-						ImGui::Columns(2, "ActionManagerColumns", true);
+						ImGui::Columns(2, "ActionManagerColumns", false);
 						ImGui::SetColumnOffset(1, 160);
 						{
 							if (ImGui::BeginChild("ActionManagerChildCol1", ImVec2(-1, -1))) {
+								ImGui::PushItemWidth(-1);
 								static char filterActions[32] = "";
 								ImGui::InputTextWithHint("##ActionsListFilter", "Filter Actions...", filterActions, IM_ARRAYSIZE(filterActions));
+								ImGui::PopItemWidth();
 								if (ImGui::BeginListBox("##ActionsListBox", ImVec2(-1, -1))) {
 									for (int i = 0; i < globalChar.actions.size(); i++) {
-										if (!contains(toLower(filterActions), toLower(currentActionName)))
+										if (!contains(toLower(filterActions), toLower(currentAction.actionName)))
 											continue;
 
-										const bool selectedAction = (globalChar.actions[i].actionName == currentActionName);
+										const bool selectedAction = (globalChar.actions[i].actionName == currentAction.actionName);
 
 										if (ImGui::Selectable(globalChar.actions[i].actionName.c_str(), selectedAction)) {
 											currentAction = globalChar.actions[i];
+											strcpy_s(actionNameSize, currentAction.actionName.c_str());
+											strcpy_s(actionDescSize, currentAction.actionDescription.c_str());
 										}
 									}
-
 									ImGui::EndListBox();
 								}
-
 								ImGui::EndChild();
 							}
 						}
 						ImGui::NextColumn();
 						{
-							if (ImGui::BeginChild("ActionManagerChildCol2", ImVec2(-1, -1))) {
+							if (ImGui::BeginChild("ActionManagerChildCol2", ImVec2(-1, -1), ImGuiChildFlags_Border)) {
 								ImGui::PushItemWidth(-1);
 								ImGui::Text("Action Type");
-								if (ImGui::BeginCombo("##ActionTypeCombo", actionTypesList[(int)currentActionType])) {
+								if (ImGui::BeginCombo("##ActionTypeCombo", actionTypesList[(int)currentAction.actionType])) {
 									for (int i = 0; i < IM_ARRAYSIZE(actionTypesList); i++) {
-										const bool selectedActionType = (currentActionType == (actionTypes)i);
+										const bool selectedActionType = (currentAction.actionType == (actionTypes)i);
 
 										if (ImGui::Selectable(actionTypesList[i], selectedActionType))
-											currentActionType = (actionTypes)i;
+											currentAction.actionType = (actionTypes)i;
 									}
 									ImGui::EndCombo();
 								}
 								ImGui::Separator();
 								ImGui::Text("Action Name & Description");
-								ImGui::InputTextWithHint("##ActionNameInput", "Action Name...", currentActionName, IM_ARRAYSIZE(currentActionName));
-								ImGui::InputTextMultiline("##ActionDescInput", currentActionDesc, IM_ARRAYSIZE(currentActionDesc));
+								ImGui::InputTextWithHint("##ActionNameInput", "Action Name...", actionNameSize, IM_ARRAYSIZE(actionNameSize));
+								ImGui::InputTextMultiline("##ActionDescInput", actionDescSize, IM_ARRAYSIZE(actionDescSize));
 								ImGui::Separator();
 								if (ImGui::Button("Close", ImVec2(0, 0)))
 									ImGui::CloseCurrentPopup();
+
+								ImGui::SameLine();
+								if (ImGui::Button("Add Action", ImVec2(0, 0))) {
+									currentAction.actionName = actionNameSize;
+									currentAction.actionDescription = actionDescSize;
+									globalChar.createAction(currentAction.actionType, currentAction.actionName, currentAction.actionDescription);
+									for (int i = 0; i < globalChar.actions.size(); i++) {
+										if (currentAction.actionName == globalChar.actions[i].actionName)
+											currentAction = globalChar.actions[i];
+									}
+								}
 
 								ImGui::PopItemWidth();
 								ImGui::EndChild();

@@ -286,7 +286,6 @@ struct playerCharacter {
 	proficiencyLevels	getArmorProficiency(armorTypes armor);
 	void				initArmorClass();
 
-	void				initActions();
 	void				createAction(actionTypes type, std::string name, std::string desc);
 	void				setActionType(action act, actionTypes type);
 	void				setActionName(action act, std::string name);

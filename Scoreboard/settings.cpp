@@ -13,7 +13,6 @@ namespace Settings {
         pc.initSpeeds();
         pc.initSavingThrows();
         pc.initArmorClass();
-        pc.initActions();
         pc.initAdj(); // Do this one last.
 	}
 
