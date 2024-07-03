@@ -126,6 +126,10 @@ proficiencyLevels currentArmorProfLevel = proficiencyLevels::noProficiency;
 movements currentMovementType = movements::walking;
 const char* movementTypesList[] = { "Walking", "Swimming", "Climbing", "Flying", "Burrowing" };
 int condVal = 1;
+const char* basicActionsList[] = { "Attack", "Cast a Spell", "Dash", "Delay", "Disengage", "Dodge", "Grapple", "Help", "Hide", "Improvise", "Ready", "Search", "Shove", "Use an Object" };
+const char* basicBonusActionsList[] = { "Two-Weapon Fighting" };
+const char* basicReactionsList[] = { "Opportunity Attack" };
+const char* basicOtherActionsList[] = { "Interact with an Object" };
 
 bool actionTab = true;
 bool inventoryTab = true;
@@ -693,7 +697,42 @@ void charSheet(bool* enable) {
 		if (ImGui::BeginChild("##MainArea", ImVec2(-1, -1), ImGuiChildFlags_Border)) {
 			if (ImGui::BeginTabBar("CharSheetTabBar")) {
 				if (ImGui::BeginTabItem("Actions")) {
-					ImGui::Text("Action Tab");
+					ImGui::Text("Actions");
+					ImGui::Separator();
+					{
+						if (ImGui::BeginChild("ActionsChild", ImVec2(-1, 25), ImGuiChildFlags_Border)) {
+
+							ImGui::EndChild();
+						}
+					}
+
+					ImGui::Text("Bonus Actions");
+					ImGui::Separator();
+					{
+						if (ImGui::BeginChild("BonusActionsChild", ImVec2(-1, 25), ImGuiChildFlags_Border)) {
+
+							ImGui::EndChild();
+						}
+					}
+
+					ImGui::Text("Reactions");
+					ImGui::Separator();
+					{
+						if (ImGui::BeginChild("ReactionsChild", ImVec2(-1, 25), ImGuiChildFlags_Border)) {
+
+							ImGui::EndChild();
+						}
+					}
+
+					ImGui::Text("Other Actions");
+					ImGui::Separator();
+					{
+						if (ImGui::BeginChild("OtherActionsChild", ImVec2(-1, 25), ImGuiChildFlags_Border)) {
+
+							ImGui::EndChild();
+						}
+
+					}
 
 					ImGui::EndTabItem();
 				}
