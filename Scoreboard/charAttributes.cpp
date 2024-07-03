@@ -551,6 +551,10 @@ void playerCharacter::initArmorClass() {
 	}
 }
 
+void playerCharacter::initActions() {
+	this->createAction(actionTypes::action, "", "");
+}
+
 // Function to create an action.
 void playerCharacter::createAction(actionTypes type, std::string name, std::string desc) {
 	action newAction;

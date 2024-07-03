@@ -128,8 +128,8 @@ const char* movementTypesList[] = { "Walking", "Swimming", "Climbing", "Flying",
 int condVal = 1;
 const char* actionTypesList[] = { "Action", "Bonus Action", "Reaction", "Other Action" };
 action currentAction = { actionTypes::action, "", "" };
-char actionNameSize[32];
-char actionDescSize[1024 * 32];
+char actionNameStr[32];
+char actionDescStr[1024 * 32];
 
 bool actionTab = true;
 bool inventoryTab = true;
@@ -713,15 +713,27 @@ void charSheet(bool* enable) {
 								ImGui::PopItemWidth();
 								if (ImGui::BeginListBox("##ActionsListBox", ImVec2(-1, -1))) {
 									for (int i = 0; i < globalChar.actions.size(); i++) {
-										if (!contains(toLower(filterActions), toLower(currentAction.actionName)))
+										if (!contains(toLower(filterActions), toLower(globalChar.actions[i].actionName)))
 											continue;
 
 										const bool selectedAction = (globalChar.actions[i].actionName == currentAction.actionName);
 
-										if (ImGui::Selectable(globalChar.actions[i].actionName.c_str(), selectedAction)) {
-											currentAction = globalChar.actions[i];
-											strcpy_s(actionNameSize, currentAction.actionName.c_str());
-											strcpy_s(actionDescSize, currentAction.actionDescription.c_str());
+										if (i == 0) {
+											if (ImGui::Selectable("New Action...", selectedAction)) {
+												currentAction = globalChar.actions[0];
+												strcpy_s(actionNameStr, currentAction.actionName.c_str());
+												strcpy_s(actionDescStr, currentAction.actionDescription.c_str());
+											}
+										}
+										else {
+											if (ImGui::Selectable(globalChar.actions[i].actionName.c_str(), selectedAction)) {
+												currentAction = globalChar.actions[i];
+												//currentAction.actionType = globalChar.actions[i].actionType;
+												//currentAction.actionName = globalChar.actions[i].actionName;
+												//currentAction.actionDescription = globalChar.actions[i].actionDescription;
+												strcpy_s(actionNameStr, currentAction.actionName.c_str());
+												strcpy_s(actionDescStr, currentAction.actionDescription.c_str());
+											}
 										}
 									}
 									ImGui::EndListBox();
@@ -740,28 +752,41 @@ void charSheet(bool* enable) {
 
 										if (ImGui::Selectable(actionTypesList[i], selectedActionType))
 											currentAction.actionType = (actionTypes)i;
+										
 									}
 									ImGui::EndCombo();
 								}
 								ImGui::Separator();
 								ImGui::Text("Action Name & Description");
-								ImGui::InputTextWithHint("##ActionNameInput", "Action Name...", actionNameSize, IM_ARRAYSIZE(actionNameSize));
-								ImGui::InputTextMultiline("##ActionDescInput", actionDescSize, IM_ARRAYSIZE(actionDescSize));
+								ImGui::InputTextWithHint("##ActionNameInput", "Action Name...", actionNameStr, IM_ARRAYSIZE(actionNameStr));
+								ImGui::InputTextMultiline("##ActionDescInput", actionDescStr, IM_ARRAYSIZE(actionDescStr), ImVec2(-1, 0));
 								ImGui::Separator();
 								if (ImGui::Button("Close", ImVec2(0, 0)))
 									ImGui::CloseCurrentPopup();
 
-								ImGui::SameLine();
-								if (ImGui::Button("Add Action", ImVec2(0, 0))) {
-									currentAction.actionName = actionNameSize;
-									currentAction.actionDescription = actionDescSize;
-									globalChar.createAction(currentAction.actionType, currentAction.actionName, currentAction.actionDescription);
-									for (int i = 0; i < globalChar.actions.size(); i++) {
-										if (currentAction.actionName == globalChar.actions[i].actionName)
-											currentAction = globalChar.actions[i];
+								if (actionNameStr[0] != '\0') {
+									if (currentAction.actionName == "") {
+										if (ImGui::Button("Add Action", ImVec2(0, 0))) {
+											currentAction.actionName = actionNameStr;
+											currentAction.actionDescription = actionDescStr;
+											globalChar.createAction(currentAction.actionType, currentAction.actionName, currentAction.actionDescription);
+										}
+									}
+									else {
+										if (ImGui::Button("Update Action", ImVec2(0, 0))) {
+											for (int i = 0; i < globalChar.actions.size(); i++) {
+												if (actionNameStr == globalChar.actions[i].actionName) {
+													currentAction.actionName = actionNameStr;
+													currentAction.actionDescription = actionDescStr;
+													globalChar.actions[i] = currentAction;
+													//globalChar.actions[i].actionType = currentAction.actionType;
+													//globalChar.actions[i].actionName = currentAction.actionName;
+													//globalChar.actions[i].actionDescription = currentAction.actionDescription;
+												}
+											}
+										}
 									}
 								}
-
 								ImGui::PopItemWidth();
 								ImGui::EndChild();
 							}
