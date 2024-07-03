@@ -176,6 +176,11 @@ struct armorClass {
 	proficiencyLevels	profLevel;
 };
 
+struct action {
+	std::string actionName;
+	std::string actionDescription;
+};
+
 // playerCharacter holds all the information for the currently loaded character
 struct playerCharacter {
 	// Data Types
@@ -192,6 +197,7 @@ struct playerCharacter {
 
 	std::vector<int>						feats;
 	std::vector<item>						inventory;
+	std::vector<action>						actions;
 
 	std::map<abilityScores, int>			abilityAdj;
 	std::map<skills, int>					skillAdj;
@@ -271,6 +277,12 @@ struct playerCharacter {
 	abilityScores		getArmorMainAbility(armorTypes armor);
 	proficiencyLevels	getArmorProficiency(armorTypes armor);
 	void				initArmorClass();
+
+	void				createAction(std::string name, std::string desc);
+	void				setActionName(action act, std::string name);
+	void				setActionDescription(action act, std::string desc);
+	std::string			getActionName(action act);
+	std::string			getActionDescription(action act);
 
 	nlohmann::json		toJson() const;
 };

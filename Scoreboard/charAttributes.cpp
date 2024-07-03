@@ -551,6 +551,34 @@ void playerCharacter::initArmorClass() {
 	}
 }
 
+// Function to create an action.
+void playerCharacter::createAction(std::string name, std::string desc) {
+	action newAction;
+	newAction.actionName = name;
+	newAction.actionDescription = desc;
+	this->actions.push_back(newAction);
+}
+
+// Setter for a given action's name
+void playerCharacter::setActionName(action act, std::string name) {
+	act.actionName = name;
+}
+
+// Setter for a given action's description
+void playerCharacter::setActionDescription(action act, std::string desc) {
+	act.actionDescription = desc;
+}
+
+// Getter for a given action's name
+std::string playerCharacter::getActionName(action act) {
+	return act.actionName;
+}
+
+// Getter for a given action's description
+std::string playerCharacter::getActionDescription(action act) {
+	return act.actionDescription;
+}
+
 nlohmann::json playerCharacter::toJson() const {
 	// Create the big json
 	nlohmann::json jsonObj;
