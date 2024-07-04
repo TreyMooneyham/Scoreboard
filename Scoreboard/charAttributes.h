@@ -294,6 +294,7 @@ struct playerCharacter {
 	actionTypes			getActionType(action act);
 	std::string			getActionName(action act);
 	std::string			getActionDescription(action act);
+	int					getActionCount(actionTypes type);
 
 	nlohmann::json		toJson() const;
 };

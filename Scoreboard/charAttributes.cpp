@@ -594,6 +594,16 @@ std::string playerCharacter::getActionDescription(action act) {
 	return act.actionDescription;
 }
 
+// Gets the amount of actions with the specified type
+int playerCharacter::getActionCount(actionTypes type) {
+	int count = 0;
+	for (int i = 1; i < this->actions.size(); i++) { // Ignore the first element because it is a dummy element
+		if (this->actions[i].actionType == type)
+			count++;
+	}
+	return count;
+}
+
 nlohmann::json playerCharacter::toJson() const {
 	// Create the big json
 	nlohmann::json jsonObj;

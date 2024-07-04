@@ -128,7 +128,7 @@ const char* movementTypesList[] = { "Walking", "Swimming", "Climbing", "Flying",
 int condVal = 1;
 const char* actionTypesList[] = { "Action", "Bonus Action", "Reaction", "Other Action" };
 action currentAction = { actionTypes::action, "", "" };
-char actionNameStr[32];
+char actionNameStr[24];
 char actionDescStr[1024 * 32];
 
 bool actionTab = true;
@@ -708,7 +708,7 @@ void charSheet(bool* enable) {
 						{
 							if (ImGui::BeginChild("ActionManagerChildCol1", ImVec2(-1, -1))) {
 								ImGui::PushItemWidth(-1);
-								static char filterActions[32] = "";
+								static char filterActions[20] = "";
 								ImGui::InputTextWithHint("##ActionsListFilter", "Filter Actions...", filterActions, IM_ARRAYSIZE(filterActions));
 								ImGui::PopItemWidth();
 								if (ImGui::BeginListBox("##ActionsListBox", ImVec2(-1, -1))) {
@@ -756,20 +756,20 @@ void charSheet(bool* enable) {
 								ImGui::Separator();
 								ImGui::Text("Action Name & Description");
 								ImGui::InputTextWithHint("##ActionNameInput", "Action Name...", actionNameStr, IM_ARRAYSIZE(actionNameStr));
-								ImGui::InputTextMultiline("##ActionDescInput", actionDescStr, IM_ARRAYSIZE(actionDescStr), ImVec2(-1, 0));
+								ImGui::InputTextMultiline("##ActionDescInput", actionDescStr, IM_ARRAYSIZE(actionDescStr), ImVec2(-1, 136));
 								ImGui::Separator();
-								if (ImGui::Button("Close", ImVec2(0, 0)))
-									ImGui::CloseCurrentPopup();
 
 								if (currentAction.actionName == "") {
-									if (ImGui::Button("Add Action", ImVec2(0, 0))) {
-										currentAction.actionName = actionNameStr;
-										currentAction.actionDescription = actionDescStr;
-										globalChar.createAction(currentAction.actionType, currentAction.actionName, currentAction.actionDescription);
+									if (ImGui::Button("Add Action", ImVec2(150, 0))) {
+										if (actionNameStr[0] != '\0') {
+											currentAction.actionName = actionNameStr;
+											currentAction.actionDescription = actionDescStr;
+											globalChar.createAction(currentAction.actionType, currentAction.actionName, currentAction.actionDescription);
+										}
 									}
 								}
 								else {
-									if (ImGui::Button("Update Action", ImVec2(0, 0))) {
+									if (ImGui::Button("Update Action", ImVec2(150, 0))) {
 										for (int i = 0; i < globalChar.actions.size(); i++) {
 											if (currentAction.actionName == globalChar.actions[i].actionName) {
 												currentAction.actionName = actionNameStr;
@@ -779,6 +779,10 @@ void charSheet(bool* enable) {
 										}
 									}
 								}
+								ImGui::SameLine();
+								if (ImGui::Button("Close", ImVec2(-1, 0)))
+									ImGui::CloseCurrentPopup();
+
 								ImGui::PopItemWidth();
 								ImGui::EndChild();
 							}
@@ -790,6 +794,24 @@ void charSheet(bool* enable) {
 					ImGui::Separator();
 					if (ImGui::BeginChild("ActionsChild", ImVec2(-1, 0), ImGuiChildFlags_Border | ImGuiChildFlags_AutoResizeY)) {
 						
+						if (globalChar.getActionCount(actionTypes::action) > 0) {
+							ImGui::Text("Custom Actions");
+							ImGui::Separator();
+							for (int i = 1; i < globalChar.actions.size(); i++) { // Starting the array at one to ignore the dummy element in position 0
+								if (globalChar.actions[i].actionType == actionTypes::action) {
+									ImGui::Text(globalChar.actions[i].actionName.c_str());
+									if (ImGui::BeginItemTooltip())
+									{
+										ImGui::PushTextWrapPos(ImGui::GetFontSize() * 35.0f);
+										ImGui::TextUnformatted(globalChar.actions[i].actionDescription.c_str());
+										ImGui::PopTextWrapPos();
+										ImGui::EndTooltip();
+									}
+								}
+							}
+							ImGui::Spacing();
+						}
+
 						ImGui::Text("Basic Actions");
 						ImGui::Separator();
 						{
@@ -815,6 +837,15 @@ void charSheet(bool* enable) {
 					ImGui::Text("Bonus Actions");
 					ImGui::Separator();
 					if (ImGui::BeginChild("BonusActionsChild", ImVec2(-1, 0), ImGuiChildFlags_Border | ImGuiChildFlags_AutoResizeY)) {
+						if (globalChar.getActionCount(actionTypes::bonusAction) > 0) {
+							ImGui::Text("Custom Bonus Actions");
+							ImGui::Separator();
+							for (int i = 1; i < globalChar.actions.size(); i++) { // Starting the array at one to ignore the dummy element in position 0
+								if (globalChar.actions[i].actionType == actionTypes::bonusAction)
+									ImGui::Text(globalChar.actions[i].actionName.c_str());
+							}
+							ImGui::Spacing();
+						}
 
 						ImGui::Text("Basic Bonus Actions");
 						ImGui::Separator();
@@ -827,6 +858,15 @@ void charSheet(bool* enable) {
 					ImGui::Text("Reactions");
 					ImGui::Separator();
 					if (ImGui::BeginChild("ReactionsChild", ImVec2(-1, 0), ImGuiChildFlags_Border | ImGuiChildFlags_AutoResizeY)) {
+						if (globalChar.getActionCount(actionTypes::reaction) > 0) {
+							ImGui::Text("Custom Reactions");
+							ImGui::Separator();
+							for (int i = 1; i < globalChar.actions.size(); i++) { // Starting the array at one to ignore the dummy element in position 0
+								if (globalChar.actions[i].actionType == actionTypes::reaction)
+									ImGui::Text(globalChar.actions[i].actionName.c_str());
+							}
+							ImGui::Spacing();
+						}
 
 						ImGui::Text("Basic Reactions");
 						ImGui::Separator();
@@ -839,6 +879,15 @@ void charSheet(bool* enable) {
 					ImGui::Text("Other Actions");
 					ImGui::Separator();
 					if (ImGui::BeginChild("OtherActionsChild", ImVec2(-1, 0), ImGuiChildFlags_Border | ImGuiChildFlags_AutoResizeY)) {
+						if (globalChar.getActionCount(actionTypes::otherAction) > 0) {
+							ImGui::Text("Custom Other Actions");
+							ImGui::Separator();
+							for (int i = 1; i < globalChar.actions.size(); i++) { // Starting the array at one to ignore the dummy element in position 0
+								if (globalChar.actions[i].actionType == actionTypes::otherAction)
+									ImGui::Text(globalChar.actions[i].actionName.c_str());
+							}
+							ImGui::Spacing();
+						}
 
 						ImGui::Text("Basic Other Actions");
 						ImGui::Separator();
