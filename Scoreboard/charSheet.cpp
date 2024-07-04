@@ -64,6 +64,15 @@ std::string condFormat(std::string str, int bonus) {
 	return str + std::to_string(bonus);
 }
 
+void beginTooltip(const char* str) {
+	if (ImGui::BeginItemTooltip()) {
+		ImGui::PushTextWrapPos(ImGui::GetFontSize() * 35.0f);
+		ImGui::TextUnformatted(str);
+		ImGui::PopTextWrapPos();
+		ImGui::EndTooltip();
+	}
+}
+
 // Here's the global character variable
 extern playerCharacter globalChar = playerCharacter();
 
@@ -701,7 +710,7 @@ void charSheet(bool* enable) {
 						ImGui::OpenPopup("Action Manager");
 
 					ImGui::SetNextWindowPos(ImGui::GetMainViewport()->GetCenter(), ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
-					ImGui::SetNextWindowSize(ImVec2(450, 300));
+					ImGui::SetNextWindowSize(ImVec2(480, 300));
 					if (ImGui::BeginPopupModal("Action Manager", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
 						ImGui::Columns(2, "ActionManagerColumns", false);
 						ImGui::SetColumnOffset(1, 160);
@@ -760,21 +769,36 @@ void charSheet(bool* enable) {
 								ImGui::Separator();
 
 								if (currentAction.actionName == "") {
-									if (ImGui::Button("Add Action", ImVec2(150, 0))) {
-										if (actionNameStr[0] != '\0') {
-											currentAction.actionName = actionNameStr;
-											currentAction.actionDescription = actionDescStr;
-											globalChar.createAction(currentAction.actionType, currentAction.actionName, currentAction.actionDescription);
-										}
+									if (actionNameStr[0] == '\0')
+										ImGui::BeginDisabled();
+
+									if (ImGui::Button("Add Action", ImVec2(218, 0))) {
+										currentAction.actionName = actionNameStr;
+										currentAction.actionDescription = actionDescStr;
+										globalChar.createAction(currentAction.actionType, currentAction.actionName, currentAction.actionDescription);
 									}
+									ImGui::EndDisabled();
 								}
 								else {
-									if (ImGui::Button("Update Action", ImVec2(150, 0))) {
+									if (ImGui::Button("Update Action", ImVec2(105, 0))) {
 										for (int i = 0; i < globalChar.actions.size(); i++) {
 											if (currentAction.actionName == globalChar.actions[i].actionName) {
 												currentAction.actionName = actionNameStr;
 												currentAction.actionDescription = actionDescStr;
 												globalChar.actions[i] = currentAction;
+											}
+										}
+									}
+									ImGui::SameLine();
+									if (ImGui::Button("Remove Action", ImVec2(105, 0))) {
+										for (int i = 1; i < globalChar.actions.size(); i++) { // Skipping the first element to avoid deleting our only way to add actions
+											if (currentAction.actionName == globalChar.actions[i].actionName) {
+												globalChar.actions.erase(globalChar.actions.begin() + i);
+												currentAction.actionType = actionTypes::action;
+												currentAction.actionName = "";
+												currentAction.actionDescription = "";
+												actionNameStr[0] = '\0';
+												actionDescStr[0] = '\0';
 											}
 										}
 									}
@@ -816,20 +840,32 @@ void charSheet(bool* enable) {
 						ImGui::Separator();
 						{
 							ImGui::Text("Attack,"); ImGui::SameLine();
-							ImGui::Text("Cast a Spell,"); ImGui::SameLine();
+							beginTooltip("The most common action to take in combat is the Attack action, whether you are swinging a sword, firing an arrow from a bow, or brawling with your fists.\n\nWhen you take this action you may make a number of melee or ranged attacks against a target. The maximum number of attacks you make is governed by how many attacks per action you can take.");
 							ImGui::Text("Dash," ); ImGui::SameLine();
+							beginTooltip("");
 							ImGui::Text("Delay,"); ImGui::SameLine();
+							beginTooltip("");
 							ImGui::Text("Disengage,"); ImGui::SameLine();
+							beginTooltip("");
 							ImGui::Text("Dodge,"); ImGui::SameLine();
+							beginTooltip("");
 							ImGui::Text("Grapple,"); ImGui::SameLine();
+							beginTooltip("");
 							ImGui::Text("Help,"); ImGui::SameLine();
-							ImGui::Text("Hide,"); 
+							beginTooltip("");
+							ImGui::Text("Hide,"); ImGui::SameLine();
+							beginTooltip("");
 							ImGui::Text("Improvise,"); ImGui::SameLine();
-							ImGui::Text("Ready,"); ImGui::SameLine();
+							beginTooltip("");
+							ImGui::Text("Ready,");
+							beginTooltip("");
 							ImGui::Text("Search,"); ImGui::SameLine();
+							beginTooltip("");
 							ImGui::Text("Shove,"); ImGui::SameLine();
+							beginTooltip("");
 							ImGui::Text("and"); ImGui::SameLine();
 							ImGui::Text("Use an Object.");
+							beginTooltip("");
 						}
 						ImGui::EndChild();
 					}
@@ -841,8 +877,10 @@ void charSheet(bool* enable) {
 							ImGui::Text("Custom Bonus Actions");
 							ImGui::Separator();
 							for (int i = 1; i < globalChar.actions.size(); i++) { // Starting the array at one to ignore the dummy element in position 0
-								if (globalChar.actions[i].actionType == actionTypes::bonusAction)
+								if (globalChar.actions[i].actionType == actionTypes::bonusAction) {
 									ImGui::Text(globalChar.actions[i].actionName.c_str());
+									beginTooltip(globalChar.actions[i].actionDescription.c_str());
+								}
 							}
 							ImGui::Spacing();
 						}
@@ -851,6 +889,7 @@ void charSheet(bool* enable) {
 						ImGui::Separator();
 						{
 							ImGui::Text("Two-Weapon Fighting.");
+							beginTooltip("");
 						}
 						ImGui::EndChild();
 					}
@@ -862,8 +901,10 @@ void charSheet(bool* enable) {
 							ImGui::Text("Custom Reactions");
 							ImGui::Separator();
 							for (int i = 1; i < globalChar.actions.size(); i++) { // Starting the array at one to ignore the dummy element in position 0
-								if (globalChar.actions[i].actionType == actionTypes::reaction)
+								if (globalChar.actions[i].actionType == actionTypes::reaction) {
 									ImGui::Text(globalChar.actions[i].actionName.c_str());
+									beginTooltip(globalChar.actions[i].actionDescription.c_str());
+								}
 							}
 							ImGui::Spacing();
 						}
@@ -872,6 +913,7 @@ void charSheet(bool* enable) {
 						ImGui::Separator();
 						{
 							ImGui::Text("Opportunity Attack.");
+							beginTooltip("");
 						}
 						ImGui::EndChild();
 					}
@@ -883,8 +925,10 @@ void charSheet(bool* enable) {
 							ImGui::Text("Custom Other Actions");
 							ImGui::Separator();
 							for (int i = 1; i < globalChar.actions.size(); i++) { // Starting the array at one to ignore the dummy element in position 0
-								if (globalChar.actions[i].actionType == actionTypes::otherAction)
+								if (globalChar.actions[i].actionType == actionTypes::otherAction) {
 									ImGui::Text(globalChar.actions[i].actionName.c_str());
+									beginTooltip(globalChar.actions[i].actionDescription.c_str());
+								}
 							}
 							ImGui::Spacing();
 						}
@@ -892,7 +936,11 @@ void charSheet(bool* enable) {
 						ImGui::Text("Basic Other Actions");
 						ImGui::Separator();
 						{
+
+							ImGui::Text("Cast a Spell,"); ImGui::SameLine();
+							beginTooltip("");
 							ImGui::Text("Interact with an Object.");
+							beginTooltip("");
 						}
 						ImGui::EndChild();
 					}
