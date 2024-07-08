@@ -772,6 +772,11 @@ void charSheet(bool* enable) {
 									if (actionNameStr[0] == '\0')
 										ImGui::BeginDisabled();
 
+									for (int i = 1; i < globalChar.actions.size(); i++) {
+										if (actionNameStr == globalChar.actions[i].actionName)
+											ImGui::BeginDisabled();
+									}
+
 									if (ImGui::Button("Add Action", ImVec2(218, 0))) {
 										currentAction.actionName = actionNameStr;
 										currentAction.actionDescription = actionDescStr;

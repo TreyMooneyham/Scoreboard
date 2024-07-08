@@ -552,6 +552,9 @@ void playerCharacter::initArmorClass() {
 }
 
 void playerCharacter::initActions() {
+	if (this->actions.size() != 0)
+		this->actions.clear();
+
 	this->createAction(actionTypes::action, "", "");
 }
 
