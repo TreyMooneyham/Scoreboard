@@ -85,12 +85,8 @@ void playerCharacter::initLevels() {
 
 // Initiatilizes every score to 10
 void playerCharacter::initScores() {
-	this->abilities[abilityScores::strength]		= 10;
-	this->abilities[abilityScores::dexterity]		= 10;
-	this->abilities[abilityScores::constitution]	= 10;
-	this->abilities[abilityScores::intelligence]	= 10;
-	this->abilities[abilityScores::wisdom]			= 10;
-	this->abilities[abilityScores::charisma]		= 10;
+	for (int i = 0; i < 6; i++)
+		this->abilities[(abilityScores)i] = 10;
 }
 
 // Sets a specific score to a specific value
@@ -404,6 +400,12 @@ void playerCharacter::initAdj() {
 	// Initializes the five movements
 	for (int i = 0; i < 5; i++) {
 		this->movementAdj[(movements)i] = 0;
+	}
+
+	// Initializes the three* saving throws
+	// *And death saves
+	for (int i = 0; i < 4; i++) {
+		this->saveAdj[(savingThrows)i] = 0;
 	}
 
 	// Initializes the four armor types
@@ -799,7 +801,7 @@ std::vector<feat> initFeats() {
 				default:
 					break;
 				}
-				};
+			};
 
 			if (elem.value().at("minScoreAbility").is_array()) {
 				std::vector<int> minScores = elem.value().at("minScoreAbility").get<std::vector<int>>();

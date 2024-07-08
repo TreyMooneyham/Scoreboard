@@ -93,6 +93,7 @@ struct feat {
 
 	bool							findFeat(int id, std::vector<int> list);
 };
+
 // Resistances
 enum class resistanceTypes {
 	mechanical,
