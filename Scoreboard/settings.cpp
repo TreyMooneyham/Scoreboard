@@ -6,7 +6,6 @@ namespace Settings {
         pc.initNames();
         pc.initLevels();
         pc.initScores();
-        pc.initHitPoints();
         pc.initSkills();
         pc.initResist();
         pc.initConditions();
@@ -14,6 +13,7 @@ namespace Settings {
         pc.initSavingThrows();
         pc.initArmorClass();
         pc.initActions();
+        pc.initHitPoints();
         pc.initAdj(); // Do this one last.
 	}
 
