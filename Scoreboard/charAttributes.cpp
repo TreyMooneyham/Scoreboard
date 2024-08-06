@@ -719,6 +719,14 @@ nlohmann::json playerCharacter::toJson() const {
 	}
 	jsonObj["armor"] = armorJson;
 
+	// Put the relevant action information in
+	nlohmann::json actionJson;
+	for (const auto& currAction : this->actions) {
+		actionJson[currAction.actionName]["type"] = currAction.actionType;
+		actionJson[currAction.actionName]["description"] = currAction.actionDescription;
+	}
+	jsonObj["actions"] = actionJson;
+
 	// Rapid fire for the adjustments
 	nlohmann::json abilityAdjJson;
 	for (const auto& adjustment : this->abilityAdj) {

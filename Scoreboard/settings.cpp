@@ -155,6 +155,20 @@ namespace Settings {
                 armorStats.baseAC = armor.value()["baseAC"];
                 pc.armorInfo[armorKey] = armorStats;
             }
+
+
+            //actionTypes actionType;
+            //std::string actionName;
+            //std::string actionDescription;
+            // Parsing action information
+            for (auto& currAction : jsonObj["actions"].items()) {
+                action newAction;
+                std::string actionKey = currAction.key();
+                newAction.actionName = actionKey;
+                newAction.actionDescription = currAction.value()["description"];
+                newAction.actionType = currAction.value()["type"];
+                pc.actions.push_back(newAction);
+            }
             
             // Adjustments below here
             for (auto& adjustment : jsonObj["abilityAdjustments"].items()) {
