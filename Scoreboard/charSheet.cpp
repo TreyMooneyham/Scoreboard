@@ -88,6 +88,10 @@ const char* savesList[] = { "Fortitude", "Reflex", "Will" }; // List of saving t
 const char* levelsList[] = { "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine",
 							 "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", 
 							 "Seventeen", "Eighteen", "Nineteen", "Twenty" }; // May God forgive me for my sins...
+const char* hitDieList[] = { "d4", "d6", "d8", "d10", "d12"}; // There is a great deal of hate in my heart
+const char* numbersList[] = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9",
+							 "10", "11", "12", "13", "14", "15", "16",
+							 "17", "18", "19", "20" };
 static char filterSkills[32];
 char pNameChar[128] = "", cNameChar[128] = "", ancestryChar[128] = "", nationalityChar[128] = "";
 const char* conditionsList[] = { "Blinded", "Clumsy", "Confused", "Controlled", "Dazed", "Deafened", "Doomed", "Drained", 
@@ -142,6 +146,31 @@ char actionDescStr[1024 * 32];
 
 bool actionTab = true;
 bool inventoryTab = true;
+
+int hitDieSelected = 0;
+
+static bool restrictStr = false;
+static bool restrictDex = false;
+static bool restrictCon = false;
+static bool restrictInt = false;
+static bool restrictWis = false;
+static bool restrictCha = false;
+int restrictedScoreSelected[6] = { 0, 0, 0, 0, 0, 0 };
+
+static const char* featsList[] = { "Feat 1", "Feat 2", "Feat 3", "Feat 4", "Feat 5" }; // Actual feat list will be imported from the document
+int numberRestrictedFeats = 0;
+static std::vector<int> restrictedFeatIndices;
+
+int numberPrerequisiteFeats = 0;
+static std::vector<int> prerequisiteFeatIndices;
+
+static bool modifiedStr = false;
+static bool modifiedDex = false;
+static bool modifiedCon = false;
+static bool modifiedInt = false;
+static bool modifiedWis = false;
+static bool modifiedCha = false;
+int modifiedScoreSelected[6] = { 0, 0, 0, 0, 0, 0 };
 
 void charSheet(bool* enable) {
 	// Common variables for the global character
@@ -967,9 +996,299 @@ void charSheet(bool* enable) {
 					ImGui::SetNextWindowPos(ImGui::GetMainViewport()->GetCenter(), ImGuiCond_Appearing, ImVec2(0.5f, 0.5f));
 					ImGui::SetNextWindowSize(ImVec2(700, 306));
 					if (ImGui::BeginPopupModal("Feature Manager", NULL, ImGuiWindowFlags_AlwaysAutoResize)) {
-						if (ImGui::Button("Close", ImVec2(0, 0)))
-							ImGui::CloseCurrentPopup();
+						ImGui::Columns(2, "FeatManagerColumns", false);
+						ImGui::SetColumnOffset(1, 160);
+						// THE LIST GOES HERE
+						ImGui::NextColumn();
+						{
+							if (ImGui::BeginChild("FeatManagerChildCol2", ImVec2(-1, -1), ImGuiChildFlags_Border)) {
+								ImGui::PushItemWidth(-1);
+								ImGui::Text("Feat Name");
+								ImGui::InputTextWithHint("##FeatNameInput", "Feat Name...", actionNameStr, IM_ARRAYSIZE(actionNameStr));
+								ImGui::Text("Min level");
+								ImGui::InputTextWithHint("##MinLevelInput", "Min level...", actionNameStr, IM_ARRAYSIZE(actionNameStr));
+								ImGui::Text("Hit die");
+								std::string hitdielabel = hitDieList[hitDieSelected];
+								if (ImGui::BeginCombo("##HitDieCombo", hitdielabel.c_str())) {
+									for (int i = 0; i < IM_ARRAYSIZE(hitDieList); i++) {
+										std::string hitDie = hitDieList[i];
 
+										if (ImGui::Selectable(hitDie.c_str(), true)) {
+											hitDieSelected = i;
+										}
+									}
+									ImGui::EndCombo();
+								}
+								ImGui::Text("Description");
+								ImGui::InputTextMultiline("##FeatDescInput", actionDescStr, IM_ARRAYSIZE(actionDescStr), ImVec2(-1, 136));
+								ImGui::Separator();
+								
+								ImGui::Text("Restricting Stat(s):");
+
+								ImGui::Checkbox("Str", &restrictStr);
+								ImGui::SameLine();
+								ImGui::Checkbox("Int", &restrictInt);
+
+								ImGui::Checkbox("Dex", &restrictDex);
+								ImGui::SameLine();
+								ImGui::Checkbox("Wis", &restrictWis);
+
+								ImGui::Checkbox("Con", &restrictCon);
+								ImGui::SameLine();
+								ImGui::Checkbox("Cha", &restrictCha);
+
+								if (restrictStr){
+									ImGui::Text("Str:");
+									std::string statLabel = numbersList[restrictedScoreSelected[0]];
+									if (ImGui::BeginCombo("##Stat0Combo", statLabel.c_str())) {
+										for (int i = 0; i < IM_ARRAYSIZE(numbersList); i++) {
+											std::string number = numbersList[i];
+											if (ImGui::Selectable(number.c_str(), true)) {
+												restrictedScoreSelected[0] = i;
+											}
+										}
+										ImGui::EndCombo();
+									}
+								}
+								if (restrictInt) {
+									ImGui::Text("Int:");
+									std::string statLabel = numbersList[restrictedScoreSelected[3]];
+									if (ImGui::BeginCombo("##Stat1Combo", statLabel.c_str())) {
+										for (int i = 0; i < IM_ARRAYSIZE(numbersList); i++) {
+											std::string number = numbersList[i];
+											if (ImGui::Selectable(number.c_str(), true)) {
+												restrictedScoreSelected[3] = i;
+											}
+										}
+										ImGui::EndCombo();
+									}
+								}
+								if (restrictDex) {
+									ImGui::Text("Dex:");
+									std::string statLabel = numbersList[restrictedScoreSelected[1]];
+									if (ImGui::BeginCombo("##Stat2Combo", statLabel.c_str())) {
+										for (int i = 0; i < IM_ARRAYSIZE(numbersList); i++) {
+											std::string number = numbersList[i];
+											if (ImGui::Selectable(number.c_str(), true)) {
+												restrictedScoreSelected[1] = i;
+											}
+										}
+										ImGui::EndCombo();
+									}
+								}
+
+								if (restrictWis) {
+									ImGui::Text("Wis:");
+									std::string statLabel = numbersList[restrictedScoreSelected[4]];
+									if (ImGui::BeginCombo("##Stat3Combo", statLabel.c_str())) {
+										for (int i = 0; i < IM_ARRAYSIZE(numbersList); i++) {
+											std::string number = numbersList[i];
+											if (ImGui::Selectable(number.c_str(), true)) {
+												restrictedScoreSelected[4] = i;
+											}
+										}
+										ImGui::EndCombo();
+									}
+								}
+								if (restrictCon) {
+									ImGui::Text("Con:");
+									std::string statLabel = numbersList[restrictedScoreSelected[2]];
+									if (ImGui::BeginCombo("##Stat4Combo", statLabel.c_str())) {
+										for (int i = 0; i < IM_ARRAYSIZE(numbersList); i++) {
+											std::string number = numbersList[i];
+											if (ImGui::Selectable(number.c_str(), true)) {
+												restrictedScoreSelected[2] = i;
+											}
+										}
+										ImGui::EndCombo();
+									}
+								}
+								if (restrictCha) {
+									ImGui::Text("Cha:");
+									std::string statLabel = numbersList[restrictedScoreSelected[5]];
+									if (ImGui::BeginCombo("##Stat5Combo", statLabel.c_str())) {
+										for (int i = 0; i < IM_ARRAYSIZE(numbersList); i++) {
+											std::string number = numbersList[i];
+											if (ImGui::Selectable(number.c_str(), true)) {
+												restrictedScoreSelected[5] = i;
+											}
+										}
+										ImGui::EndCombo();
+									}
+								}
+
+								ImGui::Separator();
+								ImGui::Text("Number of restricted feat(s): ");
+								ImGui::SameLine();
+								std::string numRestrictedFeats = std::to_string(numberRestrictedFeats);
+								if (ImGui::BeginCombo("##RestrictedFeatNumberCombo", numRestrictedFeats.c_str())) {
+									for (int i = 0; i < IM_ARRAYSIZE(numbersList); i++) {
+										std::string number = numbersList[i];
+										if (ImGui::Selectable(number.c_str(), true)) {
+											numberRestrictedFeats = i; restrictedFeatIndices.resize(numberRestrictedFeats, 0);
+										}
+									}
+									ImGui::EndCombo();
+								}
+
+								// Dynamically create combo boxes based on the selected number
+								for (int i = 0; i < numberRestrictedFeats; i++) {
+									ImGui::Text("Restricted Feat %d: ", i + 1);
+									ImGui::SameLine();
+
+									// Assume featsList contains the options for each feat
+
+									std::string comboLabel = "##RestrictedFeatCombo" + std::to_string(i);
+									const char* currentItem = featsList[restrictedFeatIndices[i]];
+
+									if (ImGui::BeginCombo(comboLabel.c_str(), currentItem)) {
+										for (int j = 0; j < IM_ARRAYSIZE(featsList); j++) {
+											if (ImGui::Selectable(featsList[j], restrictedFeatIndices[i] == j)) {
+												restrictedFeatIndices[i] = j;
+											}
+										}
+										ImGui::EndCombo();
+									}
+								}
+
+								ImGui::Separator();
+								ImGui::Text("Number of prerequisite feat(s): ");
+								ImGui::SameLine();
+								std::string numPrerequisiteFeats = std::to_string(numberPrerequisiteFeats);
+								if (ImGui::BeginCombo("##PrerequisiteFeatNumberCombo", numPrerequisiteFeats.c_str())) {
+									for (int i = 0; i < IM_ARRAYSIZE(numbersList); i++) {
+										std::string number = numbersList[i];
+										if (ImGui::Selectable(number.c_str(), true)) {
+											numberPrerequisiteFeats = i; prerequisiteFeatIndices.resize(numberPrerequisiteFeats, 0);
+										}
+									}
+									ImGui::EndCombo();
+								}
+
+								// Dynamically create combo boxes based on the selected number
+								for (int i = 0; i < numberPrerequisiteFeats; i++) {
+									ImGui::Text("Prerequisite Feat %d: ", i + 1);
+									ImGui::SameLine();
+
+									// Assume featsList contains the options for each feat
+
+									std::string comboLabel = "##PrerequisiteFeatCombo" + std::to_string(i);
+									const char* currentItem = featsList[prerequisiteFeatIndices[i]];
+
+									if (ImGui::BeginCombo(comboLabel.c_str(), currentItem)) {
+										for (int j = 0; j < IM_ARRAYSIZE(featsList); j++) {
+											if (ImGui::Selectable(featsList[j], prerequisiteFeatIndices[i] == j)) {
+												prerequisiteFeatIndices[i] = j;
+											}
+										}
+										ImGui::EndCombo();
+									}
+								}
+								ImGui::Separator();
+								ImGui::Text("Modified Stat(s):");
+								// NOTE: NOT ONLY ARE THE SPACES AT THE END INTENTIONAL, THEY ARE REQUIRED
+								// THE LABELS FOR THE CHECKBOX BUTTONS CANNOT BE THE SAME IN THE SAME WINDOW 
+								// HINCE THE EXISTANCE OF 'STR' AND 'STR '
+								ImGui::Checkbox("Str ", &modifiedStr);
+								ImGui::SameLine();
+								ImGui::Checkbox("Int ", &modifiedInt);
+
+								ImGui::Checkbox("Dex ", &modifiedDex);
+								ImGui::SameLine();
+								ImGui::Checkbox("Wis ", &modifiedWis);
+
+								ImGui::Checkbox("Con ", &modifiedCon);
+								ImGui::SameLine();
+								ImGui::Checkbox("Cha ", &modifiedCha);
+
+								if (modifiedStr) {
+									ImGui::Text("Str:");
+									std::string statLabel = numbersList[modifiedScoreSelected[0]];
+									if (ImGui::BeginCombo("##Stat6Combo", statLabel.c_str())) {
+										for (int i = 0; i < IM_ARRAYSIZE(numbersList); i++) {
+											std::string number = numbersList[i];
+											if (ImGui::Selectable(number.c_str(), true)) {
+												modifiedScoreSelected[0] = i;
+											}
+										}
+										ImGui::EndCombo();
+									}
+								}
+								if (modifiedInt) {
+									ImGui::Text("Int:");
+									std::string statLabel = numbersList[modifiedScoreSelected[3]];
+									if (ImGui::BeginCombo("##Stat7Combo", statLabel.c_str())) {
+										for (int i = 0; i < IM_ARRAYSIZE(numbersList); i++) {
+											std::string number = numbersList[i];
+											if (ImGui::Selectable(number.c_str(), true)) {
+												modifiedScoreSelected[3] = i;
+											}
+										}
+										ImGui::EndCombo();
+									}
+								}
+								if (modifiedDex) {
+									ImGui::Text("Dex:");
+									std::string statLabel = numbersList[modifiedScoreSelected[1]];
+									if (ImGui::BeginCombo("##Stat8Combo", statLabel.c_str())) {
+										for (int i = 0; i < IM_ARRAYSIZE(numbersList); i++) {
+											std::string number = numbersList[i];
+											if (ImGui::Selectable(number.c_str(), true)) {
+												modifiedScoreSelected[1] = i;
+											}
+										}
+										ImGui::EndCombo();
+									}
+								}
+
+								if (modifiedWis) {
+									ImGui::Text("Wis:");
+									std::string statLabel = numbersList[modifiedScoreSelected[4]];
+									if (ImGui::BeginCombo("##Stat9Combo", statLabel.c_str())) {
+										for (int i = 0; i < IM_ARRAYSIZE(numbersList); i++) {
+											std::string number = numbersList[i];
+											if (ImGui::Selectable(number.c_str(), true)) {
+												modifiedScoreSelected[4] = i;
+											}
+										}
+										ImGui::EndCombo();
+									}
+								}
+								if (modifiedCon) {
+									ImGui::Text("Con:");
+									std::string statLabel = numbersList[modifiedScoreSelected[2]];
+									if (ImGui::BeginCombo("##Stat10Combo", statLabel.c_str())) {
+										for (int i = 0; i < IM_ARRAYSIZE(numbersList); i++) {
+											std::string number = numbersList[i];
+											if (ImGui::Selectable(number.c_str(), true)) {
+												modifiedScoreSelected[2] = i;
+											}
+										}
+										ImGui::EndCombo();
+									}
+								}
+								if (modifiedCha) {
+									ImGui::Text("Cha:");
+									std::string statLabel = numbersList[modifiedScoreSelected[5]];
+									if (ImGui::BeginCombo("##StatCombo", statLabel.c_str())) {
+										for (int i = 0; i < IM_ARRAYSIZE(numbersList); i++) {
+											std::string number = numbersList[i];
+											if (ImGui::Selectable(number.c_str(), true)) {
+												modifiedScoreSelected[5] = i;
+											}
+										}
+										ImGui::EndCombo();
+									}
+								}
+								ImGui::Separator();
+							
+								if (ImGui::Button("Close", ImVec2(-1, 0)))
+									ImGui::CloseCurrentPopup();
+
+								ImGui::PopItemWidth();
+								ImGui::EndChild();
+							}
+						}
 						ImGui::EndPopup();
 					}
 
